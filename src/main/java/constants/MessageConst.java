@@ -6,7 +6,7 @@ public enum MessageConst {
 
     //承認
     I_LOGINED("ログインしました"),
-    E_LOGINED("ログインに失敗しました。"),
+    U_LOGINED("ログインに失敗しました。"),
     I_LOGOUT("ログアウトしました。"),
 
     //DB更新
@@ -15,16 +15,16 @@ public enum MessageConst {
     I_DELETED("削除が完了しました。"),
 
     //バリデーション
-    E_NONAME("氏名を入力してください。"),
-    E_NOPASSWORD("パスワードを入力してください。"),
-    E_NOEMP_CODE("社員番号を入力してください。"),
-    E_EMP_CODE_EXIST("入力された社員番号の情報は既に存在しています。"),
-    E_NOTITLE("タイトルを入力してください。"),
-    E_NOCONTENT("内容を入力してください。"),
-    E_NOATT("出勤時間を入力してください。"),
-    E_NOLET("退勤時間を入力してください。"),
-    E_NOTIMEMATCH("退勤時間が出勤時間より大きいです。"),
-    E_NOTIME("時間で入力してください。");
+    U_NONAME("登録名を入力してください。"),
+    U_NOPASSWORD("パスワードを入力してください。"),
+    U_NOEMP_MAIL("メールアドレスを入力してください。"),
+    U_US_MAIL_EXIST("入力されたメールアドレスの情報は既に存在しています。"),
+    U_NOTITLE("タイトルを入力してください。"),
+    U_NOCONTENT("内容を入力してください。"),
+    U_NOATT("出勤時間を入力してください。"),
+    U_NOLET("退勤時間を入力してください。"),
+    U_NOTIMEMATCH("退勤時間が出勤時間より大きいです。"),
+    U_NOTIME("時間で入力してください。");
 
     //文字列
     private final String text;
