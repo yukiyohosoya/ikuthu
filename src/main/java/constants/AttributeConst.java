@@ -14,29 +14,22 @@ public enum AttributeConst {
     TOKEN("_token"),
     ERR("errors"),
 
-    //ログイン中の従業員
-    LOGIN_EMP("login_employee"),
+    //ログイン中のユーザー
+    LOGIN_US("login_user"),
 
     //ログイン画面
     LOGIN_ERR("loginError"),
 
-    //従業員管理
-    EMPLOYEE("employee"),
-    EMPLOYEES("employees"),
-    EMP_COUNT("employees_count"),
-    EMP_ID("id"),
-    EMP_CODE("code"),
-    EMP_PASS("password"),
-    EMP_NAME("name"),
-    EMP_ADMIN_FLG("admin_flag"),
+    //ユーザー管理
+    USER("user"),
+    US_ID("id"),
+    USERS("users"),
+    US_COUNT("users_count"),
+    US_MAIL("mailaddress"),
+    US_PASS("password"),
+    US_NAME("name"),
 
-    //管理者フラグ
-    ROLE_ADMIN(1),
-    ROLE_GENERAL(0),
 
-    //削除フラグ
-    DEL_FLAG_TRUE(1),
-    DEL_FLAG_FALSE(0),
 
     //日報管理
     REPORT("report"),

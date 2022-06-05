@@ -6,7 +6,7 @@ package constants;
 public interface JpaConst {
 
     //persistence-unit名
-    String PERSISTENCE_UNIT_NAME="stock";
+    String PERSISTENCE_UNIT_NAME="daily_report_system";
 
     //データ取得件数の最大値
     int ROW_PER_PAGE=15;//1ページに表示するレコード
@@ -50,10 +50,10 @@ public interface JpaConst {
     String Q_US_COUNT=ENTITY_US + ".count";
     String Q_US_COUNT_DEF="SELECT COUNT(u) FROM User AS u";
     //メールアドレスとハッシュ化済みパスワードを条件にユーザーを取得する
-    String Q_US_GET_BY_MAIL_AND_PASS=ENTITY_US + ".getByCodeAndPass";
+    String Q_US_GET_BY_MAIL_AND_PASS=ENTITY_US + ".getByMailAndPass";
     String Q_US_GET_BY_MAIL_AND_PASS_DEF = "SELECT u FROM User AS u WHERE u.mailaddress = :" + JPQL_PARM_MAIL + " AND u.password = :" + JPQL_PARM_PASS;
     //指定したメールアドレスを保持するユーザーの件数を取得する
-    String  Q_US_COUNT_RESISTERED_BY_MAIL = ENTITY_US + ".countRegisteredByCode";
+    String  Q_US_COUNT_RESISTERED_BY_MAIL = ENTITY_US + ".countRegisteredByMail";
     String  Q_US_COUNT_RESISTERED_BY_MAIL_DEF = "SELECT COUNT(u) FROM User AS u WHERE u.mailaddress = :" + JPQL_PARM_MAIL;
 
     //すべての日報をidの降順に取得する
