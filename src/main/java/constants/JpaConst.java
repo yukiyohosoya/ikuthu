@@ -11,71 +11,57 @@ public interface JpaConst {
     //データ取得件数の最大値
     int ROW_PER_PAGE=15;//1ページに表示するレコード
 
-    //従業員テーブル
-    String TABLE_EMP="employees";//テーブル名
+    //ユーザーテーブル
+    String TABLE_US="user";//テーブル名
 
-    //従業員テーブル
-    String TABLE_EM ="employees"; //テーブル名
-    //従業員テーブルカラム
-    String EMP_COL_ID="id"; //id
-    String EMP_COL_CODE="code"; //社員番号
-    String EMP_COL_NAME="name"; //氏名
-    String EMP_COL_PASS="password"; //パスワード
-    String EMP_COL_ADMIN_FLAG="admin_flag"; //管理者権限
-    String EMP_COL_CREATED_AT="created_at"; //登録日時
-
-    String EMP_COL_UPDATED_AT="updated_at"; //更新日時
-    String EMP_COL_DELETE_FLAG ="delete_flag"; //削除フラグ
-
-    int ROLE_ADMIN=1;//管理者権限ON（管理者）
-    int ROLE_GENERAL=0;//管理者権限off（一般）
-    int EMP_DEL_TRUE=1;//削除フラグON（削除済み）
-    int EMP_DEL_FALSE=0;//削除フラグoff（現役）
-
+    //ユーザーテーブルカラム
+    String US_COL_ID="id"; //id
+    String US_COL_NAME="name"; //ユーザー名
+    String US_COL_MAIL="mailaddress"; //メールアドレス
+    String US_COL_PASS="password"; //パスワード
+    String US_COL_CREATED_AT="created_at"; //登録日時
+    String US_COL_UPDATED_AT="updated_at"; //更新日時
 
     //日報テーブル
     String TABLE_REP="reports";//テーブル名
     //日報テーブルカラム
     String REP_COL_ID="id";//id
-    String REP_COL_EMP="employee_id";//日報を作成した従業員のid
+    String REP_COL_US="employee_id";//日報を作成した従業員のid
     String REP_COL_REP_DATE="report_date";//いつの日報か示す日付
     String REP_COL_TITLE="title";//日報のタイトル
     String REP_COL_CONTENT="content";//日報の内容
     String REP_COL_CREATED_AT="created_at";//登録日時
     String REP_COL_UPDATED_AT="updated_at";//更新日時
 
-    //↓追記
-    String REP_COL_ATTENDACE_T="attendance_time";//追記　出勤時間
-    String REP_COL_LEAVE_T="leave_time";//追記　退勤時間
-
     //Entity名
-    String ENTITY_EMP="employee";//従業員
+    String ENTITY_US="user";//ユーザー
     String ENTITY_REP="report";//日報
 
     //JPQL内パラメータ
-    String JPQL_PARM_CODE="code";//社員番号
-    String JPQL_PARM_PASSWORD="password";//パスワード
-    String JPQL_PARM_EMPLOYEE="employee";//従業員
+    String JPQL_PARM_MAIL="mailaddress";//メールアドレス
+    String JPQL_PARM_PASS="password";//パスワード
+    String JPQL_PARM_US="user";//ユーザー
 
     //NamedQueryのnameとquery
-    //すべての従業員をidの順序に取得する
-    String Q_EMP_GET_ALL= ENTITY_EMP + ".getAll";//name
-    String Q_EMP_GET_ALL_DEF = "SELECT e FROM Employee AS e ORDER BY e.id DESC";//query
-    //すべての従業員の件数を取得する
-    String Q_EMP_COUNT=ENTITY_EMP + ".count";
-    String Q_EMP_COUNT_DEF="SELECT COUNT(e) FROM Employee AS e";
-    //社員番号とハッシュ化済みパスワードを条件に未削除の従業員を取得する
-    String Q_EMP_GET_BY_CODE_AND_PASS=ENTITY_EMP + ".getByCodeAndPass";
-    String Q_EMP_GET_BY_CODE_AND_PASS_DEF = "SELECT e FROM Employee AS e WHERE e.deleteFlag = 0 AND e.code = :" + JPQL_PARM_CODE + " AND e.password = :" + JPQL_PARM_PASSWORD;
-    //指定した社員番号を保持する従業員の件数を取得する
-    String  Q_EMP_COUNT_RESISTERED_BY_CODE = ENTITY_EMP + ".countRegisteredByCode";
-    String  Q_EMP_COUNT_RESISTERED_BY_CODE_DEF = "SELECT COUNT(e) FROM Employee AS e WHERE e.code = :" + JPQL_PARM_CODE;
+    //すべてのユーザーをidの順序に取得する
+    String Q_US_GET_ALL= ENTITY_US + ".getAll";//name
+    String Q_US_GET_ALL_DEF = "SELECT e FROM user AS e ORDER BY e.id DESC";//query
+    //すべてのユーザーの件数を取得する
+    String Q_US_COUNT=ENTITY_US + ".count";
+    String Q_US_COUNT_DEF="SELECT COUNT(e) FROM user AS e";
+    //メールアドレスとハッシュ化済みパスワードを条件にユーザーを取得する
+    String Q_US_GET_BY_MAIL_AND_PASS=ENTITY_US + ".getByCodeAndPass";
+    String Q_US_GET_BY_MAIL_AND_PASS_DEF = "SELECT e FROM user AS e WHERE e.mailaddress = :" + JPQL_PARM_MAIL + " AND e.password = :" + JPQL_PARM_PASS;
+    //指定したメールアドレスを保持するユーザーの件数を取得する
+    String  Q_US_COUNT_RESISTERED_BY_MAIL = ENTITY_US + ".countRegisteredByCode";
+    String  Q_US_COUNT_RESISTERED_BY_MAIL_DEF = "SELECT COUNT(e) FROM user AS e WHERE e.mailaddress = :" + JPQL_PARM_MAIL;
+
     //すべての日報をidの降順に取得する
-    String Q_EMP_GET_ALL_MINE = ENTITY_REP + ".getAllMine";
-    String Q_EMP_GET_ALL_MINE_DEF= "SELECT COUNT(r) FROM Report AS r WHERE e.employee = :" + JPQL_PARM_EMPLOYEE + "ORDER BY r.id DESC";
+    String Q_US_GET_ALL_MINE = ENTITY_REP + ".getAllMine";
+    String Q_US_GET_ALL_MINE_DEF= "SELECT COUNT(r) FROM Report AS r WHERE e.employee = :" + JPQL_PARM_US + "ORDER BY r.id DESC";
     //指定した従業員が作成した日報の件数を取得する
-    String  Q_EMP_COUNT_ALL_MINE = ENTITY_REP + ".countAllMine";
-    String  Q_EMP_COUNT_ALL_MINE_DEF = "SELECT COUNT(r) FROM Report AS r WHERE r.employee = :" + JPQL_PARM_EMPLOYEE;
+    String  Q_US_COUNT_ALL_MINE = ENTITY_REP + ".countAllMine";
+    String  Q_US_COUNT_ALL_MINE_DEF = "SELECT COUNT(r) FROM Report AS r WHERE r.employee = :" + JPQL_PARM_US;
     //全ての日報をidの降順に取得する
     String Q_REP_GET_ALL = ENTITY_REP + ".getAll";
     String Q_REP_GET_ALL_DEF = "SELECT r FROM Report AS r ORDER BY r.id DESC";
@@ -84,10 +70,10 @@ public interface JpaConst {
     String Q_REP_COUNT_DEF = "SELECT COUNT(r) FROM Report AS r";
     //指定した従業員が作成した日報を全件idの降順で取得する
     String Q_REP_GET_ALL_MINE = ENTITY_REP + ".getAllMine";
-    String Q_REP_GET_ALL_MINE_DEF = "SELECT r FROM Report AS r WHERE r.employee = :" + JPQL_PARM_EMPLOYEE + " ORDER BY r.id DESC";
+    String Q_REP_GET_ALL_MINE_DEF = "SELECT r FROM Report AS r WHERE r.employee = :" + JPQL_PARM_US + " ORDER BY r.id DESC";
     //指定した従業員が作成した日報の件数を取得する
     String Q_REP_COUNT_ALL_MINE = ENTITY_REP + ".countAllMine";
-    String Q_REP_COUNT_ALL_MINE_DEF = "SELECT COUNT(r) FROM Report AS r WHERE r.employee = :" + JPQL_PARM_EMPLOYEE;
+    String Q_REP_COUNT_ALL_MINE_DEF = "SELECT COUNT(r) FROM Report AS r WHERE r.employee = :" + JPQL_PARM_US;
 
 
 
