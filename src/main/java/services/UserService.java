@@ -98,10 +98,11 @@ public class UserService extends ServiceBase {
      * @param pepper pepper文字列
      * @return バリデーションや登録処理中に発生したエラーのリスト
      */
-    public List<String> create(UserView uv, String pepper) {
+    public List<String> create(UserView uv, String pepper,String pass_k) {
 
         //パスワードをハッシュ化して設定
         String pass = EncryptUtil.getPasswordEncrypt(uv.getPassword(), pepper);
+        String pass_kh = EncryptUtil.getPasswordEncrypt(pass_k, pepper);
         uv.setPassword(pass);
 
         //登録日時、更新日時は現在時刻を設定する
@@ -110,7 +111,7 @@ public class UserService extends ServiceBase {
         uv.setUpdatedAt(now);
 
       //登録内容のバリデーションを行う
-        List<String> errors = UserValidator.validate(this, uv, true, true);
+        List<String> errors = UserValidator.validate(this, uv, true, true,pass_kh);
 
         //バリデーションエラーがなければデータを登録する
         if (errors.size() == 0) {
@@ -127,7 +128,7 @@ public class UserService extends ServiceBase {
      * @param pepper pepper文字列
      * @return バリデーションや更新処理中に発生したエラーのリスト
      */
-    public List<String> update(UserView uv, String pepper) {
+    public List<String> update(UserView uv, String pepper,String pass_k) {
 
         //idを条件に登録済みのユーザー情報を取得する
         UserView savedUser = findOne(uv.getId());
@@ -161,7 +162,7 @@ public class UserService extends ServiceBase {
         savedUser.setUpdatedAt(today);
 
         //更新内容についてバリデーションを行う
-        List<String> errors = UserValidator.validate(this, savedUser, validateMail, validatePass);
+        List<String> errors = UserValidator.validate(this, savedUser, validateMail, validatePass,pass_k);
 
         //バリデーションエラーがなければデータを更新する
         if (errors.size() == 0) {

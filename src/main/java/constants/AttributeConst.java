@@ -27,6 +27,7 @@ public enum AttributeConst {
     US_COUNT("users_count"),
     US_MAIL("mailaddress"),
     US_PASS("password"),
+    US_PASS_K("password_k"),//入力確認用パスワード
     US_NAME("name"),
 
 

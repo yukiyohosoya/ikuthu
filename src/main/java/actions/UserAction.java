@@ -97,12 +97,12 @@ public class UserAction extends ActionBase{
                         getRequestParam(AttributeConst.US_PASS),
                         null,
                         null);
-
+                String pass_k =getRequestParam(AttributeConst.US_PASS_K);
                 //アプリケーションスコープからpepper文字列を取得
                 String pepper = getContextScope(PropertyConst.PEPPER);
 
                 //ユーザー情報登録
-                List<String> errors = service.create(uv, pepper);
+                List<String> errors = service.create(uv, pepper,pass_k);
 
                 if (errors.size() > 0) {
                     //登録中にエラーがあった場合
@@ -121,7 +121,7 @@ public class UserAction extends ActionBase{
                     putSessionScope(AttributeConst.FLUSH, MessageConst.I_REGISTERED.getMessage());
 
                     //一覧画面にリダイレクト
-                    redirect(ForwardConst.ACT_USER, ForwardConst.CMD_INDEX);
+                    redirect(ForwardConst.ACT_AUTH, ForwardConst.CMD_LOGIN);//※改変。インデックス画面からログイン画面に
                 }
 
            }

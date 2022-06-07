@@ -7,11 +7,24 @@
 <c:set var="command" value="${ForwardConst.CMD_LOGIN.getValue()}" />
 
 <c:import url="/WEB-INF/views/layout/app.jsp">
-     <c:param name="content">
+    <c:param name="content">
+        <c:if test="${loginError}">
+            <div id="flush_error">
+                メールアドレスかパスワードが間違っています。
+            </div>
+        </c:if>
+       <c:if test="${flush != null}">
+            <div id="flush_success">
+                <c:out value="${flush}"></c:out>
+            </div>
+        </c:if>
         <h2>ログイン</h2>
         <form method="POST" action="<c:url value='?action=${action}&command=${command}' />">
-            <label for="${AttributeConst.US_MAIL.getValue()}">社員番号</label><br/>
+            <label for="${AttributeConst.US_MAIL.getValue()}">メールアドレス</label><br/>
             <input type="text" name="${AttributeConst.US_MAIL.getValue()}" value="${mailaddress}" />
+            <br/><br/>
+            <label for="${AttributeConst.US_PASS.getValue()}">パスワード</label><br />
+            <input type="password" name="${AttributeConst.US_PASS.getValue()}" />
             <br/><br/>
             <button type="submit">ログイン</button>
         </form>

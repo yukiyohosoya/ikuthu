@@ -64,22 +64,22 @@ public class AuthAction extends ActionBase{
      */
     public void login() throws ServletException, IOException {
 
-        String code = getRequestParam(AttributeConst.US_MAIL);
+        String mailaddress = getRequestParam(AttributeConst.US_MAIL);
         String plainPass=getRequestParam(AttributeConst.US_PASS);
         String pepper=getContextScope(PropertyConst.PEPPER);
 
-        //有効な従業員か承認する
-        boolean isValidEmployee = service.validateLogin(code, plainPass, pepper);
+        //有効なユーザーか承認する
+        boolean isValidUser = service.validateLogin(mailaddress, plainPass, pepper);
 
-        if(isValidEmployee) {
+        if(isValidUser) {
             //認証成功の場合
 
             //CSRF対策 tokenのチェック
             if (checkToken()) {
 
-                //ログインした従業員のDBデータを取得
-                UserView ev = service.findOne(code, plainPass, pepper);
-                //セッションにログインした従業員を設定
+                //ログインしたユーザーのDBデータを取得
+                UserView ev = service.findOne(mailaddress, plainPass, pepper);
+                //セッションにログインしたユーザーを設定
                 putSessionScope(AttributeConst.LOGIN_US,ev);
                 //セッションにログイン完了のフラッシュメッセージを設定
                 putSessionScope(AttributeConst.FLUSH,MessageConst.I_LOGINED.getMessage());
@@ -93,8 +93,8 @@ public class AuthAction extends ActionBase{
             putRequestScope(AttributeConst.TOKEN,getTokenId());
             //承認失敗エラーメッセージ表示フラグを建てる
             putRequestScope(AttributeConst.LOGIN_ERR,true);
-            //入力された従業員コードを設定
-            putRequestScope(AttributeConst.US_MAIL,code);
+            //入力されたユーザーコードを設定
+            putRequestScope(AttributeConst.US_MAIL,mailaddress);
 
             //ログイン画面を表示
             forward(ForwardConst.FW_LOGIN);

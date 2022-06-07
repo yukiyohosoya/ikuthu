@@ -3,7 +3,7 @@
 <%@ page import="constants.AttributeConst" %>
 <%@ page import="constants.ForwardConst" %>
 
-<c:set var="action" value="${ForwardConst.ACT_US.getValue()}" />
+<c:set var="action" value="${ForwardConst.ACT_USER.getValue()}" />
 <c:set var="commIdx" value="${ForwardConst.CMD_INDEX.getValue()}" />
 
 <c:if test="${errors != null}">
@@ -25,9 +25,12 @@
 
 <label for="${AttributeConst.US_PASS.getValue()}">パスワード</label><br />
 <input type="password" name="${AttributeConst.US_PASS.getValue()}" />
+<br />
+<label for="${AttributeConst.US_PASS_K.getValue()}">確認用パスワード</label><br />
+<input type="password" name="${AttributeConst.US_PASS_K.getValue()}" />
 <br /><br />
 
 
 <input type="hidden" name="${AttributeConst.US_ID.getValue()}" value="${user.id}" />
 <input type="hidden" name="${AttributeConst.TOKEN.getValue()}" value="${_token}" />
-<button type="submit">投稿</button>
+<button type="submit">登録</button>

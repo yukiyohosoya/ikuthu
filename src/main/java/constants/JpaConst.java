@@ -6,14 +6,13 @@ package constants;
 public interface JpaConst {
 
     //persistence-unit名
-    String PERSISTENCE_UNIT_NAME="daily_report_system";
+    String PERSISTENCE_UNIT_NAME="ikuthu";
 
     //データ取得件数の最大値
     int ROW_PER_PAGE=15;//1ページに表示するレコード
 
     //ユーザーテーブル
     String TABLE_US="user";//テーブル名
-
     //ユーザーテーブルカラム
     String US_COL_ID="id"; //id
     String US_COL_NAME="name"; //ユーザー名
@@ -22,20 +21,18 @@ public interface JpaConst {
     String US_COL_CREATED_AT="created_at"; //登録日時
     String US_COL_UPDATED_AT="updated_at"; //更新日時
 
-    //日報テーブル
-    String TABLE_REP="reports";//テーブル名
-    //日報テーブルカラム
-    String REP_COL_ID="id";//id
-    String REP_COL_US="employee_id";//日報を作成した従業員のid
-    String REP_COL_REP_DATE="report_date";//いつの日報か示す日付
-    String REP_COL_TITLE="title";//日報のタイトル
-    String REP_COL_CONTENT="content";//日報の内容
-    String REP_COL_CREATED_AT="created_at";//登録日時
-    String REP_COL_UPDATED_AT="updated_at";//更新日時
+    //ショップテーブル
+    String TABLE_SHOP="shops";//テーブル名
+    //ショップテーブルカラム
+    String SHOP_COL_ID="id";//id
+    String SHOP_COL_US="user_id";//ショップを作成したユーザーのid
+    String SHOP_COL_NAME="name";//ショップの名前
+    String SHOP_COL_PRIORITY_FLAG="priority_flag"; //管理者権限
+
 
     //Entity名
     String ENTITY_US="user";//ユーザー
-    String ENTITY_REP="report";//日報
+    String ENTITY_SHOP="shop";//ショップ
 
     //JPQL内パラメータ
     String JPQL_PARM_MAIL="mailaddress";//メールアドレス
@@ -56,25 +53,11 @@ public interface JpaConst {
     String  Q_US_COUNT_RESISTERED_BY_MAIL = ENTITY_US + ".countRegisteredByMail";
     String  Q_US_COUNT_RESISTERED_BY_MAIL_DEF = "SELECT COUNT(u) FROM User AS u WHERE u.mailaddress = :" + JPQL_PARM_MAIL;
 
-    //すべての日報をidの降順に取得する
-    String Q_US_GET_ALL_MINE = ENTITY_REP + ".getAllMine";
-    String Q_US_GET_ALL_MINE_DEF= "SELECT COUNT(r) FROM Report AS r WHERE e.employee = :" + JPQL_PARM_US + "ORDER BY r.id DESC";
-    //指定した従業員が作成した日報の件数を取得する
-    String  Q_US_COUNT_ALL_MINE = ENTITY_REP + ".countAllMine";
-    String  Q_US_COUNT_ALL_MINE_DEF = "SELECT COUNT(r) FROM Report AS r WHERE r.employee = :" + JPQL_PARM_US;
-    //全ての日報をidの降順に取得する
-    String Q_REP_GET_ALL = ENTITY_REP + ".getAll";
-    String Q_REP_GET_ALL_DEF = "SELECT r FROM Report AS r ORDER BY r.id DESC";
-    //全ての日報の件数を取得する
-    String Q_REP_COUNT = ENTITY_REP + ".count";
-    String Q_REP_COUNT_DEF = "SELECT COUNT(r) FROM Report AS r";
-    //指定した従業員が作成した日報を全件idの降順で取得する
-    String Q_REP_GET_ALL_MINE = ENTITY_REP + ".getAllMine";
-    String Q_REP_GET_ALL_MINE_DEF = "SELECT r FROM Report AS r WHERE r.employee = :" + JPQL_PARM_US + " ORDER BY r.id DESC";
-    //指定した従業員が作成した日報の件数を取得する
-    String Q_REP_COUNT_ALL_MINE = ENTITY_REP + ".countAllMine";
-    String Q_REP_COUNT_ALL_MINE_DEF = "SELECT COUNT(r) FROM Report AS r WHERE r.employee = :" + JPQL_PARM_US;
-
-
+     //指定したユーザーが作成したショップの件数を取得する
+    String  Q_US_COUNT_ALL_MINE = ENTITY_SHOP + ".countAllMine";
+    String  Q_US_COUNT_ALL_MINE_DEF = "SELECT COUNT(s) FROM Shop AS s WHERE s.user = :" + JPQL_PARM_US;
+    //指定したユーザーが作成したショップを全件idの降順で取得する
+    String Q_SHOP_GET_ALL_MINE = ENTITY_SHOP + ".getAllMine";
+    String Q_SHOP_GET_ALL_MINE_DEF = "SELECT s FROM Shop AS s WHERE s.user = :" + JPQL_PARM_US + " ORDER BY s.id DESC";
 
 }

@@ -17,14 +17,13 @@ public enum MessageConst {
     //バリデーション
     U_NONAME("登録名を入力してください。"),
     U_NOPASSWORD("パスワードを入力してください。"),
+    U_NOMATCHPASSWORD("確認入力とパスワードが一致しません。"),
     U_NOEMP_MAIL("メールアドレスを入力してください。"),
     U_US_MAIL_EXIST("入力されたメールアドレスの情報は既に存在しています。"),
-    U_NOTITLE("タイトルを入力してください。"),
-    U_NOCONTENT("内容を入力してください。"),
-    U_NOATT("出勤時間を入力してください。"),
-    U_NOLET("退勤時間を入力してください。"),
-    U_NOTIMEMATCH("退勤時間が出勤時間より大きいです。"),
-    U_NOTIME("時間で入力してください。");
+    U_NOADDRESS("メールアドレスを入力してください。"),
+    U_NOSTRINGPASS("パスワードに使用できる文字はアルファベットの大文字と小文字、数字です"),
+    U_NOLONGPASS("パスワードは8文字以上24文字以内にしてください");
+
 
     //文字列
     private final String text;
