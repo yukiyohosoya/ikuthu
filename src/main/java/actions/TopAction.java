@@ -39,27 +39,26 @@ public class TopAction extends ActionBase{
     /**
      * 一覧画面を表示する
      */
-
     public void index() throws ServletException, IOException {
-        //以下追記
 
-        //セッションからログイン中の従業員情報を取得
-        UserView loginUser = (UserView)getSessionScope(AttributeConst.LOGIN_EMP);
+        // 以下追記
 
-        //ログイン中の従業員が作成した日報データを、指定されたページ数の一覧画面に表示する分取得
+        //セッションからログイン中のユーザー情報を取得
+        UserView loginUser = (UserView) getSessionScope(AttributeConst.LOGIN_US);
+
+        //ログイン中のユーザーが作成したショップデータを、指定されたページ数の一覧画面に表示する分取得する
         int page = getPage();
-        List<ShopView> reports = service.getMinePerPage(loginUser, page);
+        List<ShopView> shop = service.getMinePerPage(loginUser, page);
 
-        //ログイン中の従業員が作成した日報データの件数を取得
+        //ログイン中のユーザーが作成したショップデータの件数を取得
         long myShopsCount = service.countAllMine(loginUser);
 
-        putRequestScope(AttributeConst.REPORTS,reports);//取得した日報データ
-        putRequestScope(AttributeConst.REP_COUNT,myShopsCount);//ログイン中の従業員が作成した日報の数
-        putRequestScope(AttributeConst.PAGE,page);//追え―時数
-        putRequestScope(AttributeConst.MAX_ROW,JpaConst.ROW_PER_PAGE);//1ページに表示するレコードの数
+        putRequestScope(AttributeConst.SHOPS,shop); //取得したショップデータ
+        putRequestScope(AttributeConst.SH_COUNT, myShopsCount); //ログイン中のユーザーが作成したショップの数
+        putRequestScope(AttributeConst.PAGE, page); //ページ数
+        putRequestScope(AttributeConst.MAX_ROW, JpaConst.ROW_PER_PAGE); //1ページに表示するレコードの数
 
-        //↑追記ここまで
-
+        //↑ここまで追記
 
         //セッションにフラッシュメッセージが設定されている場合はリクエストスコープに移し替え、セッションからは削除する
         String flush = getSessionScope(AttributeConst.FLUSH);

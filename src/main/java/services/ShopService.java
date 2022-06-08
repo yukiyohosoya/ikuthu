@@ -1,6 +1,5 @@
 package services;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import actions.views.UserConverter;
@@ -23,12 +22,12 @@ public class ShopService extends ServiceBase {
      */
     public List<ShopView> getMinePerPage(UserView user,int page){
 
-        List<Shop> reports = em.createNamedQuery(JpaConst.Q_REP_GET_ALL_MINE,Shop.class)
-                .setParameter(JpaConst.JPQL_PARM_EMPLOYEE, UserConverter.toModel(user))
+        List<Shop> shops = em.createNamedQuery(JpaConst.Q_SHOP_GET_ALL_MINE,Shop.class)
+                .setParameter(JpaConst.JPQL_PARM_US, UserConverter.toModel(user))
                 .setFirstResult(JpaConst.ROW_PER_PAGE * (page-1))
                 .setMaxResults(JpaConst.ROW_PER_PAGE)
                 .getResultList();
-        return ShopConverter.toViewList(reports);
+        return ShopConverter.toViewList(shops);
     }
 
     /**
@@ -39,8 +38,8 @@ public class ShopService extends ServiceBase {
 
     public long countAllMine(UserView user) {
 
-        long count =(long)em.createNamedQuery(JpaConst.Q_REP_COUNT_ALL_MINE,Long.class)
-                .setParameter(JpaConst.JPQL_PARM_EMPLOYEE, UserConverter.toModel(user))
+        long count =(long)em.createNamedQuery(JpaConst.Q_US_COUNT_ALL_MINE,Long.class)
+                .setParameter(JpaConst.JPQL_PARM_US, UserConverter.toModel(user))
                 .getSingleResult();
         return count;
     }
@@ -51,21 +50,11 @@ public class ShopService extends ServiceBase {
      * @return 一覧画面に表示するデータのリスト
      */
     public List<ShopView> getAllPerPage(int page){
-        List<Shop> reports = em.createNamedQuery(JpaConst.Q_REP_GET_ALL,Shop.class)
+        List<Shop> shops = em.createNamedQuery(JpaConst.Q_SHOP_GET_ALL_MINE,Shop.class)
                 .setFirstResult(JpaConst.ROW_PER_PAGE*(page-1))
                 .setMaxResults(JpaConst.ROW_PER_PAGE)
                 .getResultList();
-        return ShopConverter.toViewList(reports);
-    }
-
-    /**
-     * ショップテーブルのデータの件数を取得し、返却する
-     * @return データの件数
-     */
-    public long countAll() {
-        long reports_count=(long)em.createNamedQuery(JpaConst.Q_REP_COUNT,Long.class)
-                .getSingleResult();
-        return reports_count;
+        return ShopConverter.toViewList(shops);
     }
 
     /**
@@ -80,16 +69,13 @@ public class ShopService extends ServiceBase {
 
     /**
      * 画面から入力されたショップの登録内容を元にデータを1件作成し、ショップテーブルに登録する
-     * @param rv ショップの登録内容
+     * @param sv ショップの登録内容
      * @return バリデーションで発生したエラーのリスト
      */
-    public List<String> create(ShopView rv){
-        List<String>errors=ShopValidator.Validate(rv);
+    public List<String> create(ShopView sv){
+        List<String>errors=ShopValidator.Validate(sv);
         if(errors.size()==0) {
-            LocalDateTime ldt =LocalDateTime.now();
-            rv.setCreatedAt(ldt);
-            rv.setUpdatedAt(ldt);
-            createInternal(rv);
+            createInternal(sv);
         }
         //バリデーションで発生したエラーを返却（エラーがなければ0件の空リスト）
         return errors;
@@ -97,21 +83,17 @@ public class ShopService extends ServiceBase {
 
     /**
      * 画面から入力されたショップの登録内容を元に、ショップデータを更新する
-     * @param rv ショップの更新内容
+     * @param sv ショップの更新内容
      * @return バリデーションで発生したエラーのリスト
      */
 
-    public List<String> update(ShopView rv){
+    public List<String> update(ShopView sv){
 
         //バリデーションを行う
-        List<String>errors=ShopValidator.Validate(rv);
+        List<String>errors=ShopValidator.Validate(sv);
 
         if(errors.size()==0) {
-            //更新日時を現在時刻に設定
-            LocalDateTime ldt =LocalDateTime.now();
-            rv.setUpdatedAt(ldt);
-
-            updateInternal(rv);
+            updateInternal(sv);
         }
         //バリデーションで発生したエラーを返却（エラーがなければ0件の空リスト）
         return errors;
@@ -127,23 +109,23 @@ public class ShopService extends ServiceBase {
     }
     /**
      * ショップデータを1件登録する
-     * @param rv ショップデータ
+     * @param sv ショップデータ
      */
-    private void createInternal(ShopView  rv) {
+    private void createInternal(ShopView  sv) {
         em.getTransaction().begin();
-        em.persist(ShopConverter.toModel(rv));
+        em.persist(ShopConverter.toModel(sv));
         em.getTransaction().commit();
     }
 
     /**
      * ショップデータを更新する
-     * @param rv ショップデータ
+     * @param sv ショップデータ
      */
-    private void updateInternal(ShopView  rv) {
+    private void updateInternal(ShopView  sv) {
 
         em.getTransaction().begin();
-        Shop r = findPneInternal(rv.getId());
-        ShopConverter.copyViewToModel(r, rv);
+        Shop s = findPneInternal(sv.getId());
+        ShopConverter.copyViewToModel(s, sv);
         em.getTransaction().commit();
     }
 

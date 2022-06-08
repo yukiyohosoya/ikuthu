@@ -30,19 +30,17 @@ public enum AttributeConst {
     US_PASS_K("password_k"),//入力確認用パスワード
     US_NAME("name"),
 
+    //ショップ管理
+    SHOP("shop"),
+    SHOPS("shops"),
+    SH_COUNT("shops_count"),
+    SH_ID("sh_id"),
+    SH_US_ID("shops_us_id"),
+    SH_NAME("shops_name"),
 
-
-    //日報管理
-    REPORT("report"),
-    REPORTS("reports"),
-    REP_COUNT("reports_count"),
-    REP_ID("id"),
-    REP_DATE("report_date"),
-    REP_TITLE("title"),
-    REP_CONTENT("content"),
-       //↓追記
-    REP_ATTENDACE_T("att"),//追記　出勤時間
-    REP_LEAVE_T("lea");//追記　退勤時間
+    //ショップ管理・優先フラグ
+    SH_PRI_TRUE(1),
+    SH_PRI_FALSE(0);
 
     private final String text;
     private final Integer i;

@@ -23,7 +23,7 @@ public class ShopConverter {
 
         return new Shop(
                 sv.getId(),
-                sv.getUser(),
+                UserConverter.toModel(sv.getUser()),
                 sv.getName(),
                 sv.getPriorityflag()
                 );
@@ -42,7 +42,7 @@ public class ShopConverter {
 
         return new ShopView(
                 s.getId(),
-                s.getUser(),
+                UserConverter.toView(s.getUser()),
                 s.getName(),
                 s.getPriorityflag()
                 );

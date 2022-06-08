@@ -9,7 +9,7 @@ import actions.views.UserView;
 import constants.AttributeConst;
 import constants.MessageConst;
 import services.UserService;
-import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * ユーザーインスタンスに設定されている値のバリデーションを行うクラス

@@ -60,13 +60,13 @@ public class Shop {
     /**
      * ショップ名
      */
-    @Column( name = JpaConst.SHOP_COL_NAME,nullable=false)
+    @Column( name = JpaConst.SHOP_COL_NAME, length=64 ,nullable=false)
     private String name;
 
     /**
      * ショップ優先フラグ
      */
-    @Column( name = JpaConst.SHOP_COL_PRIORITY_FLAG , length=255 ,nullable=false)
+    @Column( name = JpaConst.SHOP_COL_PRIORITY_FLAG ,nullable=false)
     private Integer priorityflag;
 
 }
