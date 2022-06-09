@@ -63,9 +63,8 @@ public class LoginFilter implements Filter {
 
             if(ev == null) {
                 //未ログインなら
-                if(!(ForwardConst.ACT_AUTH.getValue().equals(action)
-                        &&(ForwardConst.CMD_SHOW_LOGIN.getValue().equals(command)
-                                || ForwardConst.CMD_LOGIN.getValue().equals(command)))){
+                if(!(ForwardConst.ACT_AUTH.getValue().equals(action)&&(ForwardConst.CMD_SHOW_LOGIN.getValue().equals(command)|| ForwardConst.CMD_LOGIN.getValue().equals(command)))
+                        ){
                     //ログインページの表示またはログイン実行以外はログインページにリダイレクト
                     ((HttpServletResponse) response).sendRedirect(
                             contextPath
@@ -73,7 +72,8 @@ public class LoginFilter implements Filter {
                             +"&command="+ForwardConst.CMD_SHOW_LOGIN.getValue());
                       return;
                 }
-            }else {
+
+            }else{
                 //ログイン済
 
                 if(ForwardConst.ACT_AUTH.getValue().equals(action)) {

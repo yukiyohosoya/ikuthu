@@ -207,9 +207,9 @@ public class UserService extends ServiceBase {
 
         boolean isValidUser = false;
         if (mailaddress != null && !mailaddress.equals("") && plainPass != null && !plainPass.equals("")) {
-            UserView ev = findOne(mailaddress, plainPass, pepper);
+            UserView uv = findOne(mailaddress, plainPass, pepper);
 
-            if (ev != null && ev.getId() != null) {
+            if (uv != null && uv.getId() != null) {
 
                 //データが取得できた場合、認証成功
                 isValidUser = true;

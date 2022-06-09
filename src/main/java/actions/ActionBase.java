@@ -135,11 +135,13 @@ public abstract class ActionBase {
 
         if (_token == null || !(_token.equals(getTokenId()))) {
 
+
             //tokenが設定されていない、またはセッションIDと一致しない場合はエラー画面を表示
             forward(ForwardConst.FW_ERR_UNKNOWN);
-
+            System.out.println("一致してないらしい" + _token);
             return false;
         } else {
+            System.out.println(_token);
             return true;
         }
 

@@ -76,14 +76,15 @@ public class AuthAction extends ActionBase{
 
             //CSRF対策 tokenのチェック
             if (checkToken()) {
-
+                System.out.println("ここまでおｋ");
                 //ログインしたユーザーのDBデータを取得
-                UserView ev = service.findOne(mailaddress, plainPass, pepper);
+                UserView uv = service.findOne(mailaddress, plainPass, pepper);
                 //セッションにログインしたユーザーを設定
-                putSessionScope(AttributeConst.LOGIN_US,ev);
+                putSessionScope(AttributeConst.LOGIN_US,uv);
                 //セッションにログイン完了のフラッシュメッセージを設定
                 putSessionScope(AttributeConst.FLUSH,MessageConst.I_LOGINED.getMessage());
                 //トップへリダイレクト
+
                 redirect(ForwardConst.ACT_TOP,ForwardConst.CMD_INDEX);
             }
         }else{
@@ -110,7 +111,7 @@ public class AuthAction extends ActionBase{
      */
     public void logout() throws ServletException, IOException {
 
-        //セッションからログイン中ぎゅいんのパラメータを削除
+        //セッションからログイン中ユーザーのパラメータを削除
         removeSessionScope(AttributeConst.LOGIN_US);
 
         //セッションにログアウト時のフラッシュメッセージを追加

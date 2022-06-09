@@ -5,9 +5,12 @@
 
 <c:set var="action" value="${ForwardConst.ACT_AUTH.getValue()}" />
 <c:set var="command" value="${ForwardConst.CMD_LOGIN.getValue()}" />
+<c:set var="actUs" value="${ForwardConst.ACT_USER.getValue()}" />
+<c:set var="comNew" value="${ForwardConst.CMD_NEW.getValue()}" />
 
 <c:import url="/WEB-INF/views/layout/app.jsp">
     <c:param name="content">
+    <c:out value="${loginError}"/>
         <c:if test="${loginError}">
             <div id="flush_error">
                 メールアドレスかパスワードが間違っています。
@@ -28,4 +31,6 @@
             <br/><br/>
             <button type="submit">ログイン</button>
         </form>
+
+        <p><a href="<c:url value='?action=${actUs}&command=${comNew}' />">ユーザー登録</a></p>
     </c:param></c:import>
