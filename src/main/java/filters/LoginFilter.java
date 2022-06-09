@@ -58,11 +58,12 @@ public class LoginFilter implements Filter {
             String action =request.getParameter(ForwardConst.ACT.getValue());
             String command =request.getParameter(ForwardConst.CMD.getValue());
 
-            //セッションからログインしている従業員の情報を取得
+            //セッションからログインしているユーザーの情報を取得
             UserView ev =(UserView)session.getAttribute(AttributeConst.LOGIN_US.getValue());
 
             if(ev == null) {
                 //未ログインなら
+                //↓ユーザー登録なら～の例外を追加する？
                 if(!(ForwardConst.ACT_AUTH.getValue().equals(action)&&(ForwardConst.CMD_SHOW_LOGIN.getValue().equals(command)|| ForwardConst.CMD_LOGIN.getValue().equals(command)))
                         ){
                     //ログインページの表示またはログイン実行以外はログインページにリダイレクト
@@ -75,9 +76,10 @@ public class LoginFilter implements Filter {
 
             }else{
                 //ログイン済
-
+                //↓ここら辺も追加する…？承認系を行うもしくはuser＆new＆create類をやろうとすると？？
                 if(ForwardConst.ACT_AUTH.getValue().equals(action)) {
                     //承認系actionを行おうとしている場合
+
 
                     if(ForwardConst.CMD_SHOW_LOGIN.getValue().equals(command)) {
                         //ログインページの表示はトップ画面にリダイレクト

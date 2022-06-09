@@ -22,6 +22,7 @@
             </div>
         </c:if>
         <h2>ログイン</h2>
+
         <form method="POST" action="<c:url value='?action=${action}&command=${command}' />">
             <label for="${AttributeConst.US_MAIL.getValue()}">メールアドレス</label><br/>
             <input type="text" name="${AttributeConst.US_MAIL.getValue()}" value="${mailaddress}" />
@@ -29,8 +30,10 @@
             <label for="${AttributeConst.US_PASS.getValue()}">パスワード</label><br />
             <input type="password" name="${AttributeConst.US_PASS.getValue()}" />
             <br/><br/>
+            <input type="hidden" name="${AttributeConst.TOKEN.getValue()}" value="${_token}" />
             <button type="submit">ログイン</button>
         </form>
+         <p><a href="<c:url value='?action=${actUs}&command=${comNew}' />">ユーザー登録</a></p>
 
-        <p><a href="<c:url value='?action=${actUs}&command=${comNew}' />">ユーザー登録</a></p>
-    </c:param></c:import>
+    </c:param>
+    </c:import>
