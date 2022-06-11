@@ -1,5 +1,7 @@
 package models;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,20 +22,12 @@ import lombok.Setter;
 
 
 /**
- * ショップデータのDTOモデル
+ * イベントごと商品テーブルのDTOモデル
  *
  */
-@Table(name = JpaConst.TABLE_SHOP)
+@Table(name = JpaConst.TABLE_LMEVGOODS)
 @NamedQueries({
-    @NamedQuery(
-            name = JpaConst.Q_US_COUNT_ALL_MINE,
-            query = JpaConst.Q_US_COUNT_ALL_MINE_DEF),
-    @NamedQuery(
-            name = JpaConst.Q_SHOP_GET_ALL_MINE,
-            query = JpaConst.Q_SHOP_GET_ALL_MINE_DEF),
-    @NamedQuery(
-            name = JpaConst.Q_US_SHOPNAME_COUNT_ALL_MINE,
-            query = JpaConst.Q_US_SHOPNAME_COUNT_ALL_MINE_DEF)
+
 })
 
 @Getter // すべてのクラスフィールドに好いてgetterを自動生成する（Lombok）
@@ -42,34 +36,56 @@ import lombok.Setter;
 @AllArgsConstructor //すべてのクラスフィールドを引数の持つ引数ありコンストラクタを自動作成する（Lombok）
 @Entity
 
-public class Shop {
+public class Limitedgoods {
 
     /**
      * id
      */
 
     @Id
-    @Column( name = JpaConst.SHOP_COL_ID)
+    @Column( name = JpaConst.LMEVGOODS_COL_ID)
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
     /**
-     * ショップを登録したユーザー
+     * イベントid
      */
     @ManyToOne
-    @JoinColumn(name=JpaConst.SHOP_COL_US,nullable=false)
-    private User user;
+    @JoinColumn(name=JpaConst.LMEVGOODS_COL_EV_ID,nullable=false)
+    private Event eventid;
 
     /**
-     * ショップ名
+     *商品id
      */
-    @Column( name = JpaConst.SHOP_COL_NAME, length=64 ,nullable=false)
-    private String name;
+    @Column( name = JpaConst.LMEVGOODS_COL_GO_ID, length=64 ,nullable=false)
+    private Goods goodsid;
 
     /**
-     * ショップ優先フラグ
+     * イベントごと並び順
      */
-    @Column( name = JpaConst.SHOP_COL_PRIORITY_FLAG ,nullable=false)
-    private Integer priorityflag;
+    @Column( name = JpaConst.LMEVGOODS_COL_EV_ORDER ,nullable=false)
+    private Integer evorder;
+    /**
+     * イベントごと価格
+     */
+    @Column( name = JpaConst.LMEVGOODS_COL_LM_SELLING_PRICE ,nullable=false)
+    private Integer lm_sellingprice;
+    /**
+     * イベントごと販売数
+     */
+    @Column( name = JpaConst.LMEVGOODS_COL_SOLD_GOODS ,nullable=false)
+    private Integer soldgoods;
+
+    /**
+     *登録日時
+     */
+    @Column( name = JpaConst.LMEVGOODS_COL_CREATED_AT ,nullable=false)
+    private LocalDateTime createdAt;
+
+    /**
+     * 更新日時
+     */
+    @Column( name = JpaConst.LMEVGOODS_COL_UPDATED_AT ,nullable=false)
+    private LocalDateTime updatedAt;
 
 }

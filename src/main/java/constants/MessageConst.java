@@ -8,6 +8,7 @@ public enum MessageConst {
     I_LOGINED("ログインしました"),
     U_LOGINED("ログインに失敗しました。"),
     I_LOGOUT("ログアウトしました。"),
+    NO_SHOP_US("ショップを作成したユーザーではありません"),
 
     //DB更新
     I_REGISTERED("登録が完了しました。"),
@@ -26,7 +27,8 @@ public enum MessageConst {
 
     //ショップバリデーション
     U_SHOPNAME("ショップ名を入れてください"),
-    U_SHOPNAME_L("ショップ名は60文字以内にしてください");
+    U_SHOPNAME_L("ショップ名は60文字以内にしてください"),
+    U_SHOPNAME_TRUE("同じショップ名は登録できません。");
 
 
     //文字列

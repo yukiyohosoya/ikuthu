@@ -29,9 +29,7 @@ public enum ForwardConst {
     //jsp
     FW_ERR_UNKNOWN("error/unknown"),
     FW_TOP_INDEX("topPage/index"),
-
     FW_LOGIN("login/login"),
-
     FW_US_INDEX("users/index"),
     FW_US_SHOW("users/show"),
     FW_US_NEW("users/new"),

@@ -14,8 +14,9 @@ public enum AttributeConst {
     TOKEN("_token"),
     ERR("errors"),
 
-    //ログイン中のユーザー
+    //ログイン中のユーザーと店舗
     LOGIN_US("login_user"),
+    SELECT_SH("select_shop"),
 
     //ログイン画面
     LOGIN_ERR("loginError"),

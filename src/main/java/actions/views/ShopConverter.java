@@ -70,9 +70,9 @@ public class ShopConverter {
      */
     public static void copyViewToModel(Shop s, ShopView sv) {
         s.setId(sv.getId());
-        s.setUser(s.getUser());
-        s.setName(s.getName());
-        s.setPriorityflag(s.getPriorityflag());
+        s.setUser(UserConverter.toModel(sv.getUser()));
+        s.setName(sv.getName());
+        s.setPriorityflag(sv.getPriorityflag());
 
 
     }

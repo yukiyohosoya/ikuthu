@@ -13,14 +13,11 @@
     </div>
 </c:if>
 
-<label for="name">ショップ名</label><br />
-<c:out value="${sessionScope.login_user.name}" />
-<br /><br />
-
 <label for="${AttributeConst.SH_NAME.getValue()}" >ショップ名</label><br />
 <input type="text" name="${AttributeConst.SH_NAME.getValue()}" value="${shop.name}" />
 <br /><br />
 
+<input type="hidden" name="${AttributeConst.SH_ID.getValue()}" value="${shop.id}" />
 <input type="hidden" name="${AttributeConst.SH_ID.getValue()}" value="${shop.id}" />
 <input type="hidden" name="${AttributeConst.TOKEN.getValue()}" value="${_token}" />
 <button type="submit">投稿</button>

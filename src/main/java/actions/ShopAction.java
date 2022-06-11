@@ -12,8 +12,7 @@ import constants.ForwardConst;
 import constants.JpaConst;
 import constants.MessageConst;
 import services.ShopService;
-
-import java.time.LocalDate;
+import services.UserService;
 
 /**
  * ショップに関する処理を行うActionクラス
@@ -23,6 +22,7 @@ import java.time.LocalDate;
 public class ShopAction extends ActionBase {
 
     private ShopService service;
+    private UserService service_u;
 
     /**
      * メソッドを実行する
@@ -82,7 +82,7 @@ public class ShopAction extends ActionBase {
         putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
 
         //新規登録画面を表示
-        forward(ForwardConst.FW_SH_SHOW);
+        forward(ForwardConst.FW_SH_NEW);
         }
     /**
      * 新規登録を行う
@@ -108,6 +108,7 @@ public class ShopAction extends ActionBase {
             List<String> errors = service.create(sv);
 
             if (errors.size() > 0) {
+                System.out.println("shopnameCount数は"+ errors);
                 //登録中にエラーがあった場合
 
                 putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
@@ -220,6 +221,50 @@ public class ShopAction extends ActionBase {
             }
         }
     }
+
+    /**
+     * ショップのログイン処理を行う
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void login() throws ServletException, IOException {
+
+        //作成ユーザー以外がショップにログインしてはまずいので、承認を行う。
+        //リクエストスコープに入っているショップidを条件にショップデータを取得
+        //セッションからログイン中のユーザー情報を取得
+        //トップへリダイレクト
+        System.out.println(getRequestParam(AttributeConst.SH_ID));
+        UserView uv = (UserView)getSessionScope(AttributeConst.LOGIN_US);
+        ShopView sv = service.findOne(toNumber(getRequestParam(AttributeConst.SH_ID)));
+
+
+ //       if(isValidShop) {
+           //認証成功の場合
+//
+//            //CSRF対策 tokenのチェック
+//            if (checkToken()) {
+//
+//                //セッションにログインしたユーザーを設定
+//                putSessionScope(AttributeConst.LOGIN_SH,sv);
+//                //トップへリダイレクト
+//                System.out.println("店舗ログイン成功！");
+//                redirect(ForwardConst.ACT_TOP,ForwardConst.CMD_INDEX);
+//            }
+//        }else{
+//            //認証失敗
+//
+//            //CRF対策用トークンを設定
+//            putRequestScope(AttributeConst.TOKEN,getTokenId());
+//            //承認失敗エラーメッセージ表示フラグを建てる
+//            putRequestScope(AttributeConst.LOGIN_ERR,true);
+//
+//            //ログイン画面を表示
+//            forward(ForwardConst.FW_TOP_INDEX);
+//
+//        }
+//
+    }
+
 
 
 

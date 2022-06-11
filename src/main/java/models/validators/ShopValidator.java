@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import actions.views.ShopView;
 import constants.MessageConst;
+import services.ShopService;
 
 /**
  * Shopインスタンスに設定されている値のバリデーションを行うクラス
@@ -19,15 +20,14 @@ public class ShopValidator {
      * @param sv ショップインスタンス
      * @return エラーのリスト
      */
-    public static List<String> Validate(ShopView sv){
+    public static List<String> Validate(ShopView sv,ShopService service){
         List<String> errors =new ArrayList<String>();
 
         //タイトルのチェック
-        String titleError = validateName(sv.getName());
+        String titleError = validateName(sv,service);
         if(!titleError.equals("")) {
             errors.add(titleError);
         }
-
 
 
         return errors;
@@ -39,7 +39,8 @@ public class ShopValidator {
      * @param name 名前
      * @return エラーメッセージ
      */
-    private static String validateName(String name) {
+    private static String validateName(ShopView sv,ShopService service) {
+        String name = sv.getName();
         if(name==null||name.equals("")) {
             return MessageConst.U_SHOPNAME.getMessage();
         }
@@ -50,9 +51,29 @@ public class ShopValidator {
             return MessageConst.U_SHOPNAME_L.getMessage();
         }
 
+        Long shopnameCount = isDuplicateShopname(sv,service);
+        System.out.println("shopnameCount数は"+ shopnameCount);
+        //同一社員番号がすでに登録されている場合はエラーメッセージを返却
+        if(shopnameCount > 0) {
+            return MessageConst.U_SHOPNAME_TRUE.getMessage();
+        }
+
 
         //入力値がある場合は空文字を返却
         return "";
+    }
+
+    /**
+     * @param service ShopServiceのインスタンス
+     * @param name　ショップ名
+     * @return ショップテーブルに登録されている同一名のデータの件数
+     *r
+     */
+
+    private static Long isDuplicateShopname(ShopView sv,ShopService service) {
+
+        long employeeCount=service.countByShop(sv.getUser(),sv.getName());
+        return employeeCount;
     }
 
 }

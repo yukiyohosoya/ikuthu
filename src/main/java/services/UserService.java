@@ -205,19 +205,19 @@ public class UserService extends ServiceBase {
      */
     public Boolean validateLogin(String mailaddress, String plainPass, String pepper) {
 
-        boolean isValidUser = false;
+        boolean isValidUserShop = false;
         if (mailaddress != null && !mailaddress.equals("") && plainPass != null && !plainPass.equals("")) {
             UserView uv = findOne(mailaddress, plainPass, pepper);
 
             if (uv != null && uv.getId() != null) {
 
                 //データが取得できた場合、認証成功
-                isValidUser = true;
+                isValidUserShop = true;
             }
         }
 
         //認証結果を返却する
-        return isValidUser;
+        return isValidUserShop;
     }
 
     /**

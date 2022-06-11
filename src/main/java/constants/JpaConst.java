@@ -27,7 +27,42 @@ public interface JpaConst {
     String SHOP_COL_ID="id";//id
     String SHOP_COL_US="user_id";//ショップを作成したユーザーのid
     String SHOP_COL_NAME="name";//ショップの名前
-    String SHOP_COL_PRIORITY_FLAG="priority_flag"; //管理者権限
+    String SHOP_COL_PRIORITY_FLAG="priority_flag"; //優先度
+
+    //イベントテーブル
+    String TABLE_EVE="event";//テーブル名
+    //イベントカラム
+    String EV_COL_ID="id";//id
+    String EV_COL_US="shop_id";//イベントを作成したショップid
+    String EV_COL_NAME="name";//イベントの名前
+    String EV_COL_EVENT_DAY="event_day"; //イベント日付
+    String EV_COL_CREATED_AT="created_at"; //登録日時
+    String EV_COL_UPDATED_AT="updated_at"; //更新日時
+
+    //商品テーブル
+    String TABLE_GOODS="goods";//テーブル名
+    //商品カラム
+    String GOODS_COL_ID="id";//id
+    String GOODS_COL_US="shop_id";//商品を作成したショップid
+    String GOODS_COL_NAME="name";//商品の名前
+    String GOODS_COL_SEL_PRICE="selling_price";//販売価格
+    String GOODS_COL_PUR_PRICE="purchase_price";//仕入れ価格
+    String GOODS_COL_CREATED_DAY="create_day"; //商品作成日
+    String GOODS_COL_CREATED_AT="created_at"; //登録日時
+    String GOODS_COL_UPDATED_AT="updated_at"; //更新日時
+    String GOODS_COL_PICTURE="picture"; //商品画像ファイル名
+
+    //イベントごと商品テーブル
+    String TABLE_LMEVGOODS="lm_ev_goods";//テーブル名
+    //イベントごと商品カラム
+    String LMEVGOODS_COL_ID="id";//id
+    String LMEVGOODS_COL_EV_ID="event_id";//イベントid
+    String LMEVGOODS_COL_GO_ID="goods_id";//商品id
+    String LMEVGOODS_COL_EV_ORDER="ev_order";//イベントごと並び順
+    String LMEVGOODS_COL_LM_SELLING_PRICE="lm_selling_price"; //イベントごと価格
+    String LMEVGOODS_COL_SOLD_GOODS="sold_goods";//イベントごと販売数
+    String LMEVGOODS_COL_CREATED_AT="created_at"; //登録日時
+    String LMEVGOODS_COL_UPDATED_AT="updated_at"; //更新日時
 
 
     //Entity名
@@ -38,6 +73,7 @@ public interface JpaConst {
     String JPQL_PARM_MAIL="mailaddress";//メールアドレス
     String JPQL_PARM_PASS="password";//パスワード
     String JPQL_PARM_US="user";//ユーザー
+    String JPQL_PARM_SHOPNAME="name";//ショップ名
 
     //NamedQueryのnameとquery
     //すべてのユーザーをidの順序に取得する
@@ -59,5 +95,8 @@ public interface JpaConst {
     //指定したユーザーが作成したショップを全件idの降順で取得する
     String Q_SHOP_GET_ALL_MINE = ENTITY_SHOP + ".getAllMine";
     String Q_SHOP_GET_ALL_MINE_DEF = "SELECT s FROM Shop AS s WHERE s.user = :" + JPQL_PARM_US + " ORDER BY s.id DESC";
+    //指定したユーザーとショップ名を指定し、該当ショップの件数を取得する
+    String  Q_US_SHOPNAME_COUNT_ALL_MINE = ENTITY_SHOP + ".countAllNameMine";
+    String  Q_US_SHOPNAME_COUNT_ALL_MINE_DEF = "SELECT COUNT(s) FROM Shop AS s WHERE s.user = :" + JPQL_PARM_US + " AND s.name = :" + JPQL_PARM_SHOPNAME;
 
 }
