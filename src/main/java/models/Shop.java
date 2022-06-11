@@ -26,14 +26,14 @@ import lombok.Setter;
 @Table(name = JpaConst.TABLE_SHOP)
 @NamedQueries({
     @NamedQuery(
-            name = JpaConst.Q_US_COUNT_ALL_MINE,
-            query = JpaConst.Q_US_COUNT_ALL_MINE_DEF),
+            name = JpaConst.Q_SHOP_US_COUNT_ALL_MINE,
+            query = JpaConst.Q_SHOP_US_COUNT_ALL_MINE_DEF),
     @NamedQuery(
             name = JpaConst.Q_SHOP_GET_ALL_MINE,
             query = JpaConst.Q_SHOP_GET_ALL_MINE_DEF),
     @NamedQuery(
-            name = JpaConst.Q_US_SHOPNAME_COUNT_ALL_MINE,
-            query = JpaConst.Q_US_SHOPNAME_COUNT_ALL_MINE_DEF)
+            name = JpaConst.Q_SHOP_US_NAME_COUNT_ALL_MINE,
+            query = JpaConst.Q_SHOP_US_NAME_COUNT_ALL_MINE_DEF)
 })
 
 @Getter // すべてのクラスフィールドに好いてgetterを自動生成する（Lombok）

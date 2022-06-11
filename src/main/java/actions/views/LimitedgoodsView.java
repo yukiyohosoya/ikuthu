@@ -27,12 +27,12 @@ public class LimitedgoodsView {
     /**
      * イベントid
      */
-    private EventView eventid;
+    private EventView event;
 
     /**
      *商品id
      */
-    private GoodsView goodsid;
+    private GoodsView goods;
 
     /**
      * イベントごと並び順

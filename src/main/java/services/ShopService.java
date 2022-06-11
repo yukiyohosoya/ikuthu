@@ -39,23 +39,10 @@ public class ShopService extends ServiceBase {
 
     public long countAllMine(UserView user) {
 
-        long count =(long)em.createNamedQuery(JpaConst.Q_US_COUNT_ALL_MINE,Long.class)
+        long count =(long)em.createNamedQuery(JpaConst.Q_SHOP_US_COUNT_ALL_MINE,Long.class)
                 .setParameter(JpaConst.JPQL_PARM_US, UserConverter.toModel(user))
                 .getSingleResult();
         return count;
-    }
-
-    /**
-     * 指定されたページ数の一覧画面に表示するショップデータを取得し、ShopViewのリストで返却する
-     * @param page ページ数
-     * @return 一覧画面に表示するデータのリスト
-     */
-    public List<ShopView> getAllPerPage(int page){
-        List<Shop> shops = em.createNamedQuery(JpaConst.Q_SHOP_GET_ALL_MINE,Shop.class)
-                .setFirstResult(JpaConst.ROW_PER_PAGE*(page-1))
-                .setMaxResults(JpaConst.ROW_PER_PAGE)
-                .getResultList();
-        return ShopConverter.toViewList(shops);
     }
 
     /**
@@ -136,9 +123,9 @@ public class ShopService extends ServiceBase {
      * @param pepper pepper文字列
      * @return 認証結果を返却す(成功:true 失敗:false)
      */
-    public Boolean validateLogin_s(Integer uv, Integer sv) {
+    public Boolean validateShop(UserView uv, ShopView sv) {
         boolean validateShop = false;
-        if (uv==sv) {
+        if (uv.getId().equals(sv.getUser().getId())) {
                 //データが取得できた場合、認証成功
                 validateShop = true;
             }
@@ -151,7 +138,7 @@ public class ShopService extends ServiceBase {
      */
     public long countByShop(UserView user,String shopname) {
 
-        long count =(long)em.createNamedQuery(JpaConst.Q_US_SHOPNAME_COUNT_ALL_MINE,Long.class)
+        long count =(long)em.createNamedQuery(JpaConst.Q_SHOP_US_NAME_COUNT_ALL_MINE,Long.class)
                 .setParameter(JpaConst.JPQL_PARM_US, UserConverter.toModel(user))
                 .setParameter(JpaConst.JPQL_PARM_SHOPNAME,shopname)
                 .getSingleResult();

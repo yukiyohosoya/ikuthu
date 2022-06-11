@@ -21,8 +21,8 @@ public class LimitedgoodsConverter {
 
         return new Limitedgoods(
                 lgv.getId(),
-                EventConverter.toModel(lgv.getEventid()),
-                GoodsConverter.toModel(lgv.getGoodsid()),
+                EventConverter.toModel(lgv.getEvent()),
+                GoodsConverter.toModel(lgv.getGoods()),
                 lgv.getEvorder(),
                 lgv.getLm_sellingprice(),
                 lgv.getSoldgoods(),
@@ -44,8 +44,8 @@ public class LimitedgoodsConverter {
 
         return new LimitedgoodsView(
                 lg.getId(),
-                EventConverter.toView(lg.getEventid()),
-                GoodsConverter.toView(lg.getGoodsid()),
+                EventConverter.toView(lg.getEvent()),
+                GoodsConverter.toView(lg.getGoods()),
                 lg.getEvorder(),
                 lg.getLm_sellingprice(),
                 lg.getSoldgoods(),
@@ -76,8 +76,8 @@ public class LimitedgoodsConverter {
      */
     public static void copyViewToModel(Limitedgoods lg, LimitedgoodsView lgv) {
         lg.setId(lgv.getId());
-        lg.setEventid(EventConverter.toModel(lgv.getEventid()));
-        lg.setGoodsid(GoodsConverter.toModel(lgv.getGoodsid()));
+        lg.setEvent(EventConverter.toModel(lgv.getEvent()));
+        lg.setGoods(GoodsConverter.toModel(lgv.getGoods()));
         lg.setEvorder(lgv.getEvorder());
         lg.setLm_sellingprice(lgv.getLm_sellingprice());
         lg.setSoldgoods(lgv.getSoldgoods());

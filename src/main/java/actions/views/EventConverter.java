@@ -23,7 +23,7 @@ public class EventConverter {
 
         return new Event(
                 ev.getId(),
-                ShopConverter.toModel(ev.getShopid()),
+                ShopConverter.toModel(ev.getShop()),
                 ev.getName(),
                 ev.getEventday(),
                 ev.getCreatedAt(),
@@ -44,7 +44,7 @@ public class EventConverter {
 
         return new EventView(
                 e.getId(),
-                ShopConverter.toView(e.getShopid()),
+                ShopConverter.toView(e.getShop()),
                 e.getName(),
                 e.getEventday(),
                 e.getCreatedAt(),
@@ -74,7 +74,7 @@ public class EventConverter {
      */
     public static void copyViewToModel(Event e, EventView ev) {
         e.setId(ev.getId());
-        e.setShopid(ShopConverter.toModel(ev.getShopid()));
+        e.setShop(ShopConverter.toModel(ev.getShop()));
         e.setName(ev.getName());
         e.setEventday(ev.getEventday());
         e.setCreatedAt(ev.getCreatedAt());

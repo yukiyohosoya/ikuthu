@@ -233,12 +233,14 @@ public class ShopAction extends ActionBase {
         //リクエストスコープに入っているショップidを条件にショップデータを取得
         //セッションからログイン中のユーザー情報を取得
         //トップへリダイレクト
-        System.out.println(getRequestParam(AttributeConst.SH_ID));
+
         UserView uv = (UserView)getSessionScope(AttributeConst.LOGIN_US);
         ShopView sv = service.findOne(toNumber(getRequestParam(AttributeConst.SH_ID)));
 
-
- //       if(isValidShop) {
+        //有効なユーザーか承認する
+        boolean isValidShop = service.validateShop(uv, sv);
+        System.out.println(isValidShop);
+//        if(isValidShop) {
            //認証成功の場合
 //
 //            //CSRF対策 tokenのチェック

@@ -28,9 +28,9 @@ public class EventView {
     private Integer id;
 
     /**
-     * イベントを作成したショップid
+     * イベントを作成したショップ
      */
-    private ShopView shopid;
+    private ShopView shop;
 
     /**
      *イベントの名前

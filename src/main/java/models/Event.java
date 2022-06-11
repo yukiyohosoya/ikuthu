@@ -29,7 +29,12 @@ import lombok.Setter;
  */
 @Table(name = JpaConst.TABLE_EVE)
 @NamedQueries({
-
+    @NamedQuery(
+            name = JpaConst.Q_EVENT_US_COUNT_ALL_MINE,
+            query = JpaConst.Q_EVENT_US_COUNT_ALL_MINE_DEF),
+    @NamedQuery(
+            name = JpaConst.Q_EVENT_GET_ALL_MINE,
+            query = JpaConst.Q_EVENT_GET_ALL_MINE_DEF)
 })
 
 @Getter // すべてのクラスフィールドに好いてgetterを自動生成する（Lombok）
@@ -53,8 +58,8 @@ public class Event {
      * イベントを作成したショップid
      */
     @ManyToOne
-    @JoinColumn(name=JpaConst.EV_COL_US,nullable=false)
-    private Shop shopid;
+    @JoinColumn(name=JpaConst.EV_COL_SHOP,nullable=false)
+    private Shop shop;
 
     /**
      *イベントの名前

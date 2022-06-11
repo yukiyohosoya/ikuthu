@@ -21,7 +21,7 @@ public class GoodsConverter {
 
         return new Goods(
                 gv.getId(),
-                ShopConverter.toModel(gv.getShopid()),
+                ShopConverter.toModel(gv.getShop()),
                 gv.getName(),
                 gv.getSellingprice(),
                 gv.getPurchaseprice(),
@@ -45,7 +45,7 @@ public class GoodsConverter {
 
         return new GoodsView(
                 g.getId(),
-                ShopConverter.toView(g.getShopid()),
+                ShopConverter.toView(g.getShop()),
                 g.getName(),
                 g.getSellingprice(),
                 g.getPurchaseprice(),
@@ -78,7 +78,7 @@ public class GoodsConverter {
      */
     public static void copyViewToModel(Goods g, GoodsView gv) {
         g.setId(gv.getId());
-        g.setShopid(ShopConverter.toModel(gv.getShopid()));
+        g.setShop(ShopConverter.toModel(gv.getShop()));
         g.setName(gv.getName());
         g.setSellingprice(gv.getSellingprice());
         g.setPurchaseprice(gv.getPurchaseprice());

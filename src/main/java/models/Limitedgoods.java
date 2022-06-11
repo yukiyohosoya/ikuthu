@@ -27,7 +27,12 @@ import lombok.Setter;
  */
 @Table(name = JpaConst.TABLE_LMEVGOODS)
 @NamedQueries({
-
+    @NamedQuery(
+            name = JpaConst.Q_LIMIGOODS_US_COUNT_ALL_MINE,
+            query = JpaConst.Q_LIMIGOODS_US_COUNT_ALL_MINE_DEF),
+    @NamedQuery(
+            name = JpaConst.Q_LIMIGOODS_GET_ALL_MINE,
+            query = JpaConst.Q_LIMIGOODS_GET_ALL_MINE_DEF)
 })
 
 @Getter // すべてのクラスフィールドに好いてgetterを自動生成する（Lombok）
@@ -51,14 +56,14 @@ public class Limitedgoods {
      * イベントid
      */
     @ManyToOne
-    @JoinColumn(name=JpaConst.LMEVGOODS_COL_EV_ID,nullable=false)
-    private Event eventid;
+    @JoinColumn(name=JpaConst.LMEVGOODS_COL_EVENT,nullable=false)
+    private Event event;
 
     /**
      *商品id
      */
-    @Column( name = JpaConst.LMEVGOODS_COL_GO_ID, length=64 ,nullable=false)
-    private Goods goodsid;
+    @Column( name = JpaConst.LMEVGOODS_COL_GOODS, length=64 ,nullable=false)
+    private Goods goods;
 
     /**
      * イベントごと並び順

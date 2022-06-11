@@ -27,7 +27,7 @@ public class GoodsView {
     /**
      * 商品を作成したショップid
      */
-    private ShopView shopid;
+    private ShopView shop;
 
     /**
      * 商品の名前

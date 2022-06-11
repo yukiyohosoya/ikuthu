@@ -28,6 +28,12 @@ import lombok.Setter;
  */
 @Table(name = JpaConst.TABLE_GOODS)
 @NamedQueries({
+    @NamedQuery(
+            name = JpaConst.Q_GOODS_US_COUNT_ALL_MINE,
+            query = JpaConst.Q_GOODS_US_COUNT_ALL_MINE_DEF),
+    @NamedQuery(
+            name = JpaConst.Q_GOODS_GET_ALL_MINE,
+            query = JpaConst.Q_GOODS_GET_ALL_MINE_DEF)
 
 })
 
@@ -52,8 +58,8 @@ public class Goods {
      * 商品を作成したショップid
      */
     @ManyToOne
-    @JoinColumn(name=JpaConst.GOODS_COL_US,nullable=false)
-    private Shop shopid;
+    @JoinColumn(name=JpaConst.GOODS_COL_SHOP,nullable=false)
+    private Shop shop;
 
     /**
      * 商品の名前
