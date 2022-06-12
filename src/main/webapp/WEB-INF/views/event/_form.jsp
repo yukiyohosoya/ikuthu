@@ -14,10 +14,16 @@
 </c:if>
 
 <label for="${AttributeConst.SH_NAME.getValue()}" >イベント名</label><br />
-<input type="text" name="${AttributeConst.SH_NAME.getValue()}" value="${shop.name}" />
+<input type="text" name="${AttributeConst.EV_NAME.getValue()}" value="${event.name}" />
 <br /><br />
 
-<input type="hidden" name="${AttributeConst.SH_ID.getValue()}" value="${shop.id}" />
-<input type="hidden" name="${AttributeConst.SH_ID.getValue()}" value="${shop.id}" />
+
+<label for="${AttributeConst.SH_NAME.getValue()}" >イベント日付</label><br />
+<input type="date" name="${AttributeConst.EV_DAY.getValue()}" value= "${event.name}" />
+<br /><br />
+
+<br /><br />
+
+
 <input type="hidden" name="${AttributeConst.TOKEN.getValue()}" value="${_token}" />
 <button type="submit">投稿</button>

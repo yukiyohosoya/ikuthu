@@ -40,7 +40,7 @@ public class EventView {
     /**
      * イベント日付
      */
-    private LocalDate eventday;
+    private String eventday;
 
     /**
      *登録日時

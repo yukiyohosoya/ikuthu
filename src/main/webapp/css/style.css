@@ -7,22 +7,57 @@ body {
 }
 
 #header {
+    display:-webkit-flex;
+    display:flex;
     width: 100%;
     height: 70px;
-    background-color: #333333;
+    background-color: #FFDC4A;
 }
 
-#content {
-    width: 94%;
-    margin-top: 15px;
-    padding-left: 3%;
+#header h1 {
+     width: 100%;
+    text-align: center;
+    font-size: 30px;
+    font-family: "Nico Moji";
+    background-color: #000000;
 }
+
+#header a {
+
+    color: #ffffff;
+}
+
+#header_menu {
+
+    width: 100%;
+
+}
+#user_menu {
+
+    width: 30%;
+
+}
+#shop_name {
+
+    width: 30%;
+
+}
+
+
 
 h1 {
     font-size: 30px;
     display: inline;
     font-family: "Nico Moji";
 }
+#content {
+    width: 70%;
+    margin-top: 15px;
+    padding-left: 3%;
+
+}
+
+
 
 h2 {
     font-size: 36px;
@@ -96,12 +131,12 @@ button {
     background-color: #f8d7da;
 }
 
-table#employee_list th {
+table#index_shop_list th {
     width: 30%;
     padding: 10px 2%;
 }
 
-table#employee_list td {
+table#index_shop_list td {
     width: 29%;
     padding: 10px 2%;
 }
@@ -118,24 +153,6 @@ select {
     height: 30px;
 }
 
-#header_menu {
-    width: 57%;
-    padding-top: 17px;
-    padding-left: 3%;
-    display: inline-block;
-}
-
-#employee_name {
-    color: #cccccc;
-    width: 36%;
-    padding-right: 3%;
-    text-align: right;
-    display: inline-block;
-}
-
-#header a {
-    color: #eeeeee;
-}
 
 h1 a {
     color: #eeeeee;

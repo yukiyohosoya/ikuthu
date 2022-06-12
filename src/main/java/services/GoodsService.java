@@ -22,7 +22,7 @@ public class GoodsService extends ServiceBase {
      */
     public List<GoodsView> getMinePerPage(ShopView shop,int page){
 
-        List<Goods> shops = em.createNamedQuery(JpaConst.Q_GOODS_US_COUNT_ALL_MINE,Goods.class)
+        List<Goods> shops = em.createNamedQuery(JpaConst.Q_GOODS_GET_ALL_MINE,Goods.class)
                 .setParameter(JpaConst.JPQL_PARM_SHOP, ShopConverter.toModel(shop))
                 .setFirstResult(JpaConst.ROW_PER_PAGE * (page-1))
                 .setMaxResults(JpaConst.ROW_PER_PAGE)
@@ -38,7 +38,7 @@ public class GoodsService extends ServiceBase {
 
     public long countAllMine(ShopView shop) {
 
-        long count =(long)em.createNamedQuery(JpaConst.Q_GOODS_GET_ALL_MINE,Long.class)
+        long count =(long)em.createNamedQuery(JpaConst.Q_GOODS_US_COUNT_ALL_MINE,Long.class)
                 .setParameter(JpaConst.JPQL_PARM_SHOP, ShopConverter.toModel(shop))
                 .getSingleResult();
         return count;

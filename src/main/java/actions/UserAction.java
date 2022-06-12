@@ -121,8 +121,12 @@ public class UserAction extends ActionBase{
                     //セッションに登録完了のフラッシュメッセージを設定
                     putSessionScope(AttributeConst.FLUSH, MessageConst.I_REGISTERED.getMessage());
 
+                    //エラーメッセージが何もしないとtrueになってしまうためfalseに。
+                    putRequestScope(AttributeConst.LOGIN_ERR,false);
+
+
                     //一覧画面にリダイレクト
-                    redirect(ForwardConst.ACT_AUTH, ForwardConst.CMD_LOGIN);//※改変。インデックス画面からログイン画面に
+                    redirect(ForwardConst.ACT_AUTH, ForwardConst.CMD_SHOW_LOGIN);//※改変。インデックス画面からログイン画面に
                 }
 
            }

@@ -26,10 +26,14 @@ public enum MessageConst {
     U_NOLONGPASS("パスワードは8文字以上24文字以内にしてください。"),
 
     //ショップバリデーション
-    U_SHOPNAME("ショップ名を入れてください"),
-    U_SHOPNAME_L("ショップ名は60文字以内にしてください"),
-    U_SHOPNAME_TRUE("同じショップ名は登録できません。");
+    U_SHOPNAME("ショップ名を入れてください。"),
+    U_SHOPNAME_L("ショップ名は60文字以内にしてください。"),
+    U_SHOPNAME_TRUE("同じショップ名は登録できません。"),
 
+    //イベントバリデーション
+    U_EVENAME("イベント名を入れてください。"),
+    U_EVEDAY("開催日を入力してください。"),
+    U_EVEDAY_NO("開催日は日付で記入してください。");
 
     //文字列
     private final String text;

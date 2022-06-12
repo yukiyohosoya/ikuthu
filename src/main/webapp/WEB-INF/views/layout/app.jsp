@@ -22,22 +22,24 @@
     <body>
         <div id="wrapper">
             <div id="header">
+                <h1><a href="<c:url value='?action=${actTop}&command=${commIdx}' />">Ikuthu？</a></h1>
                 <div id="header_menu">
-                    <h1><a href="<c:url value='?action=${actTop}&command=${commIdx}' />">Ikuthu？</a></h1>&nbsp;&nbsp;&nbsp;
-<%--                     <c:if test="${sessionScope.login_employee !=null}"> --%>
-<%--                         <c:if  test="${sessionScope.login_employee.adminFlag==AttributeConst.ROLE_ADMIN.getIntegerValue()}"> --%>
-<%--                             <a href="<c:url value='?action=${actUs}&command=${commIdx}' />">従業員管理</a>&nbsp; --%>
-<%--                         </c:if> --%>
-<%--                         <a href="<c:url value='?action=${actRep}&command=${commIdx}' />">日報管理</a>&nbsp; --%>
-<%--                     </c:if> --%>
-                </div>
-<%--            <c:if test="${sessionScope.login_employee !=null}"> --%>
-                     <div id="user_name">
-                         <c:out value="${sessionScope.login_user.name}"/>
-                         &nbsp;さん&nbsp;&nbsp;&nbsp;
-                                                 <a href="<c:url value='?action=${actAuth}&command=${commOut}' />">ログアウト</a>&nbsp;
+
+                        <c:if test="${sessionScope.login_user !=null}">
+                        <div id="user_name">
+                             <c:out value="${sessionScope.login_user.name}"/>
+                             &nbsp;さん&nbsp;&nbsp;&nbsp;
+                             <a href="<c:url value='?action=${actAuth}&command=${commOut}' />">ログアウト</a>&nbsp;
+                        </div>
+                        </c:if>
+               　
+               　   　<c:if test="${sessionScope.select_shop !=null}">
+                     <div id="shop_name">
+                         <c:out value="${sessionScope.select_shop.name}"/>
+                         <a href="<c:url value='?action=${actAuth}&command=${commOut}' />">ショップ変更</a>&nbsp;
                     </div>
-<%--                 </c:if> --%>
+                  </c:if>
+                </div>
             </div>
             <div id="content">${param.content}</div>
             <div id="footer">by taro kirameki.</div>

@@ -21,6 +21,9 @@ public enum AttributeConst {
     //ログイン画面
     LOGIN_ERR("loginError"),
 
+    //どこのコマンドから来たのかの記録
+    COMAND("comand"),
+
     //ユーザー管理
     USER("user"),
     US_ID("id"),
@@ -38,6 +41,16 @@ public enum AttributeConst {
     SH_ID("sh_id"),
     SH_US_ID("shops_us_id"),
     SH_NAME("shops_name"),
+
+    //ショップ管理
+    EVENT("event"),
+    EVENTS("events"),
+    EV_COUNT("events_count"),
+    EV_ID("ev_id"),
+    EV_SHOP("ev_shop"),
+    EV_INDEX_SHOP("ev_index_shop"),
+    EV_NAME("ev_name"),
+    EV_DAY("ev_day"),
 
     //ショップ管理・優先フラグ
     SH_PRI_TRUE(1),

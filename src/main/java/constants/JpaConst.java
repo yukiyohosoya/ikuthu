@@ -106,28 +106,28 @@ public interface JpaConst {
    String  Q_SHOP_US_NAME_COUNT_ALL_MINE_DEF = "SELECT COUNT(s) FROM Shop AS s WHERE s.user = :" + JPQL_PARM_US + " AND s.name = :" + JPQL_PARM_SHOPNAME;
 
    //イベント
-   //指定したショップが作成したイベントの件数を取得する
-   String  Q_EVENT_US_COUNT_ALL_MINE = ENTITY_EVENT + ".countAllMine";
-   String  Q_EVENT_US_COUNT_ALL_MINE_DEF = "SELECT COUNT(e) FROM Event AS e WHERE e.shop = :" + JPQL_PARM_SHOPNAME;
    //指定したショップが作成したイベントを全件idの降順で取得する
    String Q_EVENT_GET_ALL_MINE = ENTITY_EVENT + ".getAllMine";
-   String Q_EVENT_GET_ALL_MINE_DEF = "SELECT e FROM Event AS e WHERE e.shop = :" + JPQL_PARM_SHOPNAME + " ORDER BY e.id DESC";
+   String Q_EVENT_GET_ALL_MINE_DEF = "SELECT e FROM Event AS e WHERE e.shop = :" + JPQL_PARM_SHOP + " ORDER BY e.id DESC";
+   //指定したショップが作成したイベントの件数を降順に取得する
+   String  Q_EVENT_SHOP_COUNT_ALL_MINE = ENTITY_EVENT + ".countAllMine";
+   String  Q_EVENT_SHOP_COUNT_ALL_MINE_DEF = "SELECT COUNT(e) FROM Event AS e WHERE e.shop = :" + JPQL_PARM_SHOP;
 
    //商品情報
-   //指定したショップが作成したグッズの件数を取得する
-   String  Q_GOODS_US_COUNT_ALL_MINE = ENTITY_GOODS + ".countAllMine";
-   String  Q_GOODS_US_COUNT_ALL_MINE_DEF = "SELECT COUNT(g) FROM Goods AS g WHERE g.shop = :" + JPQL_PARM_SHOPNAME;
    //指定したショップが作成したグッズを全件idの降順で取得する
    String Q_GOODS_GET_ALL_MINE = ENTITY_GOODS + ".getAllMine";
-   String Q_GOODS_GET_ALL_MINE_DEF = "SELECT g FROM Goods AS g WHERE g.shop = :" + JPQL_PARM_SHOPNAME + " ORDER BY g.id DESC";
+   String Q_GOODS_GET_ALL_MINE_DEF = "SELECT g FROM Goods AS g WHERE g.shop = :" + JPQL_PARM_SHOP + " ORDER BY g.id DESC";
+   //指定したショップが作成したグッズの件数を取得する
+   String  Q_GOODS_US_COUNT_ALL_MINE = ENTITY_GOODS + ".countAllMine";
+   String  Q_GOODS_US_COUNT_ALL_MINE_DEF = "SELECT COUNT(g) FROM Goods AS g WHERE g.shop = :" + JPQL_PARM_SHOP;
 
    //イベントごと商品ごと商品情報
-   //指定したショップが作成したイベントごと商品の件数を取得する
-   String  Q_LIMIGOODS_US_COUNT_ALL_MINE = ENTITY_LIMIGOODS + ".countAllMine";
-   String  Q_LIMIGOODS_US_COUNT_ALL_MINE_DEF = "SELECT COUNT(lg) FROM Limitedgoods AS lg WHERE lg.event = :" + JPQL_PARM_SHOPNAME;
    //指定したショップが作成したイベントごと商品を全件idの降順で取得する
    String Q_LIMIGOODS_GET_ALL_MINE = ENTITY_LIMIGOODS + ".getAllMine";
-   String Q_LIMIGOODS_GET_ALL_MINE_DEF = "SELECT lg FROM Limitedgoods AS lg WHERE lg.event = :" + JPQL_PARM_SHOPNAME + " ORDER BY lg.id DESC";
+   String Q_LIMIGOODS_GET_ALL_MINE_DEF = "SELECT lg FROM Limitedgoods AS lg WHERE lg.event = :" + JPQL_PARM_SHOP + " ORDER BY lg.id DESC";
+   //指定したショップが作成したイベントごと商品の件数を取得する
+   String  Q_LIMIGOODS_US_COUNT_ALL_MINE = ENTITY_LIMIGOODS + ".countAllMine";
+   String  Q_LIMIGOODS_US_COUNT_ALL_MINE_DEF = "SELECT COUNT(lg) FROM Limitedgoods AS lg WHERE lg.event = :" + JPQL_PARM_SHOP;
 
 
 }

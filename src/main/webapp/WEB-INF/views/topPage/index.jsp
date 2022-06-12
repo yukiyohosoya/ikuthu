@@ -7,18 +7,18 @@
 <c:set var="actUs" value="${ForwardConst.ACT_USER.getValue()}" />
 <c:set var="actSh" value="${ForwardConst.ACT_SHOP.getValue()}" />
 
-<c:set var="commLogin" value="${ForwardConst.CMD_LOGIN.getValue()}" />
+<c:set var="commSl" value="${ForwardConst.CMD_SELECT.getValue()}" />
 <c:set var="commIdx" value="${ForwardConst.CMD_INDEX.getValue()}" />
 <c:set var="commNew" value="${ForwardConst.CMD_NEW.getValue()}" />
 
 <c:import url="../layout/app.jsp">
     <c:param name="content">
     <c:out value="${loginError}"/>
-        <c:if test="${loginError}">
-            <div id="flush_error">
-                店舗ログインに失敗しました。
-            </div>
-        </c:if>
+<%--         <c:if test="${loginError}"> --%>
+<!--             <div id="flush_error"> -->
+<!--                 店舗ログインに失敗しました。 -->
+<!--             </div> -->
+<%--         </c:if> --%>
         <h2>ようこそ</h2>
         <c:choose>
             <c:when test="${shops_count == 0}">
@@ -26,13 +26,15 @@
                 <p>ショップを作成してみてください！</p>
             </c:when>
             <c:otherwise>
-               <h3>ログインするショップを選んでください。</h3>
+               <h3>管理するショップを選んでください。</h3>
+                <ul>
                 <c:forEach var="shop" items="${shops}" varStatus="status">
-                   <ul>
-                     <li><a href="<c:url value='?action=${actSh}&command=${commLogin}&sh_id=${shop.id}' />">${shop.name}</a></li>
 
-                   </ul>
+                     <li><a href="<c:url value='?action=${actSh}&command=${commSl}&sh_id=${shop.id}' />">${shop.name}</a></li>
+
+
                 </c:forEach>
+                </ul>
             </c:otherwise>
 
         </c:choose>

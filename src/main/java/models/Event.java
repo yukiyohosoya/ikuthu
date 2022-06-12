@@ -30,8 +30,8 @@ import lombok.Setter;
 @Table(name = JpaConst.TABLE_EVE)
 @NamedQueries({
     @NamedQuery(
-            name = JpaConst.Q_EVENT_US_COUNT_ALL_MINE,
-            query = JpaConst.Q_EVENT_US_COUNT_ALL_MINE_DEF),
+            name = JpaConst.Q_EVENT_SHOP_COUNT_ALL_MINE,
+            query = JpaConst.Q_EVENT_SHOP_COUNT_ALL_MINE_DEF),
     @NamedQuery(
             name = JpaConst.Q_EVENT_GET_ALL_MINE,
             query = JpaConst.Q_EVENT_GET_ALL_MINE_DEF)
@@ -71,7 +71,7 @@ public class Event {
      * イベント日付
      */
     @Column( name = JpaConst.EV_COL_EVENT_DAY ,nullable=false)
-    private LocalDate eventday;
+    private String eventday;
 
     /**
      *登録日時

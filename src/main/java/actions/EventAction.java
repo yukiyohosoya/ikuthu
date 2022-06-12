@@ -22,7 +22,7 @@ import services.UserService;
  *
  */
 
-public class ShopAction extends ActionBase {
+public class EventAction extends ActionBase {
 
     private ShopService shop_service;
     private UserService user_service;
@@ -55,19 +55,24 @@ public class ShopAction extends ActionBase {
      * @throws IOException
      */
     public void index() throws ServletException, IOException {
+        // ShopView sv = shop_service.findOne(toNumber(getRequestParam(AttributeConst.SH_ID)));　リクエストからの取り出し
 
+        //指定されたページ数の一覧画面に表示するデータを取得
+         int page = getPage();
         //セッションからショップ情報を取得
          ShopView select_shop = (ShopView) getSessionScope(AttributeConst.SELECT_SH);
 
-         List<EventView> index_event = event_service.getMinePer_index(select_shop);
+         List<EventView> index_event = event_service.getMinePerPage(select_shop,page);
 
          //選択中ショップのEvent件数を取得
          long myEventCount = event_service.countAllMine(select_shop);
 
           putRequestScope(AttributeConst.EVENTS,index_event); //index用に取得したイベント
           putRequestScope(AttributeConst.EV_COUNT,myEventCount); //Event全件数
+          putRequestScope(AttributeConst.PAGE, page); //ページ数
+          putRequestScope(AttributeConst.MAX_ROW, JpaConst.ROW_PER_PAGE); //1ページに表示するレコードの数
 
-
+          System.out.println(select_shop+"と"+index_event);
           //セッションにフラッシュメッセージが設定されている場合はリクエストスコープに移し替え、セッションからは削除する
           String flush = getSessionScope(AttributeConst.FLUSH);
           if (flush != null) {
@@ -76,7 +81,7 @@ public class ShopAction extends ActionBase {
           }
 
         //一覧画面を表示
-        forward(ForwardConst.FW_SH_INDEX);
+        forward(ForwardConst.FW_EV_INDEX);
     }
 
     /**
@@ -89,7 +94,7 @@ public class ShopAction extends ActionBase {
         putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
 
         //新規登録画面を表示
-        forward(ForwardConst.FW_SH_NEW);
+        forward(ForwardConst.FW_EV_NEW);
         }
     /**
      * 新規登録を行う
@@ -101,29 +106,32 @@ public class ShopAction extends ActionBase {
         //CSRF対策 tokenのチェック
         if(checkToken()) {
 
-            //セッションからログイン中のユーザー情報を取得
-            UserView uv = (UserView)getSessionScope(AttributeConst.LOGIN_US);
+            //セッションから選択中のショップ情報を取得
+            ShopView sv = (ShopView)getSessionScope(AttributeConst.SELECT_SH);
+            String day=getRequestParam(AttributeConst.EV_DAY).replace("/", "-");
 
             //パラメータの値を元にショップ情報のインスタンスを作成する
-            ShopView sv = new ShopView(
+            EventView ev = new EventView(
                     null,
-                    uv,//ログインしているユーザーを、ショップ作者として登録
-                    getRequestParam(AttributeConst.SH_NAME),
-                    0);//※0はデフォルト値
+                    sv,//セッションにあるショップ
+                    getRequestParam(AttributeConst.EV_NAME),
+                    day,
+                    null,
+                    null);
 
             //ショップ情報登録
-            List<String> errors = shop_service.create(sv);
+            List<String> errors = event_service.create(ev);
 
             if (errors.size() > 0) {
-                System.out.println("shopnameCount数は"+ errors);
+                System.out.println(ev.getEventday());
                 //登録中にエラーがあった場合
 
                 putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
-                putRequestScope(AttributeConst.SHOP, sv); //入力されたショップ情報
+                putRequestScope(AttributeConst.SHOP, ev); //入力されたイベント情報
                 putRequestScope(AttributeConst.ERR, errors); //エラーのリスト
 
                 //新規登録画面を再表示
-                forward(ForwardConst.FW_SH_NEW);
+                forward(ForwardConst.FW_EV_NEW);
 
             } else {
                 //登録中にエラーがなかった場合
@@ -132,7 +140,7 @@ public class ShopAction extends ActionBase {
                 putSessionScope(AttributeConst.FLUSH, MessageConst.I_REGISTERED.getMessage());
 
                 //一覧画面にリダイレクト
-                redirect(ForwardConst.ACT_SHOP, ForwardConst.CMD_INDEX);
+                redirect(ForwardConst.ACT_EVENT, ForwardConst.CMD_INDEX);
             }
 
         }
@@ -157,7 +165,7 @@ public class ShopAction extends ActionBase {
             putRequestScope(AttributeConst.SHOP,sv);//取得したショップデータ
 
             //詳細画面を表示
-            forward(ForwardConst.FW_SH_SHOW);
+            forward(ForwardConst.FW_EV_SHOW);
 
         }
     }
@@ -173,7 +181,7 @@ public class ShopAction extends ActionBase {
         ShopView sv = shop_service.findOne(toNumber(getRequestParam(AttributeConst.US_ID)));
 
         //セッションからログイン中のユーザー情報を取得
-        UserView uv = (UserView)getSessionScope(AttributeConst.LOGIN_US);
+        UserView uv = (UserView)getSessionScope(AttributeConst.SELECT_SH);
 
         if (sv == null || uv.getId() != sv.getUser().getId()) {
             //該当のショップデータが存在しない、またはログインしているユーザーがショップの作者でない場合はエラー画面を表示
@@ -185,7 +193,7 @@ public class ShopAction extends ActionBase {
             putRequestScope(AttributeConst.SHOP, sv); //取得したショップ情報
 
             //編集画面を表示する
-            forward(ForwardConst.FW_SH_EDIT);
+            forward(ForwardConst.FW_EV_EDIT);
         }
     }
 
@@ -216,7 +224,7 @@ public class ShopAction extends ActionBase {
                 putRequestScope(AttributeConst.ERR, errors); //エラーのリスト
 
                 //編集画面を再表示
-                forward(ForwardConst.FW_SH_EDIT);
+                forward(ForwardConst.FW_EV_EDIT);
             } else {
                 //更新中にエラーがなかった場合
 
@@ -241,7 +249,7 @@ public class ShopAction extends ActionBase {
         //セッションからログイン中のユーザー情報を取得
         //トップへリダイレクト
 
-        UserView uv = (UserView)getSessionScope(AttributeConst.LOGIN_US);
+        UserView uv = (UserView)getSessionScope(AttributeConst.SELECT_SH);
         ShopView sv = shop_service.findOne(toNumber(getRequestParam(AttributeConst.SH_ID)));
 
         //有効なユーザーか承認する
