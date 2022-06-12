@@ -62,7 +62,8 @@ public class Limitedgoods {
     /**
      *商品id
      */
-    @Column( name = JpaConst.LMEVGOODS_COL_GOODS, length=64 ,nullable=false)
+    @ManyToOne
+    @JoinColumn( name = JpaConst.LMEVGOODS_COL_GOODS ,nullable=false)
     private Goods goods;
 
     /**
