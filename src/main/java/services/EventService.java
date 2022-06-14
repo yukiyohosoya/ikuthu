@@ -17,32 +17,32 @@ import models.validators.EventValidator;
 public class EventService extends ServiceBase {
     /**
      * 指定したショップが作成したイベントデータを5件分取得しEventViewのリストで返却する
-     * @param shop ショップ
+     * @param event イベント
      * @return 一覧画面に表示するデータのリスト
      */
     public List<EventView> getMinePer_index(ShopView shop){
 
-        List<Event> shops = em.createNamedQuery(JpaConst.Q_EVENT_GET_ALL_MINE,Event.class)
+        List<Event> event = em.createNamedQuery(JpaConst.Q_EVENT_GET_ALL_MINE,Event.class)
                 .setParameter(JpaConst.JPQL_PARM_SHOP, ShopConverter.toModel(shop))
-                .setFirstResult(1)
+                .setFirstResult(0)
                 .setMaxResults(5)
                 .getResultList();
-        return EventConverter.toViewList(shops);
+        return EventConverter.toViewList(event);
     }
     /**
      * 指定したショップが作成したイベントデータを、指定されたページ数の一覧画面に表示する分取得しEventViewのリストで返却する
-     * @param shop ショップ
+     * @param  event イベント
      * @param page ページ数
      * @return 一覧画面に表示するデータのリスト
      */
     public List<EventView> getMinePerPage(ShopView shop,int page){
 
-        List<Event> shops = em.createNamedQuery(JpaConst.Q_EVENT_GET_ALL_MINE,Event.class)
+        List<Event> event = em.createNamedQuery(JpaConst.Q_EVENT_GET_ALL_MINE,Event.class)
                 .setParameter(JpaConst.JPQL_PARM_SHOP, ShopConverter.toModel(shop))
                 .setFirstResult(JpaConst.ROW_PER_PAGE * (page-1))
                 .setMaxResults(JpaConst.ROW_PER_PAGE)
                 .getResultList();
-        return EventConverter.toViewList(shops);
+        return EventConverter.toViewList(event);
     }
 
     /**

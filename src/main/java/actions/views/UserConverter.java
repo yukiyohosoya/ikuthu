@@ -26,8 +26,12 @@ public class UserConverter {
                 uv.getMailaddress(),
                 uv.getPassword(),
                 uv.getCreatedAt(),
-                uv.getUpdatedAt()
-                );
+                uv.getUpdatedAt(),
+                uv.getDeleteFlag()== null
+                ? null
+                : uv.getDeleteFlag() == AttributeConst.DEL_FLAG_TRUE.getIntegerValue()
+                        ? JpaConst.ALL_DEL_TRUE
+                        : JpaConst.ALL_DEL_FALSE);
     }
 
     /**
@@ -47,8 +51,12 @@ public class UserConverter {
                 u.getMailaddress(),
                 u.getPassword(),
                 u.getCreatedAt(),
-                u.getUpdatedAt()
-                );
+                u.getUpdatedAt(),
+                u.getDeleteFlag()== null
+                ? null
+                : u.getDeleteFlag() == AttributeConst.DEL_FLAG_TRUE.getIntegerValue()
+                        ? JpaConst.ALL_DEL_TRUE
+                        : JpaConst.ALL_DEL_FALSE);
     }
 
     /**
@@ -78,6 +86,7 @@ public class UserConverter {
         u.setPassword(uv.getPassword());
         u.setCreatedAt(uv.getCreatedAt());
         u.setUpdatedAt(uv.getUpdatedAt());
+        u.setDeleteFlag(uv.getDeleteFlag());
 
 
     }

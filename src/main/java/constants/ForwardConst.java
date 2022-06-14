@@ -46,7 +46,12 @@ public enum ForwardConst {
     FW_EV_INDEX("event/index"),
     FW_EV_SHOW("event/show"),
     FW_EV_NEW("event/new"),
-    FW_EV_EDIT("event/edit");
+    FW_EV_EDIT("event/edit"),
+
+    FW_GS_INDEX("goods/index"),
+    FW_GS_SHOW("goods/show"),
+    FW_GS_NEW("goods/new"),
+    FW_GS_EDIT("goods/edit");
 
     //文字列
     private final String text;

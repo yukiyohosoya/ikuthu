@@ -70,17 +70,17 @@ public class Limitedgoods {
      * イベントごと並び順
      */
     @Column( name = JpaConst.LMEVGOODS_COL_EV_ORDER ,nullable=false)
-    private Integer evorder;
+    private String evorder;
     /**
      * イベントごと価格
      */
     @Column( name = JpaConst.LMEVGOODS_COL_LM_SELLING_PRICE ,nullable=false)
-    private Integer lm_sellingprice;
+    private String lm_sellingprice;
     /**
      * イベントごと販売数
      */
     @Column( name = JpaConst.LMEVGOODS_COL_SOLD_GOODS ,nullable=false)
-    private Integer soldgoods;
+    private String soldgoods;
 
     /**
      *登録日時
@@ -93,5 +93,12 @@ public class Limitedgoods {
      */
     @Column( name = JpaConst.LMEVGOODS_COL_UPDATED_AT ,nullable=false)
     private LocalDateTime updatedAt;
+
+    /**
+     * 削除されたかどうか（有効：0、削除済み：1）
+     */
+
+    @Column( name = JpaConst.ALL_PRIORITY_FLAG_COL_DELETE_FLAG, nullable= false)
+    private Integer deleteFlag;
 
 }

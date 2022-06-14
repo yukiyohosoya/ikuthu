@@ -38,5 +38,11 @@ public class ShopView {
      */
     private Integer priorityflag;
 
+    /**
+     * 削除されたかどうか（有効：0、削除済み：1）
+     */
+    private Integer deleteFlag;
+
+
 
 }

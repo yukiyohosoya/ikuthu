@@ -27,8 +27,12 @@ public class EventConverter {
                 ev.getName(),
                 ev.getEventday(),
                 ev.getCreatedAt(),
-                ev.getUpdatedAt()
-                );
+                ev.getUpdatedAt(),
+                ev.getDeleteFlag() == null
+                ? null
+                : ev.getDeleteFlag() == AttributeConst.DEL_FLAG_TRUE.getIntegerValue()
+                        ? JpaConst.ALL_DEL_TRUE
+                        : JpaConst.ALL_DEL_FALSE);
     }
 
     /**
@@ -48,8 +52,12 @@ public class EventConverter {
                 e.getName(),
                 e.getEventday(),
                 e.getCreatedAt(),
-                e.getUpdatedAt()
-                );
+                e.getUpdatedAt(),
+                e.getDeleteFlag() == null
+                ? null
+                : e.getDeleteFlag() == AttributeConst.DEL_FLAG_TRUE.getIntegerValue()
+                        ? JpaConst.ALL_DEL_TRUE
+                        : JpaConst.ALL_DEL_FALSE);
      }
 
     /**
@@ -79,6 +87,7 @@ public class EventConverter {
         e.setEventday(ev.getEventday());
         e.setCreatedAt(ev.getCreatedAt());
         e.setUpdatedAt(ev.getUpdatedAt());
+        e.setDeleteFlag(ev.getDeleteFlag());
     }
 
 }

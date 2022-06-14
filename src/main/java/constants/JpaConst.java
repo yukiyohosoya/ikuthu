@@ -47,10 +47,12 @@ public interface JpaConst {
     String GOODS_COL_NAME="name";//商品の名前
     String GOODS_COL_SEL_PRICE="selling_price";//販売価格
     String GOODS_COL_PUR_PRICE="purchase_price";//仕入れ価格
+    String GOODS_COL_STOCK="stock";//仕入れ価格
     String GOODS_COL_CREATED_DAY="create_day"; //商品作成日
+    String GOODS_COL_PICTURE="picture"; //商品画像ファイル名
     String GOODS_COL_CREATED_AT="created_at"; //登録日時
     String GOODS_COL_UPDATED_AT="updated_at"; //更新日時
-    String GOODS_COL_PICTURE="picture"; //商品画像ファイル名
+
 
     //イベントごと商品テーブル
     String TABLE_LMEVGOODS="lm_ev_goods";//テーブル名
@@ -63,6 +65,10 @@ public interface JpaConst {
     String LMEVGOODS_COL_SOLD_GOODS="sold_goods";//イベントごと販売数
     String LMEVGOODS_COL_CREATED_AT="created_at"; //登録日時
     String LMEVGOODS_COL_UPDATED_AT="updated_at"; //更新日時
+
+    String ALL_PRIORITY_FLAG_COL_DELETE_FLAG ="delete_flag"; //削除フラグ
+    int ALL_DEL_TRUE=1;//削除フラグON（削除済み）
+    int ALL_DEL_FALSE=0;//削除フラグoff（現役）
 
 
     //Entity名

@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 
 import actions.views.UserView;
 import actions.views.EventView;
+import actions.views.GoodsView;
 import actions.views.ShopView;
 import constants.AttributeConst;
 import constants.ForwardConst;
@@ -22,7 +23,7 @@ import services.UserService;
  *
  */
 
-public class EventAction extends ActionBase {
+public class GoodsAction extends ActionBase {
 
     private ShopService shop_service;
     private UserService user_service;
@@ -55,20 +56,20 @@ public class EventAction extends ActionBase {
      * @throws IOException
      */
     public void index() throws ServletException, IOException {
-        // ShopView sv = shop_service.findOne(toNumber(getRequestParam(AttributeConst.SH_ID)));　リクエストからの取り出し
 
-        //指定されたページ数の一覧画面に表示するデータを取得
-         int page = getPage();
         //セッションからショップ情報を取得
          ShopView select_shop = (ShopView) getSessionScope(AttributeConst.SELECT_SH);
 
-         List<EventView> index_event = event_service.getMinePerPage(select_shop,page);
+         //指定されたページ数の一覧画面に表示するデータを取得
+         int page = getPage();
+
+         List<GoodsView> index_goods = goods_service.getMinePer_index(select_shop);
 
          //選択中ショップのEvent件数を取得
-         long myEventCount = event_service.countAllMine(select_shop);
+         long myGoodsCount = goods_service.countAllMine(select_shop);
 
-          putRequestScope(AttributeConst.EVENTS,index_event); //index用に取得したイベント
-          putRequestScope(AttributeConst.EV_COUNT,myEventCount); //Event全件数
+          putRequestScope(AttributeConst.GOODSS,index_goods); //index用に取得したイベント
+          putRequestScope(AttributeConst.GS_COUNT,myGoodsCount); //Goods全件数
           putRequestScope(AttributeConst.PAGE, page); //ページ数
           putRequestScope(AttributeConst.MAX_ROW, JpaConst.ROW_PER_PAGE); //1ページに表示するレコードの数
 
@@ -78,9 +79,8 @@ public class EventAction extends ActionBase {
               putRequestScope(AttributeConst.FLUSH, flush);
               removeSessionScope(AttributeConst.FLUSH);
           }
-
         //一覧画面を表示
-        forward(ForwardConst.FW_EV_INDEX);
+        forward(ForwardConst.FW_GS_INDEX);
     }
 
     /**
@@ -93,7 +93,7 @@ public class EventAction extends ActionBase {
         putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
 
         //新規登録画面を表示
-        forward(ForwardConst.FW_EV_NEW);
+        forward(ForwardConst.FW_GS_NEW);
         }
     /**
      * 新規登録を行う
@@ -107,40 +107,45 @@ public class EventAction extends ActionBase {
 
             //セッションから選択中のショップ情報を取得
             ShopView sv = (ShopView)getSessionScope(AttributeConst.SELECT_SH);
-            String day=getRequestParam(AttributeConst.EV_DAY).replace("/", "-");
+
+            String day=getRequestParam(AttributeConst.GS_CREATEDAY).replace("/", "-");
 
             //パラメータの値を元にショップ情報のインスタンスを作成する
-            EventView ev = new EventView(
+            GoodsView gv = new GoodsView(
                     null,
                     sv,//セッションにあるショップ
-                    getRequestParam(AttributeConst.EV_NAME),
+                    getRequestParam(AttributeConst.GS_NAME),
+                    getRequestParam(AttributeConst.GS_SELLINGPRICE),
+                    getRequestParam(AttributeConst.GS_PURCHASEPRICE),
+                    getRequestParam(AttributeConst.GS_STOCK),
                     day,
+                    getRequestParam(AttributeConst.GS_PICTURE),
                     null,
                     null,
                     AttributeConst.DEL_FLAG_FALSE.getIntegerValue());
 
-            //ショップ情報登録
-            List<String> errors = event_service.create(ev);
+            System.out.println(gv+"だよ");
+            //グッズ情報登録
+            List<String> errors = goods_service.create(gv);
 
             if (errors.size() > 0) {
-                System.out.println(ev.getEventday());
                 //登録中にエラーがあった場合
 
                 putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
-                putRequestScope(AttributeConst.SHOP, ev); //入力されたイベント情報
+                putRequestScope(AttributeConst.GOODS, gv); //入力されたイベント情報
                 putRequestScope(AttributeConst.ERR, errors); //エラーのリスト
 
+                System.out.println(errors);
                 //新規登録画面を再表示
-                forward(ForwardConst.FW_EV_NEW);
+                forward(ForwardConst.FW_GS_NEW);
 
             } else {
                 //登録中にエラーがなかった場合
-
                 //セッションに登録完了のフラッシュメッセージを設定
                 putSessionScope(AttributeConst.FLUSH, MessageConst.I_REGISTERED.getMessage());
 
                 //一覧画面にリダイレクト
-                redirect(ForwardConst.ACT_EVENT, ForwardConst.CMD_INDEX);
+                redirect(ForwardConst.ACT_GOODS, ForwardConst.CMD_INDEX);
             }
 
         }
@@ -165,7 +170,7 @@ public class EventAction extends ActionBase {
             putRequestScope(AttributeConst.SHOP,sv);//取得したショップデータ
 
             //詳細画面を表示
-            forward(ForwardConst.FW_EV_SHOW);
+            forward(ForwardConst.FW_GS_SHOW);
 
         }
     }
@@ -181,7 +186,7 @@ public class EventAction extends ActionBase {
         ShopView sv = shop_service.findOne(toNumber(getRequestParam(AttributeConst.US_ID)));
 
         //セッションからログイン中のユーザー情報を取得
-        UserView uv = (UserView)getSessionScope(AttributeConst.SELECT_SH);
+        UserView uv = (UserView)getSessionScope(AttributeConst.LOGIN_US);
 
         if (sv == null || uv.getId() != sv.getUser().getId()) {
             //該当のショップデータが存在しない、またはログインしているユーザーがショップの作者でない場合はエラー画面を表示
@@ -193,7 +198,7 @@ public class EventAction extends ActionBase {
             putRequestScope(AttributeConst.SHOP, sv); //取得したショップ情報
 
             //編集画面を表示する
-            forward(ForwardConst.FW_EV_EDIT);
+            forward(ForwardConst.FW_GS_EDIT);
         }
     }
 
@@ -224,7 +229,7 @@ public class EventAction extends ActionBase {
                 putRequestScope(AttributeConst.ERR, errors); //エラーのリスト
 
                 //編集画面を再表示
-                forward(ForwardConst.FW_EV_EDIT);
+                forward(ForwardConst.FW_GS_EDIT);
             } else {
                 //更新中にエラーがなかった場合
 
@@ -249,7 +254,7 @@ public class EventAction extends ActionBase {
         //セッションからログイン中のユーザー情報を取得
         //トップへリダイレクト
 
-        UserView uv = (UserView)getSessionScope(AttributeConst.SELECT_SH);
+        UserView uv = (UserView)getSessionScope(AttributeConst.LOGIN_US);
         ShopView sv = shop_service.findOne(toNumber(getRequestParam(AttributeConst.SH_ID)));
 
         //有効なユーザーか承認する

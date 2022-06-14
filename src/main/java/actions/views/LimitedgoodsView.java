@@ -37,15 +37,15 @@ public class LimitedgoodsView {
     /**
      * イベントごと並び順
      */
-    private Integer evorder;
+    private String evorder;
     /**
      * イベントごと価格
      */
-    private Integer lm_sellingprice;
+    private String lm_sellingprice;
     /**
      * イベントごと販売数
      */
-    private Integer soldgoods;
+    private String soldgoods;
 
     /**
      *登録日時
@@ -56,5 +56,10 @@ public class LimitedgoodsView {
      * 更新日時
      */
     private LocalDateTime updatedAt;
+
+    /**
+     * 削除されたかどうか（有効：0、削除済み：1）
+     */
+    private Integer deleteFlag;
 
 }

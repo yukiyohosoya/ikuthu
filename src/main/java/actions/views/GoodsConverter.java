@@ -3,7 +3,8 @@ package actions.views;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import constants.AttributeConst;
+import constants.JpaConst;
 import models.Goods;
 
 /**
@@ -25,11 +26,16 @@ public class GoodsConverter {
                 gv.getName(),
                 gv.getSellingprice(),
                 gv.getPurchaseprice(),
+                gv.getStock(),
                 gv.getCreate_day(),
+                gv.getPicture(),
                 gv.getCreatedAt(),
                 gv.getUpdatedAt(),
-                gv.getPicture()
-                );
+                gv.getDeleteFlag()== null
+                ? null
+                : gv.getDeleteFlag() == AttributeConst.DEL_FLAG_TRUE.getIntegerValue()
+                        ? JpaConst.ALL_DEL_TRUE
+                        : JpaConst.ALL_DEL_FALSE);
     }
 
     /**
@@ -49,10 +55,16 @@ public class GoodsConverter {
                 g.getName(),
                 g.getSellingprice(),
                 g.getPurchaseprice(),
+                g.getStock(),
                 g.getCreate_day(),
+                g.getPicture(),
                 g.getCreatedAt(),
                 g.getUpdatedAt(),
-                g.getPicture()
+                g.getDeleteFlag()== null
+                ? null
+                : g.getDeleteFlag() == AttributeConst.DEL_FLAG_TRUE.getIntegerValue()
+                        ? JpaConst.ALL_DEL_TRUE
+                        : JpaConst.ALL_DEL_FALSE
                 );
      }
 
@@ -82,10 +94,12 @@ public class GoodsConverter {
         g.setName(gv.getName());
         g.setSellingprice(gv.getSellingprice());
         g.setPurchaseprice(gv.getPurchaseprice());
+        g.setStock(gv.getStock());
         g.setCreate_day( gv.getCreate_day());
+        g.setPicture(gv.getPicture());
         g.setCreatedAt(gv.getCreatedAt());
         g.setUpdatedAt(gv.getUpdatedAt());
-        g.setPicture(gv.getPicture());
+        g.setDeleteFlag(gv.getDeleteFlag());
 
     }
 

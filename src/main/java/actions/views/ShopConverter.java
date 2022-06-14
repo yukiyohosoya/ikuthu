@@ -25,8 +25,12 @@ public class ShopConverter {
                 sv.getId(),
                 UserConverter.toModel(sv.getUser()),
                 sv.getName(),
-                sv.getPriorityflag()
-                );
+                sv.getPriorityflag(),
+                sv.getDeleteFlag()== null
+                ? null
+                : sv.getDeleteFlag() == AttributeConst.DEL_FLAG_TRUE.getIntegerValue()
+                        ? JpaConst.ALL_DEL_TRUE
+                        : JpaConst.ALL_DEL_FALSE);
     }
 
     /**
@@ -44,7 +48,12 @@ public class ShopConverter {
                 s.getId(),
                 UserConverter.toView(s.getUser()),
                 s.getName(),
-                s.getPriorityflag()
+                s.getPriorityflag(),
+                s.getDeleteFlag()== null
+                ? null
+                : s.getDeleteFlag() == AttributeConst.DEL_FLAG_TRUE.getIntegerValue()
+                        ? JpaConst.ALL_DEL_TRUE
+                        : JpaConst.ALL_DEL_FALSE
                 );
      }
 
@@ -73,6 +82,7 @@ public class ShopConverter {
         s.setUser(UserConverter.toModel(sv.getUser()));
         s.setName(sv.getName());
         s.setPriorityflag(sv.getPriorityflag());
+        s.setDeleteFlag(sv.getDeleteFlag());
 
 
     }

@@ -3,7 +3,8 @@ package actions.views;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import constants.AttributeConst;
+import constants.JpaConst;
 import models.Limitedgoods;
 
 /**
@@ -27,7 +28,12 @@ public class LimitedgoodsConverter {
                 lgv.getLm_sellingprice(),
                 lgv.getSoldgoods(),
                 lgv.getCreatedAt(),
-                lgv.getUpdatedAt()
+                lgv.getUpdatedAt(),
+                lgv.getDeleteFlag()== null
+                ? null
+                : lgv.getDeleteFlag() == AttributeConst.DEL_FLAG_TRUE.getIntegerValue()
+                        ? JpaConst.ALL_DEL_TRUE
+                        : JpaConst.ALL_DEL_FALSE
                 );
     }
 
@@ -50,7 +56,12 @@ public class LimitedgoodsConverter {
                 lg.getLm_sellingprice(),
                 lg.getSoldgoods(),
                 lg.getCreatedAt(),
-                lg.getUpdatedAt()
+                lg.getUpdatedAt(),
+                lg.getDeleteFlag()== null
+                ? null
+                : lg.getDeleteFlag() == AttributeConst.DEL_FLAG_TRUE.getIntegerValue()
+                        ? JpaConst.ALL_DEL_TRUE
+                        : JpaConst.ALL_DEL_FALSE
                 );
      }
 
@@ -83,6 +94,7 @@ public class LimitedgoodsConverter {
         lg.setSoldgoods(lgv.getSoldgoods());
         lg.setCreatedAt(lgv.getCreatedAt());
         lg.setUpdatedAt(lgv.getUpdatedAt());
+        lg.setDeleteFlag(lgv.getDeleteFlag());
 
     }
 

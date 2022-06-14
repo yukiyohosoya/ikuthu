@@ -109,7 +109,8 @@ public class ShopAction extends ActionBase {
                     null,
                     uv,//ログインしているユーザーを、ショップ作者として登録
                     getRequestParam(AttributeConst.SH_NAME),
-                    0);//※0はデフォルト値
+                    0,//※0はデフォルト値
+                    AttributeConst.DEL_FLAG_FALSE.getIntegerValue());
 
             //ショップ情報登録
             List<String> errors = shop_service.create(sv);
@@ -132,7 +133,7 @@ public class ShopAction extends ActionBase {
                 putSessionScope(AttributeConst.FLUSH, MessageConst.I_REGISTERED.getMessage());
 
                 //一覧画面にリダイレクト
-                redirect(ForwardConst.ACT_SHOP, ForwardConst.CMD_INDEX);
+                redirect(ForwardConst.ACT_TOP, ForwardConst.CMD_INDEX);
             }
 
         }

@@ -3,6 +3,8 @@ package actions.views;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
+
 import constants.JpaConst;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -51,5 +53,11 @@ public class EventView {
      * 更新日時
      */
     private LocalDateTime updatedAt;
+
+    /**
+     * 削除されたかどうか（有効：0、削除済み：1）
+     */
+
+    private Integer deleteFlag;
 
 }

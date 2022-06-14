@@ -33,7 +33,14 @@ public enum MessageConst {
     //イベントバリデーション
     U_EVENAME("イベント名を入れてください。"),
     U_EVEDAY("開催日を入力してください。"),
-    U_EVEDAY_NO("開催日は日付で記入してください。");
+    U_EVEDAY_NO("開催日は日付で記入してください。"),
+
+    //グッズバリデーション
+    U_GSNAME("グッズ名を入れてください。"),
+    U_GSCRDAY("作成日を入力してください。"),
+    U_GSCRDAY_NO("作成日は日付で記入してください。"),
+    U_GS_PRNO("デフォルト販売価格、仕入価格を入力してください。"),
+    U_GS_PRNOIN("デフォルト販売価格、仕入価格は数字で入力してください。");
 
     //文字列
     private final String text;

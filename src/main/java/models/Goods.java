@@ -68,21 +68,34 @@ public class Goods {
     private String name;
 
     /**
-     * 販売価格
+     * 初期販売価格
      */
     @Column( name = JpaConst.GOODS_COL_SEL_PRICE ,nullable=false)
-    private Integer sellingprice;
+    private String sellingprice;
+
     /**
      * 仕入れ価格
      */
     @Column( name = JpaConst.GOODS_COL_PUR_PRICE ,nullable=false)
-    private Integer purchaseprice;
+    private String purchaseprice;
+
+    /**
+     * 在庫数
+     */
+    @Column( name = JpaConst.GOODS_COL_STOCK ,nullable=false)
+    private String stock;
 
     /**
      * 商品作成日
      */
     @Column( name = JpaConst.GOODS_COL_CREATED_DAY ,nullable=false)
-    private LocalDate create_day;
+    private String create_day;
+
+    /**
+     *商品画像ファイル名
+     */
+    @Column( name = JpaConst.GOODS_COL_PICTURE ,nullable=false)
+    private String picture;
 
     /**
      *登録日時
@@ -97,10 +110,11 @@ public class Goods {
     private LocalDateTime updatedAt;
 
     /**
-     *商品画像ファイル名
+     * 削除されたかどうか（有効：0、削除済み：1）
      */
-    @Column( name = JpaConst.GOODS_COL_PICTURE ,nullable=false)
-    private String picture;
+
+    @Column( name = JpaConst.ALL_PRIORITY_FLAG_COL_DELETE_FLAG, nullable= false)
+    private Integer deleteFlag;
 
 
 }

@@ -23,6 +23,7 @@
                     <th class="event_name">イベント日付</th>
                     <th class="event_date">イベント名</th>
                 </tr>
+                 <%--    ${event.eventday} のeventは下で定義してるvar。 eventdayはEventviewの変数名。間違えないように！--%>
                 <c:forEach var="event" items="${events}" varStatus="status">
                     <fmt:parseDate value="${event.eventday}" pattern="yyyy-MM-dd" var="eventDay" type="date" />
                     <tr class="row${status.count % 2}">

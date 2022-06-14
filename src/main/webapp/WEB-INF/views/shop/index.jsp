@@ -4,6 +4,7 @@
 <%@ page import="constants.ForwardConst" %>
 
 <c:set var="actEv" value="${ForwardConst.ACT_EVENT.getValue()}" />
+<c:set var="actGd" value="${ForwardConst.ACT_GOODS.getValue()}" />
 <c:set var="commIdx" value="${ForwardConst.CMD_INDEX.getValue()}" />
 <c:set var="commShow" value="${ForwardConst.CMD_SHOW.getValue()}" />
 <c:set var="commNew" value="${ForwardConst.CMD_NEW.getValue()}" />
@@ -20,7 +21,7 @@
         <table id="index_shop_list">
             <tbody>
                 <c:forEach var="event" items="${events}" varStatus="status">
-                    <fmt:parseDate value="${event.event_day}" pattern="yyyy-MM-dd" var="eventDay" type="date" />
+                    <fmt:parseDate value="${event.eventday}" pattern="yyyy-MM-dd" var="eventDay" type="date" />
                     <tr>
                         <th><fmt:formatDate value="${eventDay}" pattern='yyyy/MM/dd' /></th>
                         <td>${event.name}</td>
@@ -37,6 +38,6 @@
 
 
         <p><a href="<c:url value='?action=${actEv}&command=${commIdx}' />">イベント一覧</a></p>
-
+        <p><a href="<c:url value='?action=${actGd}&command=${commIdx}' />">グッズ一覧</a></p>
     </c:param>
 </c:import>

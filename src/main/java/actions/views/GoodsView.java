@@ -3,6 +3,9 @@ package actions.views;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
+
+import constants.JpaConst;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,16 +40,26 @@ public class GoodsView {
     /**
      * 販売価格
      */
-    private Integer sellingprice;
+    private String sellingprice;
     /**
      * 仕入れ価格
      */
-    private Integer purchaseprice;
+    private String purchaseprice;
+
+    /**
+     * 在庫数
+     */
+    private String stock;
 
     /**
      * 商品作成日
      */
-    private LocalDate create_day;
+    private String create_day;
+
+    /**
+     *商品画像ファイル名
+     */
+    private String picture;
 
     /**
      *登録日時
@@ -59,8 +72,10 @@ public class GoodsView {
     private LocalDateTime updatedAt;
 
     /**
-     *商品画像ファイル名
+     * 削除されたかどうか（有効：0、削除済み：1）
      */
-    private String picture;
+
+    private Integer deleteFlag;
+
 
 }

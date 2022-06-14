@@ -85,4 +85,11 @@ public class Event {
     @Column( name = JpaConst.EV_COL_UPDATED_AT ,nullable=false)
     private LocalDateTime updatedAt;
 
+    /**
+     * 削除されたかどうか（有効：0、削除済み：1）
+     */
+
+    @Column( name = JpaConst.ALL_PRIORITY_FLAG_COL_DELETE_FLAG, nullable= false)
+    private Integer deleteFlag;
+
 }

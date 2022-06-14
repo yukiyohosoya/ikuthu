@@ -72,4 +72,11 @@ public class Shop {
     @Column( name = JpaConst.SHOP_COL_PRIORITY_FLAG ,nullable=false)
     private Integer priorityflag;
 
+    /**
+     * 削除されたかどうか（有効：0、削除済み：1）
+     */
+
+    @Column( name = JpaConst.ALL_PRIORITY_FLAG_COL_DELETE_FLAG, nullable= false)
+    private Integer deleteFlag;
+
 }

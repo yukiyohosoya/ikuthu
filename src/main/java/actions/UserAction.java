@@ -96,7 +96,9 @@ public class UserAction extends ActionBase{
                         getRequestParam(AttributeConst.US_MAIL),
                         getRequestParam(AttributeConst.US_PASS),
                         null,
-                        null);
+                        null,
+                        AttributeConst.DEL_FLAG_FALSE.getIntegerValue());
+
                 String pass_k =getRequestParam(AttributeConst.US_PASS_K);
                 //アプリケーションスコープからpepper文字列を取得
                 String pepper = getContextScope(PropertyConst.PEPPER);

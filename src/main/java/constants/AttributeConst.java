@@ -42,7 +42,7 @@ public enum AttributeConst {
     SH_US_ID("shops_us_id"),
     SH_NAME("shops_name"),
 
-    //ショップ管理
+    //イベント管理
     EVENT("event"),
     EVENTS("events"),
     EV_COUNT("events_count"),
@@ -52,9 +52,27 @@ public enum AttributeConst {
     EV_NAME("ev_name"),
     EV_DAY("ev_day"),
 
+    //グッズ管理
+    GOODS("goods"),
+    GOODSS("goodss"),
+    GS_COUNT("goodss_count"),
+    GS_ID("gd_id"),
+    GS_SHOP("gd_shop"),
+    GS_INDEX_SHOP("gd_index_shop"),
+    GS_NAME("gd_name"),
+    GS_STOCK("gd_stock"),
+    GS_CREATEDAY("gd_createday"),
+    GS_SELLINGPRICE("gd_sellingprice"),
+    GS_PURCHASEPRICE("gd_purchaseprice"),
+    GS_PICTURE("gd_picture"),
+
     //ショップ管理・優先フラグ
     SH_PRI_TRUE(1),
-    SH_PRI_FALSE(0);
+    SH_PRI_FALSE(0),
+
+    //削除フラグ
+    DEL_FLAG_TRUE(1),
+    DEL_FLAG_FALSE(0);
 
     private final String text;
     private final Integer i;
