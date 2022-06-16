@@ -40,7 +40,9 @@ public enum MessageConst {
     U_GSCRDAY("作成日を入力してください。"),
     U_GSCRDAY_NO("作成日は日付で記入してください。"),
     U_GS_PRNO("デフォルト販売価格、仕入価格を入力してください。"),
-    U_GS_PRNOIN("デフォルト販売価格、仕入価格は数字で入力してください。");
+    U_GS_PRNOIN("デフォルト販売価格、仕入価格は数字で入力してください。"),
+    U_GS_STOCKNO("在庫数を入力してください。"),
+    U_GS_STOCKNOIN("在庫数は数字で入力してください。");
 
     //文字列
     private final String text;

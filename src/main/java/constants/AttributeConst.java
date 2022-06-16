@@ -66,6 +66,13 @@ public enum AttributeConst {
     GS_PURCHASEPRICE("gd_purchaseprice"),
     GS_PICTURE("gd_picture"),
 
+    //イベント限定グッズ管理
+    LMEVGOODS("lmevgoods"),
+    LMEVGOODSS("lmevgoodss"),
+    LMEVGS_COUNT("lmevgoodss_count"),
+    LMEVGS_SELLINGPRICE("lmevgoods_sellingprice"),
+    LMEVGS_CHECK("lmevgoods_check"),
+
     //ショップ管理・優先フラグ
     SH_PRI_TRUE(1),
     SH_PRI_FALSE(0),

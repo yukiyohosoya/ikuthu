@@ -9,6 +9,7 @@ public enum ForwardConst {
     ACT_TOP("Top"),
     ACT_USER("User"),
     ACT_EVENT("Event"),
+    ACT_LMEVEGOODS("Limitedgoods"),
     ACT_SHOP("Shop"),
     ACT_GOODS("Goods"),
     ACT_AUTH("Auth"),
@@ -51,7 +52,12 @@ public enum ForwardConst {
     FW_GS_INDEX("goods/index"),
     FW_GS_SHOW("goods/show"),
     FW_GS_NEW("goods/new"),
-    FW_GS_EDIT("goods/edit");
+    FW_GS_EDIT("goods/edit"),
+
+    FW_LMGS_SELECT("lm_le_goods/select"),
+    FW_LMGS_SHOW("lm_le_goods/show"),
+    FW_LMGS_NEW("lm_le_goods/new"),
+    FW_LMGS_EDIT("lm_le_goods/edit");
 
     //文字列
     private final String text;

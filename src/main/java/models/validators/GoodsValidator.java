@@ -44,6 +44,11 @@ public class GoodsValidator {
             errors.add(priceError);
         }
 
+        //在庫のチェック
+        String stockError = validatestock(gv.getStock());
+        if(!stockError.equals("")) {
+            errors.add(stockError);
+        }
 
         return errors;
 
@@ -84,8 +89,9 @@ public class GoodsValidator {
     }
 
     /**
-     * 内容に入力値があるかをチェックし。、その後日付が入力されているのか。なければエラーメッセージを返却
-     * @param day 内容
+     * 価格関係の内容に入力値があるかをチェック。数字や入力がなければエラーメッセージを返却
+     * @param sellingprice 内容
+     * @param purchaseprice 内容
      * @return エラーメッセージ
      */
     private static String validatePrice(String sellingprice,String purchaseprice) {
@@ -102,6 +108,23 @@ public class GoodsValidator {
         //入力値がある場合は空文字を返却
         return "";
     }
+    /**
+     * 在庫の内容に入力値があるかをチェック。数字や入力がなければエラーメッセージを返却
+     * @param stock 内容
+     * @return エラーメッセージ
+     */
+    private static String validatestock(String stock) {
+        if(stock==null||stock.equals("")) {
+            return MessageConst.U_GS_STOCKNO.getMessage();
+        }
 
+        boolean st = stock.chars().allMatch( Character::isDigit );
+        if(!st) {
+            return MessageConst.U_GS_STOCKNOIN.getMessage();
+        }
+
+        //入力値がある場合は空文字を返却
+        return "";
+    }
 
 }

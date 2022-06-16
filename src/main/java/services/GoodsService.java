@@ -8,6 +8,7 @@ import actions.views.ShopView;
 import actions.views.EventView;
 import actions.views.GoodsConverter;
 import actions.views.GoodsView;
+import actions.views.LimitedgoodsView;
 import constants.JpaConst;
 import models.Goods;
 import models.validators.EventValidator;
@@ -45,6 +46,38 @@ public class GoodsService extends ServiceBase {
                 .setParameter(JpaConst.JPQL_PARM_SHOP, ShopConverter.toModel(shop))
                 .setFirstResult(JpaConst.ROW_PER_PAGE * (page-1))
                 .setMaxResults(JpaConst.ROW_PER_PAGE)
+                .getResultList();
+        return GoodsConverter.toViewList(goods);
+    }
+
+    /**
+     * 指定したショップが作成したグッズデータを、すべて取得しGoodsViewのリストで返却する
+     * @param shop ショップ
+     * @param page ページ数
+     * @return 一覧画面に表示するデータのリスト
+     */
+    public List<GoodsView> getMineAll(ShopView shop){
+
+        List<Goods> goods = em.createNamedQuery(JpaConst.Q_GOODS_GET_ALL_MINE,Goods.class)
+                .setParameter(JpaConst.JPQL_PARM_SHOP, ShopConverter.toModel(shop))
+                .setFirstResult(0)
+                .setMaxResults(5)
+                .getResultList();
+        return GoodsConverter.toViewList(goods);
+    }
+
+
+    /**
+     * 既に作成したイベントごと商品以外を指定し、該当したものをGoodsViewのリストで返却する
+     * @param shop ショップ
+     * @param page ページ数
+     * @return 一覧画面に表示するデータのリスト
+     */
+    public List<GoodsView> getNotLmevgoodsMine(ShopView shop,List<LimitedgoodsView> select_lmevgoods){
+
+        List<Goods> goods = em.createNamedQuery(JpaConst.Q_GOODS_US_COUNT_ALL_MINE,Goods.class)
+                .setParameter(JpaConst.JPQL_PARM_SHOP, ShopConverter.toModel(shop))
+                .setParameter(JpaConst.JPQL_PARM_SHOP, ShopConverter.toModel(shop))
                 .getResultList();
         return GoodsConverter.toViewList(goods);
     }

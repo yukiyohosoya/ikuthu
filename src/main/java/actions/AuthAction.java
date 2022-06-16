@@ -113,6 +113,8 @@ public class AuthAction extends ActionBase{
 
         //セッションからログイン中ユーザーのパラメータを削除
         removeSessionScope(AttributeConst.LOGIN_US);
+        //選択してる店舗も消す
+        removeSessionScope(AttributeConst.SELECT_SH);
 
         //セッションにログアウト時のフラッシュメッセージを追加
         putSessionScope(AttributeConst.FLUSH,MessageConst.I_LOGOUT.getMessage());

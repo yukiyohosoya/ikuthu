@@ -155,14 +155,14 @@ public class EventAction extends ActionBase {
     public void show() throws ServletException, IOException {
 
         //idを条件にショップデータを取得
-        ShopView sv = shop_service.findOne(toNumber(getRequestParam(AttributeConst.SH_ID)));
+        EventView ev = event_service.findOne(toNumber(getRequestParam(AttributeConst.EV_ID)));
 
-        if(sv==null) {
+        if(ev==null) {
             //該当のショップデータが存在しない場合はエラー画面を表示
             forward(ForwardConst.FW_ERR_UNKNOWN);
             return;
         }else{
-            putRequestScope(AttributeConst.SHOP,sv);//取得したショップデータ
+            putRequestScope(AttributeConst.EVENT,ev);//取得したショップデータ
 
             //詳細画面を表示
             forward(ForwardConst.FW_EV_SHOW);

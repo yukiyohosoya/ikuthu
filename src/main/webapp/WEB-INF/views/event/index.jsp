@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="constants.ForwardConst" %>
 
+<c:set var="actLmg" value="${ForwardConst.ACT_LMEVEGOODS.getValue()}" />
 <c:set var="actEv" value="${ForwardConst.ACT_EVENT.getValue()}" />
 <c:set var="commIdx" value="${ForwardConst.CMD_INDEX.getValue()}" />
 <c:set var="commShow" value="${ForwardConst.CMD_SHOW.getValue()}" />
@@ -22,13 +23,17 @@
                 <tr>
                     <th class="event_name">イベント日付</th>
                     <th class="event_date">イベント名</th>
+                    <th class="event_date">詳細＆商品追加</th>
                 </tr>
                  <%--    ${event.eventday} のeventは下で定義してるvar。 eventdayはEventviewの変数名。間違えないように！--%>
                 <c:forEach var="event" items="${events}" varStatus="status">
                     <fmt:parseDate value="${event.eventday}" pattern="yyyy-MM-dd" var="eventDay" type="date" />
                     <tr class="row${status.count % 2}">
+
                         <td class="event_date"> <fmt:formatDate value="${eventDay}" pattern='yyyy/MM/dd' /></td>
                         <td class="event_title">${event.name}</td>
+                        <td class="event_title"><a href="<c:url value='?action=${actEv}&command=${commShow}&ev_id=${event.id}' />">詳細</a></td>
+
                     </tr>
                 </c:forEach>
             </tbody>
@@ -42,7 +47,7 @@
                         <c:out value="${i}" />&nbsp;
                     </c:when>
                     <c:otherwise>
-                        <a href="<c:url value='?action=${actRep}&command=${commIdx}&page=${i}' />"><c:out value="${i}" /></a>&nbsp;
+                        <a href="<c:url value='?action=${actEv}&command=${commIdx}&page=${i}' />"><c:out value="${i}" /></a>&nbsp;
                     </c:otherwise>
                 </c:choose>
             </c:forEach>

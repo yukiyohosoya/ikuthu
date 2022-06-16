@@ -28,11 +28,12 @@ import lombok.Setter;
 @Table(name = JpaConst.TABLE_LMEVGOODS)
 @NamedQueries({
     @NamedQuery(
+            name = JpaConst.Q_LIMIGOODS_GET_ALL_MINE,
+            query = JpaConst.Q_LIMIGOODS_GET_ALL_MINE_DEF),
+    @NamedQuery(
             name = JpaConst.Q_LIMIGOODS_US_COUNT_ALL_MINE,
             query = JpaConst.Q_LIMIGOODS_US_COUNT_ALL_MINE_DEF),
-    @NamedQuery(
-            name = JpaConst.Q_LIMIGOODS_GET_ALL_MINE,
-            query = JpaConst.Q_LIMIGOODS_GET_ALL_MINE_DEF)
+
 })
 
 @Getter // すべてのクラスフィールドに好いてgetterを自動生成する（Lombok）

@@ -4,7 +4,8 @@ import java.util.List;
 
 import actions.views.ShopConverter;
 import actions.views.ShopView;
-
+import actions.views.EventConverter;
+import actions.views.EventView;
 import actions.views.LimitedgoodsConverter;
 import actions.views.LimitedgoodsView;
 import constants.JpaConst;
@@ -14,32 +15,29 @@ import models.Limitedgoods;
  * イベントテーブルの操作に関わる処理を行うクラス
  */
 public class LimitedgoodsService extends ServiceBase {
+
     /**
-     * 指定したショップが作成したイベントデータを、指定されたページ数の一覧画面に表示する分取得しLimitedgoodsViewのリストで返却する
-     * @param shop ショップ
-     * @param page ページ数
+     * 指定したイベントが作成したイベント限定グッズデータを取得しLimitedgoodsViewのリストで返却する
+     * @param event イベント
      * @return 一覧画面に表示するデータのリスト
      */
-    public List<LimitedgoodsView> getMinePerPage(ShopView shop,int page){
+    public List<LimitedgoodsView> getMine(EventView event){
 
-        List<Limitedgoods> shops = em.createNamedQuery(JpaConst.Q_LIMIGOODS_GET_ALL_MINE,Limitedgoods.class)
-                .setParameter(JpaConst.JPQL_PARM_SHOP, ShopConverter.toModel(shop))
-                .setFirstResult(JpaConst.ROW_PER_PAGE * (page-1))
-                .setMaxResults(JpaConst.ROW_PER_PAGE)
+        List<Limitedgoods> lmevgoods = em.createNamedQuery(JpaConst.Q_LIMIGOODS_GET_ALL_MINE,Limitedgoods.class)
+                .setParameter(JpaConst.JPQL_PARM_EVENT, EventConverter.toModel(event))
                 .getResultList();
-        return LimitedgoodsConverter.toViewList(shops);
+        return LimitedgoodsConverter.toViewList(lmevgoods);
     }
 
     /**
-     * 指定したショップが作成したイベントデータの件数を取得し、返却する
-     * @param shop
+     * 指定したEventが作成したイベント限定グッズの件数を取得し、返却する
+     * @param event
      * @return イベントデータの件数
      */
-
-    public long countAllMine(ShopView shop) {
+    public long countAllMine(EventView event) {
 
         long count =(long)em.createNamedQuery(JpaConst.Q_LIMIGOODS_US_COUNT_ALL_MINE,Long.class)
-                .setParameter(JpaConst.JPQL_PARM_SHOP, ShopConverter.toModel(shop))
+                .setParameter(JpaConst.JPQL_PARM_EVENT, EventConverter.toModel(event))
                 .getSingleResult();
         return count;
     }
@@ -150,21 +148,21 @@ public class LimitedgoodsService extends ServiceBase {
      * イベントデータを1件登録する
      * @param sv イベントデータ
      */
-    private void createInternal(LimitedgoodsView  sv) {
+    private void createInternal(LimitedgoodsView  lgv) {
         em.getTransaction().begin();
-        em.persist(LimitedgoodsConverter.toModel(sv));
+        em.persist(LimitedgoodsConverter.toModel(lgv));
         em.getTransaction().commit();
     }
 
     /**
      * イベントデータを更新する
-     * @param sv イベントデータ
+     * @param lgv イベントデータ
      */
-    private void updateInternal(LimitedgoodsView  sv) {
+    private void updateInternal(LimitedgoodsView  lgv) {
 
         em.getTransaction().begin();
-        Limitedgoods s = findPneInternal(sv.getId());
-        LimitedgoodsConverter.copyViewToModel(s, sv);
+        Limitedgoods lg = findPneInternal(lgv.getId());
+        LimitedgoodsConverter.copyViewToModel(lg, lgv);
         em.getTransaction().commit();
     }
 
