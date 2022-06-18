@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -122,6 +124,28 @@ public abstract class ActionBase {
     }
 
     /**
+     * URLを構築しリダイレクトを行う（showのID付き）
+     * @param action パラメータに設定する値
+     * @param command パラメータに設定する値
+     * @throws ServletException
+     * @throws IOException
+     */
+
+    protected void redirectSwho(ForwardConst action, ForwardConst command,String id)
+            throws ServletException, IOException {
+
+        //URLを構築
+        String redirectUrl = request.getContextPath() + "/?action=" + action.getValue();
+        if (command != null) {
+            redirectUrl = redirectUrl + "&command=" + command.getValue() + id ;
+        }
+
+        //URLへリダイレクト
+        response.sendRedirect(redirectUrl);
+
+    }
+
+    /**
      * CSRF対策 token不正の場合はエラー画面を表示
      * @return true: token有効 false: token不正
      * @throws ServletException
@@ -206,6 +230,18 @@ public abstract class ActionBase {
 
     protected String getRequestParam(AttributeConst key) {
         return request.getParameter(key.getValue());
+    }
+
+    /**
+     * チェックボックスの値を配列で取得し、リストにして返す
+     * @param key パラメータ名
+     * @return パラメータの値
+     */
+
+    protected List<String> getCheckListtoArray(String key) {
+        String[] hairetu = request.getParameterValues(key);
+        List<String> list = Arrays.asList(hairetu);
+        return list;
     }
 
     /**

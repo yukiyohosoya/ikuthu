@@ -10,6 +10,16 @@
 
 <c:import url="/WEB-INF/views/layout/app.jsp">
     <c:param name="content">
+    <div class="in_main">
+
+        <h3>在庫！いまいくつだっけ…</h3>
+        <div class="exp">
+            <p>そんな時に『Ikuthu？』</p>
+            <p>オンラインで簡単管理</p>
+        </div>
+
+
+
         <c:if test="${loginError}">
             <div id="flush_error">
                 メールアドレスかパスワードが間違っています。
@@ -30,9 +40,9 @@
             <input type="password" name="${AttributeConst.US_PASS.getValue()}" />
             <br/><br/>
             <input type="hidden" name="${AttributeConst.TOKEN.getValue()}" value="${_token}" />
-            <button type="submit">ログイン</button>
+            <button type="submit" class="button">ログイン</button>
         </form>
-         <p><a href="<c:url value='?action=${actUs}&command=${comNew}' />">ユーザー登録</a></p>
-
+         <p  class="button007"><a href="<c:url value='?action=${actUs}&command=${comNew}' />" class="btn btn--orange btn--radius">ユーザー登録</a></p>
+    </div>
     </c:param>
     </c:import>

@@ -1,13 +1,16 @@
 package services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import actions.views.ShopConverter;
 import actions.views.ShopView;
 import actions.views.EventConverter;
 import actions.views.EventView;
+import actions.views.GoodsView;
 import actions.views.LimitedgoodsConverter;
 import actions.views.LimitedgoodsView;
+import constants.AttributeConst;
 import constants.JpaConst;
 import models.Limitedgoods;
 
@@ -62,37 +65,36 @@ public class LimitedgoodsService extends ServiceBase {
         return LimitedgoodsConverter.toView(findPneInternalName(name));
     }
 
-//    /**
-//     * 画面から入力されたイベントの登録内容を元にデータを1件作成し、イベントテーブルに登録する
-//     * @param sv イベントの登録内容
-//     * @return バリデーションで発生したエラーのリスト
-//     */
-//    public List<String> create(LimitedgoodsView sv){
-//        List<String>errors=LimitedgoodsValidator.Validate(sv,this);
-//        if(errors.size()==0) {
-//            createInternal(sv);
-//        }
-//        //バリデーションで発生したエラーを返却（エラーがなければ0件の空リスト）
-//        return errors;
-//    }
+      /**
+       * バリデートクリアした配列を繰り返しで登録
+       * @param sv イベントの登録内容
+
+       */
+      public void create(LimitedgoodsView lgv){
+          LocalDateTime ldt =LocalDateTime.now();
+          lgv.setCreatedAt(ldt);
+          lgv.setUpdatedAt(ldt);
+          createInternal(lgv);
+      }
+
+
+      /**
+       * 画面から入力されたイベントの登録内容を元に、イベントデータを更新する
+       * @param sv イベントの更新内容
+       * @return バリデーションで発生したエラーのリスト
+       */
+
+//      public List<String> update(LimitedgoodsView sv){
+
+//          //バリデーションを行う
+//          List<String>errors=LimitedgoodsValidator.Validate(sv,this);
 //
-//    /**
-//     * 画面から入力されたイベントの登録内容を元に、イベントデータを更新する
-//     * @param sv イベントの更新内容
-//     * @return バリデーションで発生したエラーのリスト
-//     */
-//
-//    public List<String> update(LimitedgoodsView sv){
-//
-//        //バリデーションを行う
-//        List<String>errors=LimitedgoodsValidator.Validate(sv,this);
-//
-//        if(errors.size()==0) {
-//            updateInternal(sv);
-//        }
-//        //バリデーションで発生したエラーを返却（エラーがなければ0件の空リスト）
-//        return errors;
-//    }
+//          if(errors.size()==0) {
+//              updateInternal(sv);
+//          }
+//          //バリデーションで発生したエラーを返却（エラーがなければ0件の空リスト）
+//          return errors;
+//      }
 
     /**
      * idを条件にデータを1件取得する

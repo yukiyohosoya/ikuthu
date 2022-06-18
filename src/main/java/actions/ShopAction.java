@@ -231,13 +231,12 @@ public class ShopAction extends ActionBase {
     }
 
     /**
-     * ショップのログイン処理を行う
+     * ショップの選択処理を行う
      * @throws ServletException
      * @throws IOException
      */
     public void select() throws ServletException, IOException {
 
-        //作成ユーザー以外がショップにログインしてはまずいので、承認を行う。
         //リクエストスコープに入っているショップidを条件にショップデータを取得
         //セッションからログイン中のユーザー情報を取得
         //トップへリダイレクト
@@ -245,28 +244,11 @@ public class ShopAction extends ActionBase {
         UserView uv = (UserView)getSessionScope(AttributeConst.LOGIN_US);
         ShopView sv = shop_service.findOne(toNumber(getRequestParam(AttributeConst.SH_ID)));
 
-        //有効なユーザーか承認する
-      //  boolean isValidShop = shop_service.validateShop(uv, sv);
-     //   System.out.println(isValidShop);
-     //  if(isValidShop) {
-           //認証成功の場合
-
-           //CSRF対策 tokenのチェック
-       //    if (checkToken()) {
-               //セッションにログインしたユーザーを設定
+               //セッションに選択したShopを設定
                putSessionScope(AttributeConst.SELECT_SH,sv);
                //トップへリダイレクト
                redirect(ForwardConst.ACT_SHOP,ForwardConst.CMD_INDEX);
-    //       }
-    //   }else{
-           //認証失敗
-           //CRF対策用トークンを設定
-   //        putRequestScope(AttributeConst.TOKEN,getTokenId());
-           //承認失敗エラーメッセージ表示フラグを建てる
-  //         putRequestScope(AttributeConst.LOGIN_ERR,true);
-           //ログイン画面を表示
-  //        forward(ForwardConst.FW_TOP_INDEX);
-  //     }
+
     }
 
 

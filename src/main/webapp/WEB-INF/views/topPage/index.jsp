@@ -14,33 +14,28 @@
 <c:import url="../layout/app.jsp">
     <c:param name="content">
     <c:out value="${loginError}"/>
-<%--         <c:if test="${loginError}"> --%>
-<!--             <div id="flush_error"> -->
-<!--                 店舗ログインに失敗しました。 -->
-<!--             </div> -->
-<%--         </c:if> --%>
-        <h2>ようこそ</h2>
-        <c:choose>
+    <div class="in_main">
+
+          <h2>ようこそ</h2>
+          <c:choose>
+
             <c:when test="${shops_count == 0}">
                 <h3>ショップがありません</h3>
                 <p>ショップを作成してみてください！</p>
             </c:when>
             <c:otherwise>
-               <h3>管理するショップを選んでください。</h3>
-                <ul>
-                <c:forEach var="shop" items="${shops}" varStatus="status">
-
-                     <li><a href="<c:url value='?action=${actSh}&command=${commSl}&sh_id=${shop.id}' />">${shop.name}</a></li>
-
-
-                </c:forEach>
-                </ul>
+                <h4>管理するショップを選んでください。</h4>
+                    <ul>
+                    <c:forEach var="shop" items="${shops}" varStatus="status">
+                        <li><a href="<c:url value='?action=${actSh}&command=${commSl}&sh_id=${shop.id}' />">${shop.name}</a></li>
+                    </c:forEach>
+                    </ul>
             </c:otherwise>
 
         </c:choose>
         <p><a href="<c:url value='?action=${actSh}&command=${commNew}' />">新規ショップ登録</a></p>
 
-
+    </div>
 
     </c:param>
 </c:import>

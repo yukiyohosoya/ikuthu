@@ -71,7 +71,7 @@ public enum AttributeConst {
     LMEVGOODSS("lmevgoodss"),
     LMEVGS_COUNT("lmevgoodss_count"),
     LMEVGS_SELLINGPRICE("lmevgoods_sellingprice"),
-    LMEVGS_CHECK("lmevgoods_check"),
+    LMEVGS_SOLDGOODS("lmevgoods_soldgoods"),
 
     //ショップ管理・優先フラグ
     SH_PRI_TRUE(1),

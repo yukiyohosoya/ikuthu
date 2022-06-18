@@ -42,7 +42,12 @@ public enum MessageConst {
     U_GS_PRNO("デフォルト販売価格、仕入価格を入力してください。"),
     U_GS_PRNOIN("デフォルト販売価格、仕入価格は数字で入力してください。"),
     U_GS_STOCKNO("在庫数を入力してください。"),
-    U_GS_STOCKNOIN("在庫数は数字で入力してください。");
+    U_GS_STOCKNOIN("在庫数は数字で入力してください。"),
+
+    //イベントごとグッズバリデーション
+    U_LEGSNULL("ページを更新してチェックを入れなおしてください。"),
+    U_LEGSNOPRICE("販売価格または販売数が空欄です。"),
+    U_LEGS_PRNOIN("販売価格または販売数は数字で入力してください。");
 
     //文字列
     private final String text;

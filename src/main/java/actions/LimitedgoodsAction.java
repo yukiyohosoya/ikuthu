@@ -1,9 +1,11 @@
 package actions;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Part;
 
 import actions.views.UserView;
 import actions.views.EventView;
@@ -14,6 +16,7 @@ import constants.AttributeConst;
 import constants.ForwardConst;
 import constants.JpaConst;
 import constants.MessageConst;
+import models.validators.LimitedgoodsValidator;
 import services.EventService;
 import services.GoodsService;
 import services.LimitedgoodsService;
@@ -51,39 +54,10 @@ public class LimitedgoodsAction extends ActionBase {
         event_service.close();
         goods_service.close();
     }
-    /**
-     * イベントごとグッズ情報登録画面を表示する
-     * @throws ServletException
-     * @throws IOException
-     */
-    public void index() throws ServletException, IOException {
 
-        //セッションからショップ情報を取得
-        ShopView select_shop = (ShopView) getSessionScope(AttributeConst.SELECT_SH);
-        //クエリからidを条件イベントデータを取得
-        EventView ev = event_service.findOne(toNumber(getRequestParam(AttributeConst.EV_ID)));
-
-        List<LimitedgoodsView> select_lmevgoods = limievgoods_service.getMine(ev);
-
-         //選択中イベントから既に作成したイベントごとgoods件数を取得
-         long lmevGoodsCount = limievgoods_service.countAllMine(ev);
-
-         putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
-         putRequestScope(AttributeConst.LMEVGOODSS,select_lmevgoods); //index用に取得したイベント
-         putRequestScope(AttributeConst.LMEVGS_COUNT,lmevGoodsCount); //Goods全件数
-
-          //セッションにフラッシュメッセージが設定されている場合はリクエストスコープに移し替え、セッションからは削除する
-         String flush = getSessionScope(AttributeConst.FLUSH);
-          if (flush != null) {
-              putRequestScope(AttributeConst.FLUSH, flush);
-              removeSessionScope(AttributeConst.FLUSH);
-          }
-        //一覧画面を表示
-        forward(ForwardConst.FW_LMGS_SELECT);
-    }
 
     /**
-     * イベントごとグッズ情報登録画面を表示する
+     * イベントごとグッズ情報を登録する画面を表示する
      * @throws ServletException
      * @throws IOException
      */
@@ -99,19 +73,9 @@ public class LimitedgoodsAction extends ActionBase {
         //選択中イベントから既に作成したイベントごとgoods件数を取得
         long lmevGoodsCount = limievgoods_service.countAllMine(ev);
 
-        //作成したものがあるかどうかでの分岐.
-        //もしリストが空なら
-        if (select_lmevgoods == null || select_lmevgoods.size() == 0) {
-            System.out.println("からやで");
-
-          }else {
-              System.out.println("から以外やで");
-          }
         List<GoodsView> goodslist = goods_service.getMineAll(select_shop);
-        //
-       // List<GoodsView> notLimev_goods =goods_service.getNotLmevgoodsMine(select_shop,select_lmevgoods);
 
-         putRequestScope(AttributeConst.EV_ID, getRequestParam(AttributeConst.EV_ID)); //CSRF対策用トークン
+         putRequestScope(AttributeConst.EV_ID, ev.getId()); //イベントID
          putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
          putRequestScope(AttributeConst.GOODSS,goodslist); //index用に取得したイベント
          putRequestScope(AttributeConst.LMEVGS_COUNT,lmevGoodsCount); //Goods全件数
@@ -126,23 +90,7 @@ public class LimitedgoodsAction extends ActionBase {
         forward(ForwardConst.FW_LMGS_SELECT);
     }
 
-    /**
-     * 新規登録画面を表示する
-     * @throws ServletException
-     * @throws IOException
-     */
-    public void entryNew() throws ServletException, IOException {
 
-        //セッションからショップ情報を取得
-        ShopView select_shop = (ShopView) getSessionScope(AttributeConst.SELECT_SH);
-        //クエリからidを条件イベントデータを取得
-        EventView ev = event_service.findOne(toNumber(getRequestParam(AttributeConst.EV_ID)));
-
-        putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
-
-        //新規登録画面を表示
-        forward(ForwardConst.FW_LMGS_NEW);
-        }
     /**
      * 新規登録を行う
      * @throws ServletException
@@ -150,37 +98,70 @@ public class LimitedgoodsAction extends ActionBase {
      */
     public void create() throws ServletException, IOException {
 
-        //CSRF対策 tokenのチェック
- //       if(checkToken()) {
+            //CSRF対策 tokenのチェック
+            if(checkToken()) {
 
-            //セッションから選択中のショップ情報を取得
-            ShopView sv = (ShopView)getSessionScope(AttributeConst.SELECT_SH);
+            //セッションからショップ情報を取得
+            ShopView select_shop = (ShopView) getSessionScope(AttributeConst.SELECT_SH);
+            //クエリからidを条件イベントデータを取得
+            EventView ev = event_service.findOne(toNumber(getRequestParam(AttributeConst.EV_ID)));
 
-            System.out.println(getRequestParam(AttributeConst.LMEVGS_CHECK) +"と"+
-                    getRequestParam(AttributeConst.LMEVGS_SELLINGPRICE));
+            //チェックボックスから配列を取得
+            System.out.println(getRequestParam(AttributeConst.EV_ID));
+            String[] gs_id = request.getParameterValues(AttributeConst.GS_ID.getValue());
+            String[] price = request.getParameterValues(AttributeConst.LMEVGS_SELLINGPRICE.getValue());
+            String[] soldgoods = request.getParameterValues(AttributeConst.LMEVGS_SOLDGOODS.getValue());
 
-            forward(ForwardConst.FW_LMGS_SELECT);
-//            if (errors.size() > 0) {
-//                //登録中にエラーがあった場合
-//
-//                putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
-//                putRequestScope(AttributeConst.GOODS, gv); //入力されたイベント情報
-//                putRequestScope(AttributeConst.ERR, errors); //エラーのリスト
-//
-//                System.out.println(errors);
-//                //新規登録画面を再表示
-//                forward(ForwardConst.FW_LMGS_SELECT);
-//
-//            } else {
-//                //登録中にエラーがなかった場合
-//                //セッションに登録完了のフラッシュメッセージを設定
-//                putSessionScope(AttributeConst.FLUSH, MessageConst.I_REGISTERED.getMessage());
-//
-//                //一覧画面にリダイレクト
-//                redirect(ForwardConst.ACT_LMEVEGOODS, ForwardConst.CMD_SELECT);
-//            }
+            //インスタンスを作ってからバリデートを行いたいが情報が配列ななため、このActionだけ例外。
+            //配列を渡してエラーがないかチェック。
+            List<String>errors=LimitedgoodsValidator.Validate(gs_id,price,soldgoods);
+            if (errors.size() > 0) {
+                  //登録中にエラーがあった場合
 
-//        }
+                //選択中イベントから既に作成したイベントごとgoods件数を取得
+                long lmevGoodsCount = limievgoods_service.countAllMine(ev);
+
+                List<GoodsView> goodslist = goods_service.getMineAll(select_shop);
+
+                 putRequestScope(AttributeConst.EV_ID, ev.getId()); //イベントID
+                 putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
+                 putRequestScope(AttributeConst.GOODSS,goodslist); //index用に取得したイベント
+                 putRequestScope(AttributeConst.LMEVGS_COUNT,lmevGoodsCount); //Goods全件数
+                 putRequestScope(AttributeConst.ERR, errors); //エラーのリスト
+
+                  System.out.println(errors);
+                  //新規登録画面を再表示
+                  forward(ForwardConst.FW_LMGS_SELECT);
+
+              } else {
+                  //登録中にエラーがなかった場合
+                  //空になるまで配列をまわす。
+                  for (int i = 0; i < gs_id.length; i++){
+                      GoodsView gv =goods_service.findOne(toNumber(gs_id[i]));
+
+                      LimitedgoodsView lgv = new LimitedgoodsView(
+                              null,
+                              ev,//セッションにあるショップ
+                              gv,
+                              "0",
+                              price[i],
+                              soldgoods[i],
+                              null,
+                              null,
+                              AttributeConst.DEL_FLAG_FALSE.getIntegerValue());
+                      limievgoods_service.create(lgv);
+                  }
+
+
+                  //セッションに登録完了のフラッシュメッセージを設定
+                  putSessionScope(AttributeConst.FLUSH, MessageConst.I_REGISTERED.getMessage());
+
+                  //イベントのインデックスにリダイレクト
+                  redirectSwho(ForwardConst.ACT_EVENT, ForwardConst.CMD_SHOW,"&ev_id="+ev.getId().toString());
+              }
+
+          }
+
     }
 
     /**
@@ -275,5 +256,21 @@ public class LimitedgoodsAction extends ActionBase {
     }
 
 
+//
+//    Part part = request.getPart("picture");
+//    String picture = this.getFileName(part);
+//    part.write(context.getRealPath("/WEB-INF/uploaded") + "/" + picture);
+//
+//    private String getFileName(Part part) {
+//        String name = null;
+//        for (String dispotion : part.getHeader("Content-Disposition").split(";")) {
+//            if (dispotion.trim().startsWith("filename")) {
+//                name = dispotion.substring(dispotion.indexOf("=") + 1).replace("\"", "").trim();
+//                name = name.substring(name.lastIndexOf("\\") + 1);
+//                break;
+//            }
+//        }
+//        return name;
+//    }
 
 }

@@ -14,6 +14,7 @@
 <!DOCTYPE html>
 <html lang="ja">
     <head>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <meta charset="UTF-8">
         <title><c:out value="Ikuthu？"/></title>
         <link rel="stylesheet" href="<c:url value='/css/reset.css' />">
@@ -24,25 +25,34 @@
             <div id="header">
                 <h1><a href="<c:url value='?action=${actTop}&command=${commIdx}' />">Ikuthu？</a></h1>
                 <div id="header_menu">
-
                         <c:if test="${sessionScope.login_user !=null}">
-                        <div id="user_name">
-                             <c:out value="${sessionScope.login_user.name}"/>
-                             &nbsp;さん&nbsp;&nbsp;&nbsp;
-                             <a href="<c:url value='?action=${actAuth}&command=${commOut}' />">ログアウト</a>&nbsp;
+                            <div id="user_name">
+                                <c:out value="${sessionScope.login_user.name}"/>
+                                 &nbsp;さん&nbsp;&nbsp;&nbsp;
+                                <a href="<c:url value='?action=${actAuth}&command=${commOut}' />">ログアウト</a>&nbsp;
+                            </div>
+                        </c:if>
+
+
+            　
+                   　   　<c:if test="${sessionScope.select_shop !=null}">
+                         <div id="shop_name">
+                             <c:out value="${sessionScope.select_shop.name}"/>
+                             &nbsp;&nbsp;&nbsp;&nbsp;
+                             <a href="<c:url value='?action=${actAuth}&command=${commOut}' />">ショップ変更</a>&nbsp;
                         </div>
                         </c:if>
-               　
-               　   　<c:if test="${sessionScope.select_shop !=null}">
-                     <div id="shop_name">
-                         <c:out value="${sessionScope.select_shop.name}"/>
-                         <a href="<c:url value='?action=${actAuth}&command=${commOut}' />">ショップ変更</a>&nbsp;
-                    </div>
-                  </c:if>
+
+
                 </div>
             </div>
-            <div id="content">${param.content}</div>
+                <div id="main">
+                    <div id="content">${param.content}</div>
+                </div>
+            </div>
+
             <div id="footer">by taro kirameki.</div>
         </div>
+
     </body>
 </html>

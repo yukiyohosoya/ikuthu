@@ -7,19 +7,18 @@ body {
 }
 
 #header {
-    display:-webkit-flex;
-    display:flex;
     width: 100%;
     height: 70px;
     background-color: #FFDC4A;
 }
 
 #header h1 {
-     width: 100%;
-    text-align: center;
+      display:-webkit-flex;
+      display: flex;
+      justify-content: center;
+    width: 100%;
     font-size: 30px;
     font-family: "Nico Moji";
-    background-color: #000000;
 }
 
 #header a {
@@ -28,40 +27,139 @@ body {
 }
 
 #header_menu {
-
+    display:-webkit-flex;
+    display:flex;
+    justify-content:space-between;
     width: 100%;
 
 }
-#user_menu {
-
-    width: 30%;
+#user_name {
+    margin-left: 15px;
+    text-align:  center;
+    width: 20%;
 
 }
 #shop_name {
-
-    width: 30%;
+    margin-right: 15px;
+    text-align:  center;
 
 }
 
-
-
-h1 {
-    font-size: 30px;
-    display: inline;
-    font-family: "Nico Moji";
+#main {
+    display:-webkit-flex;
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
 #content {
     width: 70%;
-    margin-top: 15px;
-    padding-left: 3%;
-
+}
+.in_main {
+    text-align:  center;
 }
 
+.in_main h3{
 
+      font-size: 30px;
+       text-align:center;
+        margin:0 auto;
+         margin-top: 30px;
+         margin-bottom: 10px;
+          position: relative;
+      padding: 1rem 2rem calc(1rem + 10px);
+      background: #FFF0E9;
+        width: 50%;
+       height: 50%;
+}
 
-h2 {
+.in_main  h3:before {
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  width: 100%;
+  height: 100%;
+  content: '';
+  border: 4px solid #000;
+}
+
+.exp{
+  margin:40px auto;
+  position: relative;
+  padding: 1em 2em;
+  text-align: center;
+  width:40%;
+}
+
+.exp:before,
+.exp:after {
+  position: absolute;
+  content: '';
+}
+
+.exp:after {
+  top: 0;
+  left: 0;
+  width: 50px;
+  height: 50px;
+  border-top: 2px solid #000;
+  border-left: 2px solid #000;
+}
+
+.exp:before {
+  right: 0;
+  bottom: 0;
+  width: 50px;
+  height: 50px;
+  border-right: 2px solid #000;
+  border-bottom: 2px solid #000;
+}
+
+/* 007 */
+.button007 a {
+    background: #FFE986;
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0 auto;
+    max-width: 100px;
+    padding: 10px 25px;
+    color: #333333;
+    transition: 0.3s ease-in-out;
+    font-weight: 500;
+}
+.button007 a:before {
+    content: '';
+    position: absolute;
+    top: calc(50% - 2px);
+    right: -1em;
+    transform: translateY(calc(-50% - 2px)) rotate(30deg);
+    width: 12px;
+    height: 2px;
+    background-color: #333333;
+    transition: 0.3s;
+}
+.button007 a:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -1em;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 2px;
+    background-color: #333333;
+    transition: 0.3s;
+}
+.button007 a:hover:before, .button007 a:hover:after {
+    right: -0.5em;
+}
+.button007 a:hover {
+    background: #FFF0E9;
+    color: #333333;
+}
+.in_main  h2 {
     font-size: 36px;
-    margin-bottom: 15px;
+    margin-bottom: 30px;
 }
 
 li {
@@ -80,7 +178,7 @@ pre {
 
 a {
     text-decoration: none;
-    color: #24738e;
+    color: #FEACAE;
 }
 
 table, tr, th, td {

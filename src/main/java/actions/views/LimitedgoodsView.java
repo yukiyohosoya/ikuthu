@@ -25,12 +25,12 @@ public class LimitedgoodsView {
     private Integer id;
 
     /**
-     * イベントid
+     * イベント
      */
     private EventView event;
 
     /**
-     *商品id
+     *商品
      */
     private GoodsView goods;
 

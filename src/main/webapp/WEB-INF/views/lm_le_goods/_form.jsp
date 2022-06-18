@@ -13,31 +13,25 @@
     </div>
 </c:if>
 
-<label for="${AttributeConst.GS_NAME.getValue()}" >商品名</label><br />
-<input type="text" name="${AttributeConst.GS_NAME.getValue()}" value="${goods.name}" />
-<br /><br />
+        <table id="lmevgoods_list">
+            <tbody>
+                <tr>
+                    <th class="goods_name">追加</th>
+                    <th class="goods_name">グッズ名</th>
+                    <th class="goods_price">販売価格</th>
+                </tr>
+                 <%--    ${goods.goodsday} のgoodsは下で定義してるvar。 goodsdayはEventviewの変数名。間違えないように！--%>
+                <c:forEach var="goods" items="${goodss}" varStatus="status">
+                    <tr class="row${status.count % 2}">
+                        <td class="goods_name"><input type="checkbox" name="${AttributeConst.LMEVGS_CHECK.getValue()}" value="${goods.id}"/></td>
+                        <td class="goods_name">${goods.name}</td>
+                        <td class="goods_price"><input type="number" name="${AttributeConst.LMEVGS_SELLINGPRICE.getValue()}" value="${goods.sellingprice}" /></td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
 
-
-<label for="${AttributeConst.GS_CREATEDAY.getValue()}" >作成日</label><br />
-<input type="date" name="${AttributeConst.GS_CREATEDAY.getValue()}" value= "${goods.create_day}" />
-<br /><br />
-<br /><br />
-
-<label for="${AttributeConst.GS_SELLINGPRICE.getValue()}" >デフォルト販売価格</label><br />
-<input type="number" name="${AttributeConst.GS_SELLINGPRICE.getValue()}" value="${goods.sellingprice}" />
-<br /><br />
-
-<label for="${AttributeConst.GS_STOCK.getValue()}" >在庫数（初期仕入れ数）</label><br />
-<input type="number" name="${AttributeConst.GS_STOCK.getValue()}" value="${goods.stock}" />
-<br /><br />
-
-<label for="${AttributeConst.GS_PURCHASEPRICE.getValue()}" >仕入れ価格</label><br />
-<input type="number" name="${AttributeConst.GS_PURCHASEPRICE.getValue()}" value="${goods.purchaseprice}" />
-<br /><br />
-
-<label for="${AttributeConst.GS_PICTURE.getValue()}" >商品画像ファイル</label><br />
-<input type="text" name="${AttributeConst.GS_PICTURE.getValue()}" value="${goods.picture}" />
-<br /><br />
+        <c:out value="${_token}" />
 
 <input type="hidden" name="${AttributeConst.TOKEN.getValue()}" value="${_token}" />
 <button type="submit">投稿</button>
