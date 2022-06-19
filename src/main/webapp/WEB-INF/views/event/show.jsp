@@ -40,9 +40,27 @@
             </tbody>
         </table>
 
-
-
         <p><a href="<c:url value='?action=${actLeg}&command=${commSel}&ev_id=${event.id}' />">販売商品登録</a></p>
+
+        <div class="goods_shop_index">
+            <c:forEach var="lmevgoods" items="${lmevgoodss}" varStatus="status">
+            <div class="goods_index_view">
+                <p>画像</p>
+                <p>${lmevgoods.goods.name}</p>
+                <div class="goods_main_view">
+                    <div class="goods_main">
+                        <p></p>
+                        <p></p>
+                    </div>
+                    <div class="goods_main">
+                        <p></p>
+                        <p></p>
+                    </div>
+                </div>
+                <p>詳細</p>
+            </div>
+            </c:forEach>
+        </div>
 
     </c:param>
 </c:import>

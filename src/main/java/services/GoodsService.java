@@ -5,6 +5,7 @@ import java.util.List;
 
 import actions.views.ShopConverter;
 import actions.views.ShopView;
+import actions.views.EventConverter;
 import actions.views.EventView;
 import actions.views.GoodsConverter;
 import actions.views.GoodsView;
@@ -60,8 +61,6 @@ public class GoodsService extends ServiceBase {
 
         List<Goods> goods = em.createNamedQuery(JpaConst.Q_GOODS_GET_ALL_MINE,Goods.class)
                 .setParameter(JpaConst.JPQL_PARM_SHOP, ShopConverter.toModel(shop))
-                .setFirstResult(0)
-                .setMaxResults(5)
                 .getResultList();
         return GoodsConverter.toViewList(goods);
     }
@@ -69,15 +68,15 @@ public class GoodsService extends ServiceBase {
 
     /**
      * 既に作成したイベントごと商品以外を指定し、該当したものをGoodsViewのリストで返却する
-     * @param shop ショップ
+     * @param event ショップ
      * @param page ページ数
      * @return 一覧画面に表示するデータのリスト
      */
     public List<GoodsView> getNotLmevgoodsMine(ShopView shop,List<LimitedgoodsView> select_lmevgoods){
 
-        List<Goods> goods = em.createNamedQuery(JpaConst.Q_GOODS_US_COUNT_ALL_MINE,Goods.class)
+        List<Goods> goods = em.createNamedQuery(JpaConst.Q_GOODS_NOLIMIGOODS_ALL_MINE,Goods.class)
                 .setParameter(JpaConst.JPQL_PARM_SHOP, ShopConverter.toModel(shop))
-                .setParameter(JpaConst.JPQL_PARM_SHOP, ShopConverter.toModel(shop))
+                .setParameter(JpaConst.JPQL_PARM_LMEVGOODSLIST, GoodsConverter.toModelList(select_lmevgoods))
                 .getResultList();
         return GoodsConverter.toViewList(goods);
     }
@@ -92,6 +91,20 @@ public class GoodsService extends ServiceBase {
 
         long count =(long)em.createNamedQuery(JpaConst.Q_GOODS_US_COUNT_ALL_MINE,Long.class)
                 .setParameter(JpaConst.JPQL_PARM_SHOP, ShopConverter.toModel(shop))
+                .getSingleResult();
+        return count;
+    }
+
+    /**
+     * 指定したEventが作成したイベント限定グッズ以外の件数を取得し、返却する
+     * @param count
+     * @return データの件数
+     */
+    public long countNotLmevgoodsMine(ShopView shop,List<LimitedgoodsView> select_lmevgoods) {
+
+        long count =(long)em.createNamedQuery(JpaConst.Q_GOODS_NOLIMIGOODS_COUNT_ALL_MINE,Long.class)
+                .setParameter(JpaConst.JPQL_PARM_SHOP, ShopConverter.toModel(shop))
+                .setParameter(JpaConst.JPQL_PARM_LMEVGOODSLIST, GoodsConverter.toModelList(select_lmevgoods))
                 .getSingleResult();
         return count;
     }
@@ -149,6 +162,26 @@ public class GoodsService extends ServiceBase {
         return errors;
     }
 
+    /**
+     * idを条件にデータを論理削除する
+     * @param id
+     */
+    public void destroy(Integer id) {
+
+        //idを条件に登録済みの従業員情報を取得
+        GoodsView saved = findOne(id);
+
+        //更新日時に現在時刻を設定する
+        LocalDateTime today = LocalDateTime.now();
+        saved.setUpdatedAt(today);
+
+        //論理削除フラグを立てる
+        saved.setDeleteFlag(JpaConst.ALL_DEL_TRUE);
+
+        //更新処理
+        update(saved);
+
+    }
     /**
      * idを条件にデータを1件取得する
      * @param id

@@ -47,6 +47,6 @@
                     </c:forEach>
                 </div>
         <p><a href="<c:url value='?action=${actGs}&command=${commNew}' />">新規グッズ登録</a></p>
-
+    <img src=<c:url value='WEB-INF/uploaded/IMG_20180614_094041.jpg' /> alt="海の写真" title="空と海">
     </c:param>
 </c:import>

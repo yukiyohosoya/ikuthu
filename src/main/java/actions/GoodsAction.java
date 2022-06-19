@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+
+import javax.servlet.http.Part;
 
 import actions.views.UserView;
 import actions.views.EventView;
@@ -17,6 +20,8 @@ import services.EventService;
 import services.GoodsService;
 import services.ShopService;
 import services.UserService;
+
+@MultipartConfig
 
 /**
  * ショップに関する処理を行うActionクラス
@@ -110,6 +115,13 @@ public class GoodsAction extends ActionBase {
 
             String day=getRequestParam(AttributeConst.GS_CREATEDAY).replace("/", "-");
 
+            Part part = request.getPart(AttributeConst.GS_PICTURE.getValue());
+            String picture = this.getFileName(part);
+            part.write(context.getRealPath("/WEB-INF/uploaded") + "/" + picture);
+ //           response.sendRedirect("jsp/upload.jsp");
+            System.out.println(picture);
+
+
             //パラメータの値を元にショップ情報のインスタンスを作成する
             GoodsView gv = new GoodsView(
                     null,
@@ -119,7 +131,7 @@ public class GoodsAction extends ActionBase {
                     getRequestParam(AttributeConst.GS_PURCHASEPRICE),
                     getRequestParam(AttributeConst.GS_STOCK),
                     day,
-                    getRequestParam(AttributeConst.GS_PICTURE),
+                    picture,
                     null,
                     null,
                     AttributeConst.DEL_FLAG_FALSE.getIntegerValue());
@@ -281,7 +293,18 @@ public class GoodsAction extends ActionBase {
   //     }
     }
 
-
-
+    private String getFileName(Part part) {
+    String name = null;
+      for (String dispotion : part.getHeader("Content-Disposition").split(";")) {
+          if (dispotion.trim().startsWith("filename")) {
+             name = dispotion.substring(dispotion.indexOf("=") + 1).replace("\"", "").trim();
+             name = name.substring(name.lastIndexOf("\\") + 1);
+              break;
+                  }
+             }
+              return name;
+         }
 
 }
+
+

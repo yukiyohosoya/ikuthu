@@ -12,12 +12,15 @@
 
 <c:import url="/WEB-INF/views/layout/app.jsp">
     <c:param name="content">
+
         <c:if test="${flush != null}">
             <div id="flush_success">
                 <c:out value="${flush}"></c:out>
             </div>
         </c:if>
-        <h2><c:out value="${sessionScope.select_shop.name}"/></h2>
+
+        <h2 class="in_main"><c:out value="${sessionScope.select_shop.name}"/></h2>
+
         <table id="index_shop_list">
             <tbody>
                 <c:forEach var="event" items="${events}" varStatus="status">
@@ -35,9 +38,31 @@
 
             </tbody>
         </table>
-
-
         <p><a href="<c:url value='?action=${actEv}&command=${commIdx}' />">イベント一覧</a></p>
+
+        <div class="goods_shop_index">
+            <c:forEach var="goods" items="${goodss}" varStatus="status">
+            <div class="goods_index_view">
+                <p>画像</p>
+                <p>${goods.name}</p>
+                <div class="goods_main_view">
+                    <div class="goods_main">
+                        <p></p>
+                        <p></p>
+                    </div>
+                    <div class="goods_main">
+                        <p></p>
+                        <p></p>
+                    </div>
+                </div>
+                <p>詳細</p>
+            </div>
+            </c:forEach>
+        </div>
+
+
+
+
         <p><a href="<c:url value='?action=${actGd}&command=${commIdx}' />">グッズ一覧</a></p>
     </c:param>
 </c:import>

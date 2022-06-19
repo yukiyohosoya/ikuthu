@@ -19,10 +19,11 @@ public class UserValidator {
 
     /**
      * ユーザーインスタンスの各項目についてバリデーションを行う
-     * @param service　呼び出し元Suviceクラスのインスタンス
+     * @param service　呼び出し元UserServiceクラスのインスタンス
      * @param uv UserViewのインスタンス
      * @param mailDuplicateCheckFlag　メールアドレスの重複チェックを実施するかどうか（実施する：true 実施しない：false）
-     *@param passwordCheckFlag パスワードの入力チェックを行うかどうか
+     * @param passwordCheckFlag パスワードの入力チェックを行うかどうか
+     * @param pass_k パスワードの入力チェックを行うかどうか
      *@return　エラーのリスト
      *
      */

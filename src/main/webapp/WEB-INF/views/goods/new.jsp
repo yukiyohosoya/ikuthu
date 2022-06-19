@@ -10,7 +10,7 @@
     <c:param name="content">
         <h2>商品　新規登録ページ</h2>
 
-        <form method="POST" action="<c:url value='?action=${action}&command=${commCrt}' />">
+        <form method="POST" action="<c:url value='?action=${action}&command=${commCrt}' />" enctype="multipart/form-data">
             <c:import url="_form.jsp" />
         </form>
         <p><a href="<c:url value='?action=${action}&command=${commIdx}' />">トップに戻る</a></p>

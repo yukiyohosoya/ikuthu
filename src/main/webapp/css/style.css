@@ -52,7 +52,7 @@ body {
     width: 100%;
 }
 #content {
-    width: 70%;
+    width: 80%;
 }
 .in_main {
     text-align:  center;
@@ -181,21 +181,24 @@ a {
     color: #FEACAE;
 }
 
-table, tr, th, td {
-    border: 1px solid #cccccc;
-}
-
-table {
-    width: 100%;
+table#index_shop_list {
+    width: 70%;
     table-layout: fixed;
+    padding: 60px 20px;
+    margin:auto;
+    background-color: #FFF0E9;
 }
 
-th {
+table#index_shop_list tr {
+    padding: 50px;
+    border-bottom:1px dashed #ccc;
+    }
+table#index_shop_list th {
     width: 26%;
     padding: 10px 2%;
 }
 
-td {
+table#index_shop_list td {
     width: 66%;
     padding: 10px 2%;
 }

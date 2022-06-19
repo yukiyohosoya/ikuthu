@@ -7,13 +7,19 @@ import javax.servlet.ServletException;
 
 import actions.views.UserView;
 import actions.views.EventView;
+import actions.views.GoodsConverter;
+import actions.views.GoodsView;
+import actions.views.LimitedgoodsView;
 import actions.views.ShopView;
 import constants.AttributeConst;
 import constants.ForwardConst;
 import constants.JpaConst;
 import constants.MessageConst;
+import models.Goods;
+import models.Limitedgoods;
 import services.EventService;
 import services.GoodsService;
+import services.LimitedgoodsService;
 import services.ShopService;
 import services.UserService;
 
@@ -28,6 +34,7 @@ public class EventAction extends ActionBase {
     private UserService user_service;
     private EventService event_service;
     private GoodsService goods_service;
+    private LimitedgoodsService limitedgoods_service;
 
     /**
      * メソッドを実行する
@@ -38,7 +45,7 @@ public class EventAction extends ActionBase {
         user_service = new UserService();
         event_service = new EventService();
         goods_service = new GoodsService();
-
+        limitedgoods_service = new LimitedgoodsService();
 
         //メソッドを実行
         invoke();
@@ -47,6 +54,7 @@ public class EventAction extends ActionBase {
         user_service.close();
         event_service.close();
         goods_service.close();
+        limitedgoods_service.close();
     }
 
     /**
@@ -156,18 +164,30 @@ public class EventAction extends ActionBase {
 
         //idを条件にショップデータを取得
         EventView ev = event_service.findOne(toNumber(getRequestParam(AttributeConst.EV_ID)));
+        //セッションからショップ情報を取得
+        ShopView select_shop = (ShopView) getSessionScope(AttributeConst.SELECT_SH);
+
+        //イベント情報から削除してない限定ごとの商品を取得
+        List<LimitedgoodsView> lmevgoodss = limitedgoods_service.getMine(ev);
+        List<GoodsView> test = goods_service.getNotLmevgoodsMine(select_shop,lmevgoodss);
+
+        long myEventCount = goods_service.countNotLmevgoodsMine(select_shop,lmevgoodss);
+        System.out.println(myEventCount);
+        for (GoodsView g : test) {
+            System.out.println(g.getName());
+        }
 
         if(ev==null) {
-            //該当のショップデータが存在しない場合はエラー画面を表示
-            forward(ForwardConst.FW_ERR_UNKNOWN);
-            return;
-        }else{
+                //該当のショップデータが存在しない場合はエラー画面を表示
+                forward(ForwardConst.FW_ERR_UNKNOWN);
+                return;
+               }else{
             putRequestScope(AttributeConst.EVENT,ev);//取得したショップデータ
-
+            putRequestScope(AttributeConst.LMEVGOODSS,lmevgoodss);//取得したショップデータ
             //詳細画面を表示
             forward(ForwardConst.FW_EV_SHOW);
 
-        }
+         }
     }
 
     /**

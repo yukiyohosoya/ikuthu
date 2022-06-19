@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.NoResultException;
 
+import actions.views.LimitedgoodsView;
 import actions.views.UserConverter;
 import actions.views.UserView;
 import constants.JpaConst;
@@ -173,28 +174,26 @@ public class UserService extends ServiceBase {
         return errors;
     }
 
-//
-//    /**
-//     * idを条件にユーザーデータを論理削除する
-//     * @param id
-//     */
-//    public void destroy(Integer id) {
-//
-//        //idを条件に登録済みのユーザー情報を取得する
-//        UserView savedUser = findOne(id);
-//
-//        //更新日時に現在時刻を設定する
-//        LocalDateTime today = LocalDateTime.now();
-//        savedUser.setUpdatedAt(today);
-//
-//        //論理削除フラグをたてる
-//        savedUser.setDeleteFlag(JpaConst.EMP_DEL_TRUE);
-//
-//        //更新処理を行う
-//        update(savedUser);
-//
-//    }
-//
+    /**
+     * idを条件にデータを論理削除する
+     * @param id
+     */
+    public void destroy(Integer id) {
+
+        //idを条件に登録済みの従業員情報を取得
+        UserView saved = findOne(id);
+
+        //更新日時に現在時刻を設定する
+        LocalDateTime today = LocalDateTime.now();
+        saved.setUpdatedAt(today);
+
+        //論理削除フラグを立てる
+        saved.setDeleteFlag(JpaConst.ALL_DEL_TRUE);
+
+        //更新処理
+        update(saved);
+
+    }
 
     /**
      * メールアドレスとパスワードを条件に検索し、データが取得できるかどうかで認証結果を返却する

@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 
 import actions.views.UserView;
 import actions.views.EventView;
+import actions.views.GoodsView;
 import actions.views.ShopView;
 import constants.AttributeConst;
 import constants.ForwardConst;
@@ -59,13 +60,21 @@ public class ShopAction extends ActionBase {
         //セッションからショップ情報を取得
          ShopView select_shop = (ShopView) getSessionScope(AttributeConst.SELECT_SH);
 
+         //ショップ情報から削除してないイベントを取得
          List<EventView> index_event = event_service.getMinePer_index(select_shop);
-
          //選択中ショップのEvent件数を取得
          long myEventCount = event_service.countAllMine(select_shop);
 
+         //ショップ情報から削除してない商品を取得
+         List<GoodsView> goods = goods_service.getMineAll(select_shop);
+         //選択中ショップの商品件数を取得
+         long myGoodsCount = goods_service.countAllMine(select_shop);
+
           putRequestScope(AttributeConst.EVENTS,index_event); //index用に取得したイベント
           putRequestScope(AttributeConst.EV_COUNT,myEventCount); //Event全件数
+          putRequestScope(AttributeConst.GOODSS,goods); //取得したグッズ
+          putRequestScope(AttributeConst.GS_COUNT,myGoodsCount); //グッズ全件数
+
 
 
           //セッションにフラッシュメッセージが設定されている場合はリクエストスコープに移し替え、セッションからは削除する

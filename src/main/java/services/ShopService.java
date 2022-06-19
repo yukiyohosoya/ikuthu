@@ -1,10 +1,11 @@
 package services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import actions.views.UserConverter;
 import actions.views.UserView;
-
+import actions.views.LimitedgoodsView;
 import actions.views.ShopConverter;
 import actions.views.ShopView;
 import constants.JpaConst;
@@ -95,6 +96,23 @@ public class ShopService extends ServiceBase {
         }
         //バリデーションで発生したエラーを返却（エラーがなければ0件の空リスト）
         return errors;
+    }
+
+    /**
+     * idを条件にデータを論理削除する
+     * @param id
+     */
+    public void destroy(Integer id) {
+
+        //idを条件に登録済みの従業員情報を取得
+        ShopView saved = findOne(id);
+
+        //論理削除フラグを立てる
+        saved.setDeleteFlag(JpaConst.ALL_DEL_TRUE);
+
+        //更新処理
+        update(saved);
+
     }
 
     /**

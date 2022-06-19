@@ -102,6 +102,27 @@ public class EventService extends ServiceBase {
           return errors;
       }
 
+      /**
+       * idを条件にデータを論理削除する
+       * @param id
+       */
+      public void destroy(Integer id) {
+
+          //idを条件に登録済みの従業員情報を取得
+          EventView saved = findOne(id);
+
+          //更新日時に現在時刻を設定する
+          LocalDateTime today = LocalDateTime.now();
+          saved.setUpdatedAt(today);
+
+          //論理削除フラグを立てる
+          saved.setDeleteFlag(JpaConst.ALL_DEL_TRUE);
+
+          //更新処理
+          update(saved);
+
+      }
+
     /**
      * idを条件にデータを1件取得する
      * @param id

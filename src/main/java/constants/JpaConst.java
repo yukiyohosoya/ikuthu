@@ -85,7 +85,7 @@ public interface JpaConst {
     String JPQL_PARM_SHOPNAME="name";//ショップ名
     String JPQL_PARM_SHOP="shop";//ショップ名
     String JPQL_PARM_EVENT="event";//ショップ名
-    String JPQL_PARM_LMEVGOODSLIST="lmev_goods";//限定イベントリスト
+    String JPQL_PARM_LMEVGOODSLIST="lmev_goods_list";//限定イベントリスト
 
     //NamedQueryのnameとquery
     //ユーザ
@@ -97,49 +97,55 @@ public interface JpaConst {
     String Q_US_COUNT_DEF="SELECT COUNT(u) FROM User AS u";
     //メールアドレスとハッシュ化済みパスワードを条件にユーザーを取得する
     String Q_US_GET_BY_MAIL_AND_PASS=ENTITY_US + ".getByMailAndPass";
-    String Q_US_GET_BY_MAIL_AND_PASS_DEF = "SELECT u FROM User AS u WHERE u.mailaddress = :" + JPQL_PARM_MAIL + " AND u.password = :" + JPQL_PARM_PASS;
+    String Q_US_GET_BY_MAIL_AND_PASS_DEF = "SELECT u FROM User AS u WHERE u.deleteFlag = 0 AND u.mailaddress = :" + JPQL_PARM_MAIL + " AND u.password = :" + JPQL_PARM_PASS;
     //指定したメールアドレスを保持するユーザーの件数を取得する
     String  Q_US_COUNT_RESISTERED_BY_MAIL = ENTITY_US + ".countRegisteredByMail";
-    String  Q_US_COUNT_RESISTERED_BY_MAIL_DEF = "SELECT COUNT(u) FROM User AS u WHERE u.mailaddress = :" + JPQL_PARM_MAIL;
+    String  Q_US_COUNT_RESISTERED_BY_MAIL_DEF = "SELECT COUNT(u) FROM User AS u WHERE u.deleteFlag = 0 AND u.mailaddress = :" + JPQL_PARM_MAIL;
 
     //ショップ
     //指定したユーザーが作成したショップの件数を取得する
    String  Q_SHOP_US_COUNT_ALL_MINE = ENTITY_SHOP + ".countAllMine";
-   String  Q_SHOP_US_COUNT_ALL_MINE_DEF = "SELECT COUNT(s) FROM Shop AS s WHERE s.user = :" + JPQL_PARM_US;
+   String  Q_SHOP_US_COUNT_ALL_MINE_DEF = "SELECT COUNT(s) FROM Shop AS s WHERE s.deleteFlag = 0 AND s.user = :" + JPQL_PARM_US;
    //指定したユーザーが作成したショップを全件idの降順で取得する
    String Q_SHOP_GET_ALL_MINE = ENTITY_SHOP + ".getAllMine";
-   String Q_SHOP_GET_ALL_MINE_DEF = "SELECT s FROM Shop AS s WHERE s.user = :" + JPQL_PARM_US + " ORDER BY s.id DESC";
+   String Q_SHOP_GET_ALL_MINE_DEF = "SELECT s FROM Shop AS s WHERE s.deleteFlag = 0 AND s.user = :" + JPQL_PARM_US + " ORDER BY s.id DESC";
    //指定したユーザーとショップ名を指定し、該当ショップの件数を取得する
    String  Q_SHOP_US_NAME_COUNT_ALL_MINE = ENTITY_SHOP + ".countAllNameMine";
-   String  Q_SHOP_US_NAME_COUNT_ALL_MINE_DEF = "SELECT COUNT(s) FROM Shop AS s WHERE s.user = :" + JPQL_PARM_US + " AND s.name = :" + JPQL_PARM_SHOPNAME;
+   String  Q_SHOP_US_NAME_COUNT_ALL_MINE_DEF = "SELECT COUNT(s) FROM Shop AS s WHERE s.deleteFlag = 0 AND s.user = :" + JPQL_PARM_US + " AND s.name = :" + JPQL_PARM_SHOPNAME;
 
    //イベント
    //指定したショップが作成したイベントを全件idの降順で取得する
    String Q_EVENT_GET_ALL_MINE = ENTITY_EVENT + ".getAllMine";
-   String Q_EVENT_GET_ALL_MINE_DEF = "SELECT e FROM Event AS e WHERE e.shop = :" + JPQL_PARM_SHOP + " ORDER BY e.id DESC";
+   String Q_EVENT_GET_ALL_MINE_DEF = "SELECT e FROM Event AS e WHERE e.deleteFlag = 0 AND e.shop = :" + JPQL_PARM_SHOP + " ORDER BY e.id DESC";
    //指定したショップが作成したイベントの件数を降順に取得する
    String  Q_EVENT_SHOP_COUNT_ALL_MINE = ENTITY_EVENT + ".countAllMine";
-   String  Q_EVENT_SHOP_COUNT_ALL_MINE_DEF = "SELECT COUNT(e) FROM Event AS e WHERE e.shop = :" + JPQL_PARM_SHOP;
+   String  Q_EVENT_SHOP_COUNT_ALL_MINE_DEF = "SELECT COUNT(e) FROM Event AS e WHERE e.deleteFlag = 0 AND e.shop = :" + JPQL_PARM_SHOP;
 
    //商品情報
    //指定したショップが作成したグッズを全件idの降順で取得する
    String Q_GOODS_GET_ALL_MINE = ENTITY_GOODS + ".getAllMine";
-   String Q_GOODS_GET_ALL_MINE_DEF = "SELECT g FROM Goods AS g WHERE g.shop = :" + JPQL_PARM_SHOP + " ORDER BY g.id DESC";
+   String Q_GOODS_GET_ALL_MINE_DEF = "SELECT g FROM Goods AS g WHERE g.deleteFlag = 0 AND g.shop = :" + JPQL_PARM_SHOP + " ORDER BY g.id DESC";
    //指定したショップが作成したグッズの件数を取得する
    String  Q_GOODS_US_COUNT_ALL_MINE = ENTITY_GOODS + ".countAllMine";
-   String  Q_GOODS_US_COUNT_ALL_MINE_DEF = "SELECT COUNT(g) FROM Goods AS g WHERE g.shop = :" + JPQL_PARM_SHOP;
-   //指定したイベントで既に作成したlmevgoods以外の商品を取得する※作成したグッズidのリストを入れる。
-   String  Q_GOODS_NOLIMIGOODS_ALL_MINE = ENTITY_GOODS + ".countNotlmevgoodsMine";
-   String  Q_GOODS_NOLIMIGOODS_ALL_MINE_DEF = "SELECT g FROM Goods AS g WHERE g.shop = :" + JPQL_PARM_SHOP + " AND g.id NOT IN  :" + JPQL_PARM_LMEVGOODSLIST+ " ORDER BY g.id DESC";
+   String  Q_GOODS_US_COUNT_ALL_MINE_DEF = "SELECT COUNT(g) FROM Goods AS g WHERE g.deleteFlag = 0 AND g.shop = :" + JPQL_PARM_SHOP;
+   //指定したShopで既に作成したlmevgoods以外の商品を取得する※作成したグッズのリストを入れる。
+   String  Q_GOODS_NOLIMIGOODS_ALL_MINE = ENTITY_GOODS + ".getAllNotlmevgoodsMine";
+   String  Q_GOODS_NOLIMIGOODS_ALL_MINE_DEF = "SELECT g FROM Goods AS g WHERE g.deleteFlag = 0 AND g.shop = :" + JPQL_PARM_SHOP + " AND g NOT IN :" + JPQL_PARM_LMEVGOODSLIST + " ORDER BY g.shop DESC";
+ //指定したShopで既に作成したlmevgoods以外の商品件数を取得する※作成したグッズのリストを入れる。
+   String  Q_GOODS_NOLIMIGOODS_COUNT_ALL_MINE = ENTITY_GOODS + ".countAllNotMine";
+   String  Q_GOODS_NOLIMIGOODS_COUNT_ALL_MINE_DEF = "SELECT COUNT(g) FROM Goods AS g WHERE g.deleteFlag = 0 AND g.shop = :" + JPQL_PARM_SHOP + " AND g NOT IN :" + JPQL_PARM_LMEVGOODSLIST ;
+
+
 
    //イベントごと商品ごと商品情報
 
    //指定したイベントが作成したイベントごと商品を全件idの降順で取得する
    String Q_LIMIGOODS_GET_ALL_MINE = ENTITY_LIMIGOODS + ".getAllMine";
-   String Q_LIMIGOODS_GET_ALL_MINE_DEF = "SELECT lg FROM Limitedgoods AS lg WHERE lg.event = :" + JPQL_PARM_EVENT + " ORDER BY lg.id DESC";
+   String Q_LIMIGOODS_GET_ALL_MINE_DEF = "SELECT lg FROM Limitedgoods AS lg WHERE lg.deleteFlag = 0 AND lg.event = :" + JPQL_PARM_EVENT + " ORDER BY lg.id DESC";
    //指定したイベントが作成したイベントごと商品の件数を取得する
    String  Q_LIMIGOODS_US_COUNT_ALL_MINE = ENTITY_LIMIGOODS + ".countAllMine";
-   String  Q_LIMIGOODS_US_COUNT_ALL_MINE_DEF = "SELECT COUNT(lg) FROM Limitedgoods AS lg WHERE lg.event = :" + JPQL_PARM_EVENT;
+   String  Q_LIMIGOODS_US_COUNT_ALL_MINE_DEF = "SELECT COUNT(lg) FROM Limitedgoods AS lg WHERE lg.deleteFlag = 0 AND lg.event = :" + JPQL_PARM_EVENT;
+
 
 
 

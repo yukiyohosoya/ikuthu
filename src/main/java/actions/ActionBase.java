@@ -10,6 +10,7 @@ import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,7 +18,7 @@ import constants.AttributeConst;
 import constants.ForwardConst;
 import constants.PropertyConst;
 
-
+@MultipartConfig
 /**
  * 各Actionクラスの親クラス。共通処理を行う。
  *

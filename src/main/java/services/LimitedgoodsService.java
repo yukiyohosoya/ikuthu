@@ -45,6 +45,7 @@ public class LimitedgoodsService extends ServiceBase {
         return count;
     }
 
+
     /**
      * idを条件に取得したデータをLimitedgoodsViewのインスタンスで返却する
      * @param id
@@ -80,21 +81,36 @@ public class LimitedgoodsService extends ServiceBase {
 
       /**
        * 画面から入力されたイベントの登録内容を元に、イベントデータを更新する
-       * @param sv イベントの更新内容
+       * @param lgv 更新内容
        * @return バリデーションで発生したエラーのリスト
        */
 
-//      public List<String> update(LimitedgoodsView sv){
+      public void update(LimitedgoodsView lgv){
+          LocalDateTime ldt =LocalDateTime.now();
+          lgv.setUpdatedAt(ldt);
+          updateInternal(lgv);
+      }
 
-//          //バリデーションを行う
-//          List<String>errors=LimitedgoodsValidator.Validate(sv,this);
-//
-//          if(errors.size()==0) {
-//              updateInternal(sv);
-//          }
-//          //バリデーションで発生したエラーを返却（エラーがなければ0件の空リスト）
-//          return errors;
-//      }
+      /**
+       * idを条件にデータを論理削除する
+       * @param id
+       */
+      public void destroy(Integer id) {
+
+          //idを条件に登録済みの従業員情報を取得
+          LimitedgoodsView saved = findOne(id);
+
+          //更新日時に現在時刻を設定する
+          LocalDateTime today = LocalDateTime.now();
+          saved.setUpdatedAt(today);
+
+          //論理削除フラグを立てる
+          saved.setDeleteFlag(JpaConst.ALL_DEL_TRUE);
+
+          //更新処理
+          update(saved);
+
+      }
 
     /**
      * idを条件にデータを1件取得する

@@ -39,6 +39,22 @@ public class GoodsConverter {
     }
 
     /**
+     * イベントごとグッズViewモデルリストのインスタンスからDTOモデルのインスタンスを作成する
+     * @param gv GoodsViewのインスタンスのList
+     * @return GoodsのインスタンスのList
+     */
+    public static List<Goods>  toModelList(List<LimitedgoodsView> list){
+        List<Goods> gl = new ArrayList<>();
+
+        for (LimitedgoodsView g : list) {
+            gl.add(toModel(g.getGoods()));
+        }
+
+        return gl;
+    }
+
+
+    /**
      * DTOモデルのインスタンスからViewモデルのインスタンスを作成する
      * @param u Goodsのインスタンス
      * @return GoodsViewのインスタンス

@@ -36,7 +36,7 @@
 <br /><br />
 
 <label for="${AttributeConst.GS_PICTURE.getValue()}" >商品画像ファイル</label><br />
-<input type="text" name="${AttributeConst.GS_PICTURE.getValue()}" value="${goods.picture}" />
+<input type="file" name="${AttributeConst.GS_PICTURE.getValue()}" value="${goods.picture}" />
 <br /><br />
 
 <input type="hidden" name="${AttributeConst.TOKEN.getValue()}" value="${_token}" />
