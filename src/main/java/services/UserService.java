@@ -134,6 +134,8 @@ public class UserService extends ServiceBase {
         //idを条件に登録済みのユーザー情報を取得する
         UserView savedUser = findOne(uv.getId());
 
+        String pass_kh = EncryptUtil.getPasswordEncrypt(pass_k, pepper);
+
         boolean validateMail = false;
         if (!savedUser.getMailaddress().equals(uv.getMailaddress())) {
             //メールアドレスを更新する場合
@@ -163,7 +165,7 @@ public class UserService extends ServiceBase {
         savedUser.setUpdatedAt(today);
 
         //更新内容についてバリデーションを行う
-        List<String> errors = UserValidator.validate(this, savedUser, validateMail, validatePass,pass_k);
+        List<String> errors = UserValidator.validate(this, savedUser, validateMail, validatePass,pass_kh);
 
         //バリデーションエラーがなければデータを更新する
         if (errors.size() == 0) {

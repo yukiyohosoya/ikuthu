@@ -17,7 +17,7 @@
 <input type="text" name="${AttributeConst.EV_NAME.getValue()}" value="${event.name}" />
 <br /><br />
 
-<label for="${AttributeConst.EV_DAY.getValue()}" >イベント日付<</label>br />
+<label for="${AttributeConst.EV_DAY.getValue()}" >イベント日付</label><br />
 <input type="date" name="${AttributeConst.EV_DAY.getValue()}" value= "${event.eventday}" />
 <br /><br />
 

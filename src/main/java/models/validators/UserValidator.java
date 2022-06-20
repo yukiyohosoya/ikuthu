@@ -120,18 +120,21 @@ public class UserValidator {
 
     private static String validatePassword(String password, Boolean passwordCheckFlag,String pass_k) {
         //入力チェックを実施かつ入力がなければエラーメッセージ返却
-        if(passwordCheckFlag && (password==null||password.equals(""))) {
-            return MessageConst.U_NOPASSWORD.getMessage();
-        }
-        //パスが指定の文字列か
-        Pattern ps = Pattern.compile("[A-Za-z0-9]{8,24}");
-        Matcher m = ps.matcher(password);
-        if(!m.find()) {
-            return MessageConst.U_NOSTRINGPASS.getMessage();
-        }
+        if(passwordCheckFlag ) {
+            if(password==null||password.equals("")) {
+                return MessageConst.U_NOPASSWORD.getMessage();
+            }
+            //パスが指定の文字列か
+            Pattern ps = Pattern.compile("[A-Za-z0-9]{8,24}");
+            Matcher m = ps.matcher(password);
+            if(!m.find()) {
+                return MessageConst.U_NOSTRINGPASS.getMessage();
+            }
 
-        if(!pass_k.equals(password)) {
-            return MessageConst.U_NOMATCHPASSWORD.getMessage();
+            if(!pass_k.equals(password)) {
+                return MessageConst.U_NOMATCHPASSWORD.getMessage();
+            }
+
         }
 
         //エラーがない場合は空文字を返す

@@ -130,7 +130,7 @@ public interface JpaConst {
    String  Q_GOODS_US_COUNT_ALL_MINE_DEF = "SELECT COUNT(g) FROM Goods AS g WHERE g.deleteFlag = 0 AND g.shop = :" + JPQL_PARM_SHOP;
    //指定したShopで既に作成したlmevgoods以外の商品を取得する※作成したグッズのリストを入れる。
    String  Q_GOODS_NOLIMIGOODS_ALL_MINE = ENTITY_GOODS + ".getAllNotlmevgoodsMine";
-   String  Q_GOODS_NOLIMIGOODS_ALL_MINE_DEF = "SELECT g FROM Goods AS g WHERE g.deleteFlag = 0 AND g.shop = :" + JPQL_PARM_SHOP + " AND g NOT IN :" + JPQL_PARM_LMEVGOODSLIST + " ORDER BY g.shop DESC";
+   String  Q_GOODS_NOLIMIGOODS_ALL_MINE_DEF = "SELECT g FROM Goods AS g WHERE g.deleteFlag = 0 AND g.shop = :" + JPQL_PARM_SHOP + " AND g NOT IN :" + JPQL_PARM_LMEVGOODSLIST + " ORDER BY g.id DESC";
  //指定したShopで既に作成したlmevgoods以外の商品件数を取得する※作成したグッズのリストを入れる。
    String  Q_GOODS_NOLIMIGOODS_COUNT_ALL_MINE = ENTITY_GOODS + ".countAllNotMine";
    String  Q_GOODS_NOLIMIGOODS_COUNT_ALL_MINE_DEF = "SELECT COUNT(g) FROM Goods AS g WHERE g.deleteFlag = 0 AND g.shop = :" + JPQL_PARM_SHOP + " AND g NOT IN :" + JPQL_PARM_LMEVGOODSLIST ;

@@ -64,6 +64,7 @@ public class GoodsAction extends ActionBase {
 
         //セッションからショップ情報を取得
          ShopView select_shop = (ShopView) getSessionScope(AttributeConst.SELECT_SH);
+         String picpath =context.getRealPath("/WEB-INF/uploaded") + "/";
 
          //指定されたページ数の一覧画面に表示するデータを取得
          int page = getPage();
@@ -77,6 +78,7 @@ public class GoodsAction extends ActionBase {
           putRequestScope(AttributeConst.GS_COUNT,myGoodsCount); //Goods全件数
           putRequestScope(AttributeConst.PAGE, page); //ページ数
           putRequestScope(AttributeConst.MAX_ROW, JpaConst.ROW_PER_PAGE); //1ページに表示するレコードの数
+          putRequestScope(AttributeConst.PICPATH, picpath);
 
           //セッションにフラッシュメッセージが設定されている場合はリクエストスコープに移し替え、セッションからは削除する
           String flush = getSessionScope(AttributeConst.FLUSH);
@@ -117,10 +119,8 @@ public class GoodsAction extends ActionBase {
 
             Part part = request.getPart(AttributeConst.GS_PICTURE.getValue());
             String picture = this.getFileName(part);
-            part.write(context.getRealPath("/WEB-INF/uploaded") + "/" + picture);
- //           response.sendRedirect("jsp/upload.jsp");
+            part.write(context.getRealPath("/uploaded") + "/" + picture);
             System.out.println(picture);
-
 
             //パラメータの値を元にショップ情報のインスタンスを作成する
             GoodsView gv = new GoodsView(
@@ -136,7 +136,7 @@ public class GoodsAction extends ActionBase {
                     null,
                     AttributeConst.DEL_FLAG_FALSE.getIntegerValue());
 
-            System.out.println(gv+"だよ");
+            System.out.println(context.getRealPath("/uploaded") + "/" + picture);
             //グッズ情報登録
             List<String> errors = goods_service.create(gv);
 

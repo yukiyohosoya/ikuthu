@@ -73,8 +73,11 @@ public class LimitedgoodsAction extends ActionBase {
         //選択中イベントから既に作成したイベントごとgoods件数を取得
         long lmevGoodsCount = limievgoods_service.countAllMine(ev);
 
-        List<GoodsView> goodslist = goods_service.getMineAll(select_shop);
-
+        List<GoodsView> goodslist = goods_service.getNotLmevgoodsMine(select_shop,select_lmevgoods);
+        if(lmevGoodsCount==0) {
+            goodslist = goods_service.getMineAll(select_shop);
+        }
+        System.out.println(lmevGoodsCount);
          putRequestScope(AttributeConst.EV_ID, ev.getId()); //イベントID
          putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
          putRequestScope(AttributeConst.GOODSS,goodslist); //index用に取得したイベント

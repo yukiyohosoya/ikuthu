@@ -19,14 +19,15 @@
             </div>
         </c:if>
 
-        <h2 class="in_main"><c:out value="${sessionScope.select_shop.name}"/></h2>
+        <h2 class="title1"><c:out value="${sessionScope.select_shop.name}"/></h2>
 
+        <div id="index_shop_list_div">
         <table id="index_shop_list">
             <tbody>
                 <c:forEach var="event" items="${events}" varStatus="status">
                     <fmt:parseDate value="${event.eventday}" pattern="yyyy-MM-dd" var="eventDay" type="date" />
                     <tr>
-                        <th><fmt:formatDate value="${eventDay}" pattern='yyyy/MM/dd' /></th>
+                        <th>●　　<fmt:formatDate value="${eventDay}" pattern='yyyy/MM/dd' /></th>
                         <td>${event.name}</td>
                     </tr>
                 </c:forEach>
@@ -35,33 +36,30 @@
                         <th>登録イベントはありません</th>
                      </tr>
                     </c:if>
-
             </tbody>
         </table>
-        <p><a href="<c:url value='?action=${actEv}&command=${commIdx}' />">イベント一覧</a></p>
+        </div>
+        <p class="button1"><a href="<c:url value='?action=${actEv}&command=${commIdx}' />">イベント一覧</a></p>
 
-        <div class="goods_shop_index">
+        <div id="goods_view_box">
             <c:forEach var="goods" items="${goodss}" varStatus="status">
-            <div class="goods_index_view">
-                <p>画像</p>
-                <p>${goods.name}</p>
-                <div class="goods_main_view">
-                    <div class="goods_main">
-                        <p></p>
-                        <p></p>
+            <div class="goods_view">
+                <p class="goods_view_title">画像</p>
+                <p class="goods_view_title">${goods.name}</p>
+                <div class="goods_view_mainbox">
+                    <div class="goods_view_main">
+                        <p>a</p>
+                        <p>a</p>
                     </div>
-                    <div class="goods_main">
-                        <p></p>
-                        <p></p>
+                    <div class="goods_view_main">
+                        <p>a</p>
+                        <p>a</p>
                     </div>
                 </div>
                 <p>詳細</p>
             </div>
             </c:forEach>
         </div>
-
-
-
 
         <p><a href="<c:url value='?action=${actGd}&command=${commIdx}' />">グッズ一覧</a></p>
     </c:param>

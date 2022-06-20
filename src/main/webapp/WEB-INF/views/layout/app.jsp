@@ -10,6 +10,7 @@
 
 <c:set var="commIdx" value="${ForwardConst.CMD_INDEX.getValue()}" />
 <c:set var="commOut" value="${ForwardConst.CMD_LOGOUT.getValue()}" />
+<c:set var="commEdt" value="${ForwardConst.CMD_EDIT.getValue()}" />
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -28,8 +29,10 @@
                         <c:if test="${sessionScope.login_user !=null}">
                             <div id="user_name">
                                 <c:out value="${sessionScope.login_user.name}"/>
-                                 &nbsp;さん&nbsp;&nbsp;&nbsp;
-                                <a href="<c:url value='?action=${actAuth}&command=${commOut}' />">ログアウト</a>&nbsp;
+                                 &nbsp;さん&nbsp;&nbsp;
+                                <a href="<c:url value='?action=${actAuth}&command=${commOut}' />">ログアウト</a>
+                                &nbsp;&nbsp;&nbsp;
+                                <a href="<c:url value='?action=${actUs}&command=${commEdt}' />">情報編集</a>
                             </div>
                         </c:if>
 

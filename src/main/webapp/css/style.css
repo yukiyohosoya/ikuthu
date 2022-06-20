@@ -16,9 +16,9 @@ body {
       display:-webkit-flex;
       display: flex;
       justify-content: center;
-    width: 100%;
-    font-size: 30px;
-    font-family: "Nico Moji";
+      width: 100%;
+      font-size: 30px;
+      font-family: "Nico Moji";
 }
 
 #header a {
@@ -58,16 +58,25 @@ body {
     text-align:  center;
 }
 
+.title1 {
+    text-align:  center;
+    width: 100%;
+    font-size: 30px;
+    font-family: "Nico Moji";
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
 .in_main h3{
 
       font-size: 30px;
-       text-align:center;
-        margin:0 auto;
-         margin-top: 30px;
-         margin-bottom: 10px;
-          position: relative;
+      text-align:center;
+      margin:0 auto;
+      margin-top: 30px;
+      margin-bottom: 10px;
+      position: relative;
       padding: 1rem 2rem calc(1rem + 10px);
-      background: #FFF0E9;
+      background: #FFEAE9;
         width: 50%;
        height: 50%;
 }
@@ -154,7 +163,7 @@ body {
     right: -0.5em;
 }
 .button007 a:hover {
-    background: #FFF0E9;
+    background: #FFEAE9;
     color: #333333;
 }
 .in_main  h2 {
@@ -181,16 +190,23 @@ a {
     color: #FEACAE;
 }
 
+#index_shop_list_div {
+     background-color: #FFEAE9;
+     width: 60%;
+     margin:auto;
+     padding: 30px 10px;
+
+}
+
 table#index_shop_list {
-    width: 70%;
+     width: 90%;
+    margin:auto;
     table-layout: fixed;
     padding: 60px 20px;
-    margin:auto;
-    background-color: #FFF0E9;
+
 }
 
 table#index_shop_list tr {
-    padding: 50px;
     border-bottom:1px dashed #ccc;
     }
 table#index_shop_list th {
@@ -203,9 +219,57 @@ table#index_shop_list td {
     padding: 10px 2%;
 }
 
-button {
+
+#goods_view_box {
+    display:-webkit-flex;
+    display: flex;
+    flex-wrap : wrap;
+    justify-content: center;
+    width: 100%;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    text-align:  center;
+    background: #FEACAE;
+    margin: 30px 0px;
+}
+
+
+.goods_view {
+    width: 250px;
+    padding: 10px 2%;
+    border-radius:10px;
+    margin: 20px;
+    background: #ffffff;
+}
+
+.goods_view_title{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.goods_view_mainbox {
+    display:-webkit-flex;
+    display: flex;
+    justify-content: space-around;
+}
+.goods_view_main {
+    width: 40%;
+    padding: 10px 2%;
+    margin: 10px;
+}
+
+.button1 {
+    width: 60%;
+    text-align:  right;
+    margin: 2px auto 2px;
+    padding: 10px;
+}
+.button1 a{
     font-size: 14px;
-    padding: 5px 10px;
+    padding: 10px;
+    text-decoration: none;
+    border: 2px solid #FFEAE9;
+    color: #FFEAE9;
 }
 
 #footer {

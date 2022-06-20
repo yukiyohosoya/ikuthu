@@ -9,6 +9,7 @@ public enum AttributeConst {
     //一覧画面共通
     MAX_ROW("maxRow"),
     PAGE("page"),
+    PICPATH("picpath"),
 
     //入力フォーム共通
     TOKEN("_token"),
