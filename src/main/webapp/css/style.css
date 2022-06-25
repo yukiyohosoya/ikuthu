@@ -1,11 +1,37 @@
 @CHARSET "UTF-8";
 @import url('https://fonts.googleapis.com/earlyaccess/nicomoji.css');
+@import url('http://mplus-fonts.sourceforge.jp/webfonts/general-j/mplus_webfonts.css');
 
 body {
     color: #333333;
     font-family: 'Noto Sans JP',YuGothic, 'Yu Gothic medium', 'Hiragino Sans', Meiryo, 'sans-serif';
 }
 
+img {
+    width:150px; height:150px;
+    object-fit:contain;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+li {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+p {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+pre {
+    font-family: "Hiragino Kaku Gothic Pro",Meiryo,"MS PGothic",Helvetica,Arial,sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: #FEACAE;
+}
 #header {
     width: 100%;
     height: 70px;
@@ -19,10 +45,10 @@ body {
       width: 100%;
       font-size: 30px;
       font-family: "Nico Moji";
+      color: #ffffff;
 }
 
 #header a {
-
     color: #ffffff;
 }
 
@@ -58,13 +84,29 @@ body {
     text-align:  center;
 }
 
+.title2 {
+    text-align:  center;
+    width: 100%;
+    font-size: 40px;
+    font-family: 'M+ Type-1 (general-j) Black';
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
 .title1 {
     text-align:  center;
     width: 100%;
     font-size: 30px;
     font-family: "Nico Moji";
-    margin-top: 30px;
+    margin-top: 15px;
     margin-bottom: 30px;
+}
+.title1_supple {
+    text-align:  center;
+    width: 100%;
+    font-size: 24px;
+    font-family: "Nico Moji";
+    margin-top: 30px;
 }
 
 .in_main h3{
@@ -171,24 +213,6 @@ body {
     margin-bottom: 30px;
 }
 
-li {
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-p {
-    margin-top: 15px;
-    margin-bottom: 15px;
-}
-
-pre {
-    font-family: "Hiragino Kaku Gothic Pro",Meiryo,"MS PGothic",Helvetica,Arial,sans-serif;
-}
-
-a {
-    text-decoration: none;
-    color: #FEACAE;
-}
 
 #index_shop_list_div {
      background-color: #FFEAE9;
@@ -198,29 +222,9 @@ a {
 
 }
 
-table#index_shop_list {
-     width: 90%;
-    margin:auto;
-    table-layout: fixed;
-    padding: 60px 20px;
-
-}
-
-table#index_shop_list tr {
-    border-bottom:1px dashed #ccc;
-    }
-table#index_shop_list th {
-    width: 26%;
-    padding: 10px 2%;
-}
-
-table#index_shop_list td {
-    width: 66%;
-    padding: 10px 2%;
-}
 
 
-#goods_view_box {
+#goods_view_box_wrap {
     display:-webkit-flex;
     display: flex;
     flex-wrap : wrap;
@@ -231,6 +235,8 @@ table#index_shop_list td {
     text-align:  center;
     background: #FEACAE;
     margin: 30px 0px;
+    border-radius:10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .2); /* 影 */
 }
 
 
@@ -243,8 +249,10 @@ table#index_shop_list td {
 }
 
 .goods_view_title{
-    margin-top: 15px;
-    margin-bottom: 15px;
+    font-size: 24px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-family: "Nico Moji";
 }
 
 .goods_view_mainbox {
@@ -258,19 +266,239 @@ table#index_shop_list td {
     margin: 10px;
 }
 
+.content_title{
+    font-size: 14px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-family: "Yu Gothic medium";
+}
+.content_con{
+    font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-family: "Yu Gothic medium";
+}
+#goods_view_box a{
+    font-size: 8px;
+    text-decoration: none;
+    color: #FEACAE;
+}
+
 .button1 {
     width: 60%;
     text-align:  right;
-    margin: 2px auto 2px;
+    margin: 10px auto 10px;
     padding: 10px;
 }
 .button1 a{
     font-size: 14px;
     padding: 10px;
     text-decoration: none;
-    border: 2px solid #FFEAE9;
-    color: #FFEAE9;
+    background: #FEACAE;
+    color: #333333;
 }
+
+/************************************
+** メインのテーブル
+************************************/
+/* 比較表全体 */
+.compare-box {
+  display:-webkit-box;/* 配置 */
+  display:-ms-flexbox;/* 配置 */
+  display:flex;/* 配置 */
+  max-width:600px;/* 横幅 */
+  margin: 0 auto 2rem;/* 余白 */
+  border-radius:4px;/* 角丸 */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .2); /* 影 */
+  background: #fef9ed; /* 背景色 */
+}
+/* ボックス */
+.compare-box .compare-left-wrap, .compare-box .compare-right-wrap{
+  width:100%;/* 横幅半分ずつ */
+  overflow:hidden;/* はみ出さないように*/
+}
+/* タイトル */
+.compare-box .compare-head{
+  background: #fdc44f; /* 背景色 */
+  text-align: center;/* 中央寄せ */
+  color: #FFF; /* 文字色 */
+  font-weight: bold;/* 文字太さ */
+  padding:0em 1em;/* 余白 */
+  font-size:15px;/* 文字大きさ */
+  line-height:1.5;/* 行間 */
+  height:65px;/* 縦幅 */
+  display:table-cell;/* 形式 */
+  vertical-align:middle;/* 高さ中央寄せ */
+  width:1000px;/* 横幅 */
+}
+/* タイトル */
+.compare-box .compare-head{
+  border-radius:4px 4px 0 0;/* 角丸 */
+}
+
+/* 左のコンテンツ、右のコンテンツ */
+.compare-box .compare {
+  padding:1.5em;/* 余白 */
+  font-size:15px;/* 文字大きさ */
+  line-height:2;/* 行間 */
+  text-align: justify;/* 段落両端 */
+  text-justify: inter-ideograph;/* 段落両端 */
+}
+/* 文章 */
+.compare-box p {
+  padding: 0;/* 余白 */
+  margin: 0 0 20px 0;/* 余白 */
+}
+/*スマホで見たとき*/
+@media screen and (max-width: 480px){
+  /* 左のタイトル、右のタイトル */
+  .compare-box .compare-head　{
+    font-size:12px;/* 文字大きさ */
+    height:50px;/* 高さ */
+  }
+  /* 左のコンテンツ、右のコンテンツ */
+  .compare-box .compare {
+      padding: 1.2em;/* 余白 */
+      font-size: 12px;/* 文字大きさ */
+   }
+}
+
+/************************************
+**  箇条書き(記号)
+************************************/
+/* 箇条書き(記号) */
+.compare-box .list{
+   list-style: none !important;/* 行頭記号リセット */
+   padding:0 !important;/* 余白リセット */
+   margin:0 !important;/* 余白リセット */
+   border:none !important;/* 線リセット */
+}
+/* 箇条書き 行 */
+.compare-box .list li {
+   border-bottom:1px dashed #cdcdcd;/* 線(太さ 種類　色) */
+   position: relative;/* 配置 */
+   margin:0.5em 0 !important;/* 余白 */
+   max-width:500px;/* 横幅 */
+   padding: 0 0 0.7em 1.4em !important;/* 余白 */
+   line-height:1.8;/* 行間 */
+}
+/* 箇条書き 行最後 */
+.compare-box .list li:last-child{
+   border:none;
+}
+/* 箇条書き 行頭記号 */
+.compare-box .list li:before {
+   background-color:  #ffa952; /* 色 */
+   position: absolute;/* 配置 */
+   content: '';/* 空文字 */
+   top: 10px;/* 上からの距離 */
+   left: 7px;/* 下からの距離 */
+   width: 7px;/* 横幅 */
+   height: 7px;/* 縦幅 */
+   border-radius: 4px;/* 角丸 */
+}
+/*スマホで見たとき*/
+@media screen and (max-width: 480px){
+  /* 箇条書き 行頭記号 */
+  .compare-box .list li:before {
+    top: 9px;/* 上からの距離 */
+    left: 3px;/* 下からの距離 */
+    width:5px;/* 横幅 */
+    height:5px;/* 縦幅 */
+  }
+}
+
+/************************************
+**  リストその２
+************************************/
+ol.listdesign2{
+  counter-reset:list;
+  list-style-type:none;
+  font: 14px/1.6 'arial narrow', sans-serif;
+  padding:0;
+}
+ol.listdesign2 li{
+  position:relative;
+  margin: 7px 0 7px 0px;
+  padding-left:40px;
+  font-weight: bold;
+  font-size:14px;
+  line-height: 30px;
+  border: solid 1px #F6A38B;
+  border-radius:20px;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -o-transition: 0.3s;
+  -ms-transition: 0.3s;
+  transition: 0.3s;
+}
+ol.listdesign2 li:before{
+  counter-increment: list;
+  content: counter(list);
+  position: absolute;
+  left: 0px;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  color: #fff;
+  line-height:30px;
+  background: #F6A38B;
+  border-radius: 50%;
+  top: 50%;
+  -moz-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+ol.listdesign2 li:hover{
+  background: #F6A38B;
+  color: #fff;
+}
+ol.listdesign2 li:hover:before{
+  background: #fff;
+  color: #F6A38B;
+}
+div.listdesign2{
+     width: 60%;
+     margin: 30px auto 80px;
+}
+
+/************************************
+**  Goods new edit show　関係
+************************************/
+/** input類 **/
+
+.number1{
+    width: 10em;
+    max-width: 100%;
+    padding: 0.2em;
+    border: 1px solid #999;
+    box-sizing: border-box;
+    margin: 0.2em 0;
+}
+.text1{
+    width: 15em;
+    max-width: 100%;
+    padding: 0.2em;
+    border: 1px solid #999;
+    box-sizing: border-box;
+    margin: 0.2em 0;
+}
+
+.input_title{
+    font-size: 18px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-family: 'Noto Sans JP'
+}
+
+
+
+
+
+
+
 
 #footer {
     text-align: center;

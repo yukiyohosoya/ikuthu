@@ -18,6 +18,5 @@
 <br /><br />
 
 <input type="hidden" name="${AttributeConst.SH_ID.getValue()}" value="${shop.id}" />
-<input type="hidden" name="${AttributeConst.SH_ID.getValue()}" value="${shop.id}" />
 <input type="hidden" name="${AttributeConst.TOKEN.getValue()}" value="${_token}" />
 <button type="submit">投稿</button>

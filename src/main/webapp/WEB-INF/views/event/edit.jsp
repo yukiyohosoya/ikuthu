@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="constants.ForwardConst" %>
 
-<c:set var="action" value="${ForwardConst.ACT_SHOP.getValue()}" />
+<c:set var="action" value="${ForwardConst.ACT_EVENT.getValue()}" />
 <c:set var="commUpd" value="${ForwardConst.CMD_UPDATE.getValue()}" />
 
 <c:import url="/WEB-INF/views/layout/app.jsp">

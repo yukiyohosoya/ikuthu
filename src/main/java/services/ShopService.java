@@ -103,16 +103,12 @@ public class ShopService extends ServiceBase {
      * @param id
      */
     public void destroy(Integer id) {
-
-        //idを条件に登録済みの従業員情報を取得
-        ShopView saved = findOne(id);
-
+        //idを条件に登録してあるショップを選択
+        ShopView sv = findOne(id);
         //論理削除フラグを立てる
-        saved.setDeleteFlag(JpaConst.ALL_DEL_TRUE);
-
+        sv.setDeleteFlag(JpaConst.ALL_DEL_TRUE);
         //更新処理
-        update(saved);
-
+        updateInternal(sv);
     }
 
     /**

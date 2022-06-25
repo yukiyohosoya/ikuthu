@@ -259,21 +259,33 @@ public class LimitedgoodsAction extends ActionBase {
     }
 
 
-//
-//    Part part = request.getPart("picture");
-//    String picture = this.getFileName(part);
-//    part.write(context.getRealPath("/WEB-INF/uploaded") + "/" + picture);
-//
-//    private String getFileName(Part part) {
-//        String name = null;
-//        for (String dispotion : part.getHeader("Content-Disposition").split(";")) {
-//            if (dispotion.trim().startsWith("filename")) {
-//                name = dispotion.substring(dispotion.indexOf("=") + 1).replace("\"", "").trim();
-//                name = name.substring(name.lastIndexOf("\\") + 1);
-//                break;
-//            }
-//        }
-//        return name;
-//    }
+    /**
+     * 論理削除を行う
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void destroy() throws ServletException, IOException {
+
+        //CSRF対策 tokenのチェック
+        if(checkToken()) {
+
+            //idを条件にユーザーデータを論理削除する
+            limievgoods_service.destroy(toNumber(getRequestParam(AttributeConst.GS_ID)));
+            System.out.println(getRequestParam(AttributeConst.GS_ID));
+
+            //セッションに削除完了のフラッシュメッセージ
+            putSessionScope(AttributeConst.FLUSH, MessageConst.I_DELETED.getMessage());
+
+            //セッションにフラッシュメッセージが設定されている場合はリクエストスコープに移し替え、セッションからは削除する
+            String flush = getSessionScope(AttributeConst.FLUSH);
+            if (flush != null) {
+                putRequestScope(AttributeConst.FLUSH, flush);
+                removeSessionScope(AttributeConst.FLUSH);
+            }
+
+            //一覧画面を表示
+            forward(ForwardConst.FW_SH_INDEX);
+        }
+    }
 
 }

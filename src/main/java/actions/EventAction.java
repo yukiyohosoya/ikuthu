@@ -135,7 +135,7 @@ public class EventAction extends ActionBase {
                 //登録中にエラーがあった場合
 
                 putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
-                putRequestScope(AttributeConst.SHOP, ev); //入力されたイベント情報
+                putRequestScope(AttributeConst.EVENT, ev); //入力されたイベント情報
                 putRequestScope(AttributeConst.ERR, errors); //エラーのリスト
 
                 //新規登録画面を再表示
@@ -198,19 +198,19 @@ public class EventAction extends ActionBase {
     public void edit() throws ServletException, IOException {
 
         //idを条件にショップデータを取得
-        ShopView sv = shop_service.findOne(toNumber(getRequestParam(AttributeConst.US_ID)));
+        EventView ev = event_service.findOne(toNumber(getRequestParam(AttributeConst.EV_ID)));
+        //セッションからショップ情報を取得
+        System.out.println(ev.getId());
+        ShopView sv = (ShopView) getSessionScope(AttributeConst.SELECT_SH);
 
-        //セッションからログイン中のユーザー情報を取得
-        UserView uv = (UserView)getSessionScope(AttributeConst.SELECT_SH);
-
-        if (sv == null || uv.getId() != sv.getUser().getId()) {
+        if (ev == null || sv.getId() != ev.getShop().getId()) {
             //該当のショップデータが存在しない、またはログインしているユーザーがショップの作者でない場合はエラー画面を表示
             forward(ForwardConst.FW_ERR_UNKNOWN);
 
         }else {
 
             putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
-            putRequestScope(AttributeConst.SHOP, sv); //取得したショップ情報
+            putRequestScope(AttributeConst.EVENT, ev); //取得したショップ情報
 
             //編集画面を表示する
             forward(ForwardConst.FW_EV_EDIT);
@@ -228,19 +228,22 @@ public class EventAction extends ActionBase {
         if(checkToken()) {
 
             //idを条件にショップデータを取得
-            ShopView sv = shop_service.findOne(toNumber(getRequestParam(AttributeConst.SH_ID)));
+            EventView ev = event_service.findOne(toNumber(getRequestParam(AttributeConst.EV_ID)));
+            //セッションからショップ情報を取得
+            ShopView sv = (ShopView) getSessionScope(AttributeConst.SELECT_SH);
 
             //入力されたショップ内容を設定する
-            sv.setName(getRequestParam(AttributeConst.SH_NAME));
+            ev.setName(getRequestParam(AttributeConst.EV_NAME));
+            ev.setEventday(getRequestParam(AttributeConst.EV_DAY).replace("/", "-"));
 
             //ショップデータを更新
-            List<String> errors = shop_service.update(sv);
+            List<String> errors = event_service.update(ev);
 
             if (errors.size() > 0) {
                 //更新中にエラーが発生した場合
 
                 putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
-                putRequestScope(AttributeConst.SHOP, sv); //入力されたショップ情報
+                putRequestScope(AttributeConst.EVENT, ev); //入力されたイベント情報
                 putRequestScope(AttributeConst.ERR, errors); //エラーのリスト
 
                 //編集画面を再表示
@@ -252,13 +255,42 @@ public class EventAction extends ActionBase {
                 putSessionScope(AttributeConst.FLUSH, MessageConst.I_UPDATED.getMessage());
 
                 //一覧画面にリダイレクト
-                redirect(ForwardConst.ACT_SHOP, ForwardConst.CMD_INDEX);
+                redirect(ForwardConst.ACT_EVENT, ForwardConst.CMD_SHOW);
             }
         }
     }
 
     /**
-     * ショップのログイン処理を行う
+     * 論理削除を行う
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void destroy() throws ServletException, IOException {
+
+        //CSRF対策 tokenのチェック
+        if(checkToken()) {
+
+            //idを条件にユーザーデータを論理削除する
+            event_service.destroy(toNumber(getRequestParam(AttributeConst.GS_ID)));
+            System.out.println(getRequestParam(AttributeConst.GS_ID));
+
+            //セッションに削除完了のフラッシュメッセージ
+            putSessionScope(AttributeConst.FLUSH, MessageConst.I_DELETED.getMessage());
+
+            //セッションにフラッシュメッセージが設定されている場合はリクエストスコープに移し替え、セッションからは削除する
+            String flush = getSessionScope(AttributeConst.FLUSH);
+            if (flush != null) {
+                putRequestScope(AttributeConst.FLUSH, flush);
+                removeSessionScope(AttributeConst.FLUSH);
+            }
+
+            //一覧画面を表示
+            forward(ForwardConst.FW_SH_INDEX);
+        }
+    }
+
+    /**
+     * ショップの選択処理を行う
      * @throws ServletException
      * @throws IOException
      */

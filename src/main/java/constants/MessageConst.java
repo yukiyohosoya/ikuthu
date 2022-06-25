@@ -14,6 +14,7 @@ public enum MessageConst {
     I_REGISTERED("登録が完了しました。"),
     I_UPDATED("更新が完了しました。"),
     I_DELETED("削除が完了しました。"),
+    I_DELETEDSHOP("ショップの削除が完了しました。"),
 
     //ユーザーバリデーション
     U_NONAME("登録名を入力してください。"),
@@ -21,6 +22,7 @@ public enum MessageConst {
     U_NOMATCHPASSWORD("確認入力とパスワードが一致しません。"),
     U_NOEMP_MAIL("メールアドレスを入力してください。"),
     U_US_MAIL_EXIST("入力されたメールアドレスの情報は既に存在しています。"),
+    U_US_DELETEMAIL_EXIST("入力されたメールアドレスの情報は既に削除済みです。"),
     U_NOADDRESS("メールアドレスを入力してください。"),
     U_NOSTRINGPASS("パスワードに使用できる文字はアルファベットの大文字と小文字、数字です。"),
     U_NOLONGPASS("パスワードは8文字以上24文字以内にしてください。"),
@@ -43,6 +45,8 @@ public enum MessageConst {
     U_GS_PRNOIN("デフォルト販売価格、仕入価格は数字で入力してください。"),
     U_GS_STOCKNO("在庫数を入力してください。"),
     U_GS_STOCKNOIN("在庫数は数字で入力してください。"),
+    U_GS_PICTURESIZE("画像の容量が大きすぎます。1MB以下にしてください"),
+    U_GS_NOPICTURE("jpgファイルかpngファイルを選択してください。"),
 
     //イベントごとグッズバリデーション
     U_LEGSNULL("ページを更新してチェックを入れなおしてください。"),

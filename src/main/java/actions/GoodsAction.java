@@ -9,7 +9,6 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.Part;
 
 import actions.views.UserView;
-import actions.views.EventView;
 import actions.views.GoodsView;
 import actions.views.ShopView;
 import constants.AttributeConst;
@@ -117,10 +116,25 @@ public class GoodsAction extends ActionBase {
 
             String day=getRequestParam(AttributeConst.GS_CREATEDAY).replace("/", "-");
 
+            //inputからfileピクチャを取得
             Part part = request.getPart(AttributeConst.GS_PICTURE.getValue());
-            String picture = this.getFileName(part);
-            part.write(context.getRealPath("/uploaded") + "/" + picture);
-            System.out.println(picture);
+            //セットされてなかった場合のフラグをオンにしておき、noimageのパスをpictureに入れておく。
+            boolean notsetfile =true;
+            String picture = "noimage.jpg";
+
+            //取得したpartオブジェクトが空じゃなかった場合。
+            if(!(part.getSize()==0)) {
+              //取得したファイルから名前を取得
+              picture = this.getFileName(part);
+              //拡張子だけを取得
+              String extension = picture.substring(picture.lastIndexOf("."));
+              //既存のグッズ数をカウントし
+              long number = goods_service.countAll();
+              //今までの物をセットし、新しい名前にする。
+              picture =String.valueOf(sv.getId())+"_"+String.valueOf(number+1) + extension ;
+              //フラグをfalseにしておく
+              notsetfile =false;
+            }
 
             //パラメータの値を元にショップ情報のインスタンスを作成する
             GoodsView gv = new GoodsView(
@@ -136,13 +150,14 @@ public class GoodsAction extends ActionBase {
                     null,
                     AttributeConst.DEL_FLAG_FALSE.getIntegerValue());
 
-            System.out.println(context.getRealPath("/uploaded") + "/" + picture);
             //グッズ情報登録
-            List<String> errors = goods_service.create(gv);
+            List<String> errors = goods_service.create(gv,part);
 
             if (errors.size() > 0) {
                 //登録中にエラーがあった場合
 
+                //セットしたpictureをnullにして返す
+                gv.setPicture(null);
                 putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
                 putRequestScope(AttributeConst.GOODS, gv); //入力されたイベント情報
                 putRequestScope(AttributeConst.ERR, errors); //エラーのリスト
@@ -153,11 +168,16 @@ public class GoodsAction extends ActionBase {
 
             } else {
                 //登録中にエラーがなかった場合
+                //この段階で画像は書き込み。パートファイルが正常だったら。
+                if(!notsetfile) {
+                    part.write(context.getRealPath("/uploaded") + "/" + picture);
+                }
+
                 //セッションに登録完了のフラッシュメッセージを設定
                 putSessionScope(AttributeConst.FLUSH, MessageConst.I_REGISTERED.getMessage());
 
                 //一覧画面にリダイレクト
-                redirect(ForwardConst.ACT_GOODS, ForwardConst.CMD_INDEX);
+                redirect(ForwardConst.ACT_SHOP, ForwardConst.CMD_INDEX);
             }
 
         }
@@ -172,15 +192,15 @@ public class GoodsAction extends ActionBase {
     public void show() throws ServletException, IOException {
 
         //idを条件にショップデータを取得
-        ShopView sv = shop_service.findOne(toNumber(getRequestParam(AttributeConst.SH_ID)));
+        GoodsView gv = goods_service.findOne(toNumber(getRequestParam(AttributeConst.GS_ID)));
 
-        if(sv==null) {
+        if(gv==null) {
             //該当のショップデータが存在しない場合はエラー画面を表示
             forward(ForwardConst.FW_ERR_UNKNOWN);
             return;
         }else{
-            putRequestScope(AttributeConst.SHOP,sv);//取得したショップデータ
-
+            putRequestScope(AttributeConst.GOODS,gv);//取得したショップデータ
+            putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
             //詳細画面を表示
             forward(ForwardConst.FW_GS_SHOW);
 
@@ -193,21 +213,21 @@ public class GoodsAction extends ActionBase {
      * @throws IOException
      */
     public void edit() throws ServletException, IOException {
-
+        System.out.println("きてるよ～");
+        //セッションからショップ情報を取得
+        ShopView sv = (ShopView) getSessionScope(AttributeConst.SELECT_SH);
         //idを条件にショップデータを取得
-        ShopView sv = shop_service.findOne(toNumber(getRequestParam(AttributeConst.US_ID)));
+        GoodsView gv = goods_service.findOne(toNumber(getRequestParam(AttributeConst.GS_ID)));
 
-        //セッションからログイン中のユーザー情報を取得
-        UserView uv = (UserView)getSessionScope(AttributeConst.LOGIN_US);
-
-        if (sv == null || uv.getId() != sv.getUser().getId()) {
-            //該当のショップデータが存在しない、またはログインしているユーザーがショップの作者でない場合はエラー画面を表示
+        if (sv == null || gv.getShop().getId() != sv.getId()) {
+            //該当のショップデータが存在しない、また作成したグッズの管理ショップ作者でない場合はエラー画面を表示
+            System.out.println(gv.getShop().getId()+"と"+sv.getId());
             forward(ForwardConst.FW_ERR_UNKNOWN);
 
         }else {
 
             putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
-            putRequestScope(AttributeConst.SHOP, sv); //取得したショップ情報
+            putRequestScope(AttributeConst.GOODS, gv); //取得したショップ情報
 
             //編集画面を表示する
             forward(ForwardConst.FW_GS_EDIT);
@@ -224,33 +244,67 @@ public class GoodsAction extends ActionBase {
         //CSRF対策 tokenのチェック
         if(checkToken()) {
 
-            //idを条件にショップデータを取得
-            ShopView sv = shop_service.findOne(toNumber(getRequestParam(AttributeConst.SH_ID)));
+            //セッションからショップ情報を取得
+            ShopView sv = (ShopView) getSessionScope(AttributeConst.SELECT_SH);
+            //idを条件に日報データを取得
+            GoodsView gv = goods_service.findOne(toNumber(getRequestParam(AttributeConst.GS_ID)));
 
-            //入力されたショップ内容を設定する
-            sv.setName(getRequestParam(AttributeConst.SH_NAME));
+            //入力されたグッズ内容を設定する
+            gv.setCreate_day(getRequestParam(AttributeConst.GS_CREATEDAY).replace("/", "-"));
+            gv.setName(getRequestParam(AttributeConst.GS_NAME));
+            gv.setSellingprice(getRequestParam(AttributeConst.GS_SELLINGPRICE));
+            gv.setPurchaseprice(getRequestParam(AttributeConst.GS_PURCHASEPRICE));
+            gv.setStock(getRequestParam(AttributeConst.GS_STOCK));
 
-            //ショップデータを更新
-            List<String> errors = shop_service.update(sv);
+
+            //inputからfileピクチャを取得
+            Part part = request.getPart(AttributeConst.GS_PICTURE.getValue());
+            //セットされてなかった場合のフラグをオンにしておき、元々の指定ファイルを入れておく。
+            boolean notsetfile =true;
+            String picture =gv.getPicture();
+
+            System.out.println("ここまできてるよ～" + gv.getName());
+            //取得したpartオブジェクトが空じゃなかった場合。
+            if(!(part.getSize()==0)) {
+              //取得したファイルから名前を取得
+              picture = this.getFileName(part);
+              //拡張子だけを取得
+              String extension = picture.substring(picture.lastIndexOf("."));
+              //もうIDを獲得してるので、IDを新しい名前にする。
+              picture =String.valueOf(sv.getId())+"_"+ gv.getId() + extension ;
+              gv.setPicture(picture);
+              //フラグをfalseにしておく
+              notsetfile =false;
+            }
+
+            //グッズ情報登録
+            List<String> errors = goods_service.update(gv,part);
 
             if (errors.size() > 0) {
-                //更新中にエラーが発生した場合
+                //登録中にエラーがあった場合
 
                 putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
-                putRequestScope(AttributeConst.SHOP, sv); //入力されたショップ情報
+                putRequestScope(AttributeConst.GOODS, gv); //入力されたイベント情報
                 putRequestScope(AttributeConst.ERR, errors); //エラーのリスト
 
-                //編集画面を再表示
+                System.out.println(errors);
+                //新規登録画面を再表示
                 forward(ForwardConst.FW_GS_EDIT);
-            } else {
-                //更新中にエラーがなかった場合
 
-                //セッションに更新完了のフラッシュメッセージを設定
+            } else {
+                //登録中にエラーがなかった場合
+                //この段階で画像は書き込み。パートファイルが正常だったら。
+                if(!notsetfile) {
+                    part.write(context.getRealPath("/uploaded") + "/" + picture);
+                }
+
+                //セッションに登録完了のフラッシュメッセージを設定
                 putSessionScope(AttributeConst.FLUSH, MessageConst.I_UPDATED.getMessage());
 
                 //一覧画面にリダイレクト
                 redirect(ForwardConst.ACT_SHOP, ForwardConst.CMD_INDEX);
             }
+
         }
     }
 
@@ -269,29 +323,42 @@ public class GoodsAction extends ActionBase {
         UserView uv = (UserView)getSessionScope(AttributeConst.LOGIN_US);
         ShopView sv = shop_service.findOne(toNumber(getRequestParam(AttributeConst.SH_ID)));
 
-        //有効なユーザーか承認する
-      //  boolean isValidShop = shop_service.validateShop(uv, sv);
-     //   System.out.println(isValidShop);
-     //  if(isValidShop) {
-           //認証成功の場合
-
-           //CSRF対策 tokenのチェック
-       //    if (checkToken()) {
                //セッションにログインしたユーザーを設定
                putSessionScope(AttributeConst.SELECT_SH,sv);
                //トップへリダイレクト
                redirect(ForwardConst.ACT_SHOP,ForwardConst.CMD_INDEX);
-    //       }
-    //   }else{
-           //認証失敗
-           //CRF対策用トークンを設定
-   //        putRequestScope(AttributeConst.TOKEN,getTokenId());
-           //承認失敗エラーメッセージ表示フラグを建てる
-  //         putRequestScope(AttributeConst.LOGIN_ERR,true);
-           //ログイン画面を表示
-  //        forward(ForwardConst.FW_TOP_INDEX);
-  //     }
+
     }
+
+    /**
+     * 論理削除を行う
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void destroy() throws ServletException, IOException {
+
+        //CSRF対策 tokenのチェック
+        if(checkToken()) {
+
+            //idを条件にユーザーデータを論理削除する
+            goods_service.destroy(toNumber(getRequestParam(AttributeConst.GS_ID)));
+            System.out.println(getRequestParam(AttributeConst.GS_ID));
+
+            //セッションにフラッシュメッセージが設定されている場合はリクエストスコープに移し替え、セッションからは削除する
+            String flush = getSessionScope(AttributeConst.FLUSH);
+            if (flush != null) {
+                putRequestScope(AttributeConst.FLUSH, flush);
+                removeSessionScope(AttributeConst.FLUSH);
+            }
+            //セッションに削除完了のフラッシュメッセージ
+            putSessionScope(AttributeConst.FLUSH, MessageConst.I_DELETED.getMessage());
+
+            //一覧画面にリダイレクト
+            redirect(ForwardConst.ACT_SHOP, ForwardConst.CMD_INDEX);
+        }
+    }
+
+
 
     private String getFileName(Part part) {
     String name = null;

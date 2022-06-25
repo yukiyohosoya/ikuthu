@@ -32,6 +32,9 @@ import lombok.Setter;
             name = JpaConst.Q_GOODS_US_COUNT_ALL_MINE,
             query = JpaConst.Q_GOODS_US_COUNT_ALL_MINE_DEF),
     @NamedQuery(
+            name = JpaConst.Q_GOODS_COUNT_ALL_MINE,
+            query = JpaConst.Q_GOODS_COUNT_ALL_MINE_DEF),
+    @NamedQuery(
             name = JpaConst.Q_GOODS_GET_ALL_MINE,
             query = JpaConst.Q_GOODS_GET_ALL_MINE_DEF),
     @NamedQuery(

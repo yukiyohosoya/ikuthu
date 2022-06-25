@@ -49,6 +49,11 @@
       <artifactId>javax.servlet.jsp.jstl-api</artifactId>
       <version>1.2.1</version>
     </dependency>
+    <dependency>
+    	<groupId>com.amazonaws</groupId>
+    	<artifactId>aws-java-sdk</artifactId>
+    	<version>1.11.837</version>
+    </dependency>
   </dependencies>
   <build>
     <finalName>daily_report_system</finalName>

@@ -16,22 +16,27 @@
     <c:out value="${loginError}"/>
     <div class="in_main">
 
-          <h2>ようこそ</h2>
-          <c:choose>
+          <p class="title2">ショップ選択</p>
 
+          <c:choose>
             <c:when test="${shops_count == 0}">
-                <h3>ショップがありません</h3>
-                <p>ショップを作成してみてください！</p>
+                    <div class="exp">
+                        <p>ショップがありません</p>
+                        <p>ショップを作成してみてください！</p>
+                    </div>
             </c:when>
             <c:otherwise>
-                <h4>管理するショップを選んでください。</h4>
-                    <ul>
+                <div class="exp">
+                    <p>管理するショップを選んでください。</p>
+                </div>
+                <div class="listdesign2">
+                <ol class="listdesign2">
                     <c:forEach var="shop" items="${shops}" varStatus="status">
                         <li><a href="<c:url value='?action=${actSh}&command=${commSl}&sh_id=${shop.id}' />">${shop.name}</a></li>
                     </c:forEach>
-                    </ul>
+                </ol>
+                </div>
             </c:otherwise>
-
         </c:choose>
         <p><a href="<c:url value='?action=${actSh}&command=${commNew}' />">新規ショップ登録</a></p>
 

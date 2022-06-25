@@ -166,7 +166,7 @@ public abstract class ActionBase {
             System.out.println("一致してないらしい" + _token);
             return false;
         } else {
-            System.out.println(_token);
+            System.out.println("トークンOKよ");
             return true;
         }
 

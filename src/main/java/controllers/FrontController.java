@@ -45,7 +45,7 @@ public class FrontController extends HttpServlet {
   }
 
   /*リクエストパラメータの値から該当するActionクラスの員スタンを作成し、返却する
-   * （例：パラメータがaction=Employeeの場合、actions.EmployeeActionオブジェクト）
+   * （例：パラメータがaction=Userの場合、actions.UserActionオブジェクト）
    * @param request リクエスト
    * @param response レスポンス
    * @return
@@ -56,17 +56,17 @@ public class FrontController extends HttpServlet {
       Class type = null;
       ActionBase action =null;
       try{
-          //リクエストからパラメータ"action"の値を取得（例："Employee"、"Report"）
+          //リクエストからパラメータ"action"の値を取得（例："User"、"Shop"）
           String actionString =request.getParameter(ForwardConst.ACT.getValue());
 
-          //該当するActionオブジェクトを作成（例：リクエストからパラメータaction=Employeeの場合、actions.EmployeeActionオブジェクト）
+          //該当するActionオブジェクトを作成（例：リクエストからパラメータaction=Userの場合、actions.UserActionオブジェクト）
           type= Class.forName(String.format("actions.%sAction", actionString));
 
-          //ActionBaseのオブジェクトにキャスト（例：actions.EmployeeActionオブジェクト→acitons.ActionBaseオブジェクト）
+          //ActionBaseのオブジェクトにキャスト（例：actions.UserActionオブジェクト→acitons.ActionBaseオブジェクト）
           action=(ActionBase)(type.asSubclass(ActionBase.class)
                   .getDeclaredConstructor()
                   .newInstance());
-      }catch(ClassNotFoundException | InstantiationException | IllegalAccessException | SecurityException
+          }catch(ClassNotFoundException | InstantiationException | IllegalAccessException | SecurityException
               |IllegalArgumentException|InvocationTargetException | NoSuchMethodException  e ) {
           //リクエストパラメータに設定されている"action"の値が不正の場合（例：action=xxxx　等、該当するActionクラスがない場合）
           //エラー処理を行うActionオブジェクトを作成

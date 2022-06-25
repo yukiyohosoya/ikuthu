@@ -74,6 +74,14 @@ public class UserValidator {
             return MessageConst.U_NOADDRESS.getMessage();
         }
         if(mailDuplicateCheckFlag) {
+            //過去に使われたメールアドレスの重複チェックを実施
+            Long userdeleteCount = isDuplicateUserdeleteuser(service,mail);
+            //削除された同一メールアドレスがすでに登録されている場合はエラーメッセージを返却
+            if(userdeleteCount > 0) {
+                return MessageConst.U_US_DELETEMAIL_EXIST.getMessage();
+            }
+        }
+        if(mailDuplicateCheckFlag) {
             //メールアドレスの重複チェックを実施
             Long usersCount = isDuplicateUser(service,mail);
             //同一メールアドレスがすでに登録されている場合はエラーメッセージを返却
@@ -95,6 +103,17 @@ public class UserValidator {
 
         long userCount=service.countByMail(mail);
         return userCount;
+    }
+
+    /**
+     * @param service UserServiceのインスタンス
+     * @param mail　メールアドレス
+     * @return ユーザーテーブルに登録されている同一メールアドレスのデータの件数
+     */
+    private static Long isDuplicateUserdeleteuser(UserService service, String mail) {
+
+        long userdeleteCount=service.countBydeleteMail(mail);
+        return userdeleteCount;
     }
 
     /**

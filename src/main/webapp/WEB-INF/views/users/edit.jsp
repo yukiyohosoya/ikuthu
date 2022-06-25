@@ -4,7 +4,7 @@
 <%@ page import="constants.AttributeConst" %>
 
 <c:set var="action" value="${ForwardConst.ACT_USER.getValue()}" />
-<c:set var="actShop" value="${ForwardConst.ACT_SHOP.getValue()}" />
+<c:set var="actTop" value="${ForwardConst.ACT_TOP.getValue()}" />
 <c:set var="commUpd" value="${ForwardConst.CMD_UPDATE.getValue()}" />
 <c:set var="commInd" value="${ForwardConst.CMD_INDEX.getValue()}" />
 <c:set var="commDel" value="${ForwardConst.CMD_DESTROY.getValue()}" />
@@ -35,7 +35,7 @@
         </script>
 
 
-        <p><a href="<c:url value='?action=${actShop}&command=${commInd}' />">ショップに戻る</a></p>
+        <p><a href="<c:url value='?action=${actTop}&command=${commInd}' />">ショップ一覧に戻る</a></p>
 
 
     </c:param>

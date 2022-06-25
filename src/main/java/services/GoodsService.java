@@ -3,6 +3,8 @@ package services;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.servlet.http.Part;
+
 import actions.views.ShopConverter;
 import actions.views.ShopView;
 import actions.views.EventConverter;
@@ -82,6 +84,17 @@ public class GoodsService extends ServiceBase {
     }
 
     /**
+     * 全てのグッズデータの件数を取得し、返却する
+     * @return グッズデータの件数
+     */
+
+    public long countAll() {
+        long count =(long)em.createNamedQuery(JpaConst.Q_GOODS_COUNT_ALL_MINE,Long.class)
+                .getSingleResult();
+        return count;
+    }
+
+    /**
      * 指定したショップが作成したグッズデータの件数を取得し、返却する
      * @param shop
      * @return グッズデータの件数
@@ -134,8 +147,8 @@ public class GoodsService extends ServiceBase {
      * @param gv イベントの登録内容
      * @return バリデーションで発生したエラーのリスト
      */
-    public List<String> create(GoodsView gv){
-        List<String>errors=GoodsValidator.Validate(gv);
+    public List<String> create(GoodsView gv,Part part){
+        List<String>errors=GoodsValidator.Validate(gv,part);
         if(errors.size()==0) {
             LocalDateTime ldt =LocalDateTime.now();
             gv.setCreatedAt(ldt);
@@ -150,9 +163,9 @@ public class GoodsService extends ServiceBase {
      * @param gv イベントの更新内容
      * @return バリデーションで発生したエラーのリスト
      */
-    public List<String> update(GoodsView gv){
+    public List<String> update(GoodsView gv,Part part){
         //バリデーションを行う
-        List<String>errors=GoodsValidator.Validate(gv);
+        List<String>errors=GoodsValidator.Validate(gv,part);
         if(errors.size()==0) {
             LocalDateTime ldt =LocalDateTime.now();
             gv.setUpdatedAt(ldt);
@@ -162,24 +175,25 @@ public class GoodsService extends ServiceBase {
         return errors;
     }
 
+
     /**
      * idを条件にデータを論理削除する
      * @param id
      */
     public void destroy(Integer id) {
 
-        //idを条件に登録済みの従業員情報を取得
-        GoodsView saved = findOne(id);
+        //idを条件に登録済みのグッズを取得
+        GoodsView gv = findOne(id);
 
         //更新日時に現在時刻を設定する
         LocalDateTime today = LocalDateTime.now();
-        saved.setUpdatedAt(today);
+        gv.setUpdatedAt(today);
 
         //論理削除フラグを立てる
-        saved.setDeleteFlag(JpaConst.ALL_DEL_TRUE);
+        gv.setDeleteFlag(JpaConst.ALL_DEL_TRUE);
 
         //更新処理
-        update(saved);
+        updateInternal(gv);
 
     }
     /**
@@ -206,6 +220,7 @@ public class GoodsService extends ServiceBase {
      */
     private void createInternal(GoodsView  gv) {
         em.getTransaction().begin();
+
         em.persist(GoodsConverter.toModel(gv));
         em.getTransaction().commit();
     }

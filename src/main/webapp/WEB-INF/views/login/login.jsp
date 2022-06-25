@@ -45,4 +45,5 @@
          <p  class="button007"><a href="<c:url value='?action=${actUs}&command=${comNew}' />" class="btn btn--orange btn--radius">ユーザー登録</a></p>
     </div>
     </c:param>
+
     </c:import>

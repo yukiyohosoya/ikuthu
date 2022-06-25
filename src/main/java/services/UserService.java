@@ -82,6 +82,7 @@ public class UserService extends ServiceBase {
     /**
      * メールアドレスを条件に該当するデータの件数を取得し、返却する
      * @param mailaddress メールアドレス
+     * @param 削除してないアカウント
      * @return 該当するデータの件数
      */
     public long countByMail(String mailaddress) {
@@ -89,6 +90,23 @@ public class UserService extends ServiceBase {
         //指定したメールアドレスを保持するユーザーの件数を取得する
         long users_count = (long) em.createNamedQuery(JpaConst.Q_US_COUNT_RESISTERED_BY_MAIL, Long.class)
                 .setParameter(JpaConst.JPQL_PARM_MAIL, mailaddress)
+                .setParameter(JpaConst.JPQL_PARM_FLAG, 0)
+                .getSingleResult();
+        return users_count;
+    }
+
+    /**
+     * メールアドレスを条件に該当するデータの件数を取得し、返却する
+     * @param mailaddress メールアドレス
+     * @param 削除フラグtrue
+     * @return 該当するデータの件数
+     */
+    public long countBydeleteMail(String mailaddress) {
+
+        //指定したメールアドレスを保持するユーザーの件数を取得する
+        long users_count = (long) em.createNamedQuery(JpaConst.Q_US_COUNT_RESISTERED_BY_MAIL, Long.class)
+                .setParameter(JpaConst.JPQL_PARM_MAIL, mailaddress)
+                .setParameter(JpaConst.JPQL_PARM_FLAG, 1)
                 .getSingleResult();
         return users_count;
     }

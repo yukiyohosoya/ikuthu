@@ -156,8 +156,8 @@ public class ShopAction extends ActionBase {
 
     public void show() throws ServletException, IOException {
 
-        //idを条件にショップデータを取得
-        ShopView sv = shop_service.findOne(toNumber(getRequestParam(AttributeConst.SH_ID)));
+        //セッションからショップ情報を取得
+        ShopView sv = (ShopView) getSessionScope(AttributeConst.SELECT_SH);
 
         if(sv==null) {
             //該当のショップデータが存在しない場合はエラー画面を表示
@@ -165,7 +165,7 @@ public class ShopAction extends ActionBase {
             return;
         }else{
             putRequestScope(AttributeConst.SHOP,sv);//取得したショップデータ
-
+            putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
             //詳細画面を表示
             forward(ForwardConst.FW_SH_SHOW);
 
@@ -179,8 +179,8 @@ public class ShopAction extends ActionBase {
      */
     public void edit() throws ServletException, IOException {
 
-        //idを条件にショップデータを取得
-        ShopView sv = shop_service.findOne(toNumber(getRequestParam(AttributeConst.US_ID)));
+        //セッションからショップ情報を取得
+        ShopView sv = (ShopView) getSessionScope(AttributeConst.SELECT_SH);
 
         //セッションからログイン中のユーザー情報を取得
         UserView uv = (UserView)getSessionScope(AttributeConst.LOGIN_US);
@@ -232,7 +232,8 @@ public class ShopAction extends ActionBase {
 
                 //セッションに更新完了のフラッシュメッセージを設定
                 putSessionScope(AttributeConst.FLUSH, MessageConst.I_UPDATED.getMessage());
-
+                //セッションに新たに設定したShop設定を設定しなおす
+                putSessionScope(AttributeConst.SELECT_SH,sv);
                 //一覧画面にリダイレクト
                 redirect(ForwardConst.ACT_SHOP, ForwardConst.CMD_INDEX);
             }
@@ -260,7 +261,38 @@ public class ShopAction extends ActionBase {
 
     }
 
+    /**
+     * 論理削除を行う
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void destroy() throws ServletException, IOException {
 
+        //CSRF対策 tokenのチェック
+        if(checkToken()) {
+
+            //idを条件にユーザーデータを論理削除する
+            shop_service.destroy(toNumber(getRequestParam(AttributeConst.SH_ID)));
+            System.out.println(getRequestParam(AttributeConst.SH_ID)+"DELETEきてるよ");
+
+            //セッションにフラッシュメッセージが設定されている場合はリクエストスコープに移し替え、セッションからは削除する
+            String flush = getSessionScope(AttributeConst.FLUSH);
+            if (flush != null) {
+                putRequestScope(AttributeConst.FLUSH, flush);
+                removeSessionScope(AttributeConst.FLUSH);
+            }
+
+            //セッションに削除完了のフラッシュメッセージ
+            putSessionScope(AttributeConst.FLUSH, MessageConst.I_DELETEDSHOP.getMessage());
+
+            //選択してる店舗をセッションから削除
+            removeSessionScope(AttributeConst.SELECT_SH);
+
+            //トップへリダイレクト
+            redirect(ForwardConst.ACT_TOP,ForwardConst.CMD_INDEX);
+
+        }
+    }
 
 
 }

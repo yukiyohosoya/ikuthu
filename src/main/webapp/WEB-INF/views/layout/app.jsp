@@ -5,12 +5,13 @@
 
 <c:set var="actTop" value="${ForwardConst.ACT_TOP.getValue()}" />
 <c:set var="actUs" value="${ForwardConst.ACT_USER.getValue()}" />
-<c:set var="actRep" value="${ForwardConst.ACT_GOODS.getValue()}" />
+<c:set var="actShop" value="${ForwardConst.ACT_SHOP.getValue()}" />
 <c:set var="actAuth" value="${ForwardConst.ACT_AUTH.getValue()}" />
 
 <c:set var="commIdx" value="${ForwardConst.CMD_INDEX.getValue()}" />
 <c:set var="commOut" value="${ForwardConst.CMD_LOGOUT.getValue()}" />
 <c:set var="commEdt" value="${ForwardConst.CMD_EDIT.getValue()}" />
+<c:set var="commShow" value="${ForwardConst.CMD_SHOW.getValue()}" />
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -24,7 +25,11 @@
     <body>
         <div id="wrapper">
             <div id="header">
-                <h1><a href="<c:url value='?action=${actTop}&command=${commIdx}' />">Ikuthu？</a></h1>
+            <c:choose>
+                <c:when test="${sessionScope.select_shop !=null}"><h1><a href="<c:url value='?action=${actShop}&command=${commIdx}' />">Ikuthu？</a></h1></c:when>
+                <c:otherwise><h1>Ikuthu？</h1></c:otherwise>
+            </c:choose>
+
                 <div id="header_menu">
                         <c:if test="${sessionScope.login_user !=null}">
                             <div id="user_name">
@@ -42,7 +47,9 @@
                          <div id="shop_name">
                              <c:out value="${sessionScope.select_shop.name}"/>
                              &nbsp;&nbsp;&nbsp;&nbsp;
-                             <a href="<c:url value='?action=${actAuth}&command=${commOut}' />">ショップ変更</a>&nbsp;
+                             <a href="<c:url value='?action=${actTop}&command=${commIdx}' />">ショップ変更</a>&nbsp;
+                             &nbsp;&nbsp;&nbsp;&nbsp;
+                             <a href="<c:url value='?action=${actShop}&command=${commShow}' />">ショップ詳細</a>&nbsp;
                         </div>
                         </c:if>
 

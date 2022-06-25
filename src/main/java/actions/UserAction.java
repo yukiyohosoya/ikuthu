@@ -188,13 +188,13 @@ public class UserAction extends ActionBase{
             //CSRF対策 tokenのチェック
             if(checkToken()) {
                 System.out.println(getRequestParam(AttributeConst.US_ID));
-                //idを条件にユーザーデータを論理削除する
-                service.destroy(toNumber(getRequestParam(AttributeConst.US_ID)));
 
                 //セッションからログイン中ユーザーのパラメータを削除
                 removeSessionScope(AttributeConst.LOGIN_US);
                 //選択してる店舗も消す
                 removeSessionScope(AttributeConst.SELECT_SH);
+                //idを条件にユーザーデータを論理削除する
+                service.destroy(toNumber(getRequestParam(AttributeConst.US_ID)));
 
                 //セッションに削除完了のフラッシュメッセージ
                 putSessionScope(AttributeConst.FLUSH, MessageConst.I_DELETED.getMessage());

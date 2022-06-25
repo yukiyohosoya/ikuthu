@@ -9,6 +9,8 @@
 <c:set var="commShow" value="${ForwardConst.CMD_SHOW.getValue()}" />
 <c:set var="commSel" value="${ForwardConst.CMD_SELECT.getValue()}" />
 <c:set var="commNew" value="${ForwardConst.CMD_NEW.getValue()}" />
+<c:set var="commEdt" value="${ForwardConst.CMD_EDIT.getValue()}" />
+<c:set var="commDel" value="${ForwardConst.CMD_DESTROY.getValue()}" />
 
 
 
@@ -39,8 +41,22 @@
                 </tr>
             </tbody>
         </table>
-
+        <p><a href="<c:url value='?action=${actEv}&command=${commEdt}&ev_id=${event.id}' />">イベント情報変更</a></p>
         <p><a href="<c:url value='?action=${actLeg}&command=${commSel}&ev_id=${event.id}' />">販売商品登録</a></p>
+
+        <p><a href="#" onclick="confirmDestroy();"><c:out value="${event.name}"/>を削除する</a></p>
+         <form method="POST" action="<c:url value='?action=${actEv}&command=${commDel}' />">
+                <input type="hidden" name="${AttributeConst.EV_ID.getValue()}" value="${event.id}" />
+                <input type="hidden" name="${AttributeConst.TOKEN.getValue()}" value="${_token}" />
+            </form>
+        <script>
+            function confirmDestroy() {
+                if (confirm("本当に削除してよろしいですか？")) {
+                    document.forms[0].submit();
+                }
+            }
+        </script>
+
 
         <div class="goods_shop_index">
             <c:forEach var="lmevgoods" items="${lmevgoodss}" varStatus="status">
