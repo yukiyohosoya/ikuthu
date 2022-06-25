@@ -19,8 +19,9 @@
             </div>
         </c:if>
 
-        <h2 class="title1_supple">ショップ</h2>
-        <h2 class="title1"><c:out value="${sessionScope.select_shop.name}"/></h2>
+        <div class="exp">
+            <h2 class="title1"><c:out value="${sessionScope.select_shop.name}"/></h2>
+        </div>
 
         <div class="compare-box">
         <div class="compare-wrap">
@@ -47,7 +48,8 @@
             <div id="goods_view_box_wrap">
                 <c:forEach var="goods" items="${goodss}" varStatus="status">
                 <div class="goods_view">
-                    <img src="<c:url value='/uploaded/'/>${goods.picture}" >
+                <!--  <img src="<c:url value='/uploaded/'/>${goods.picture}" >-->
+                    <img src="https://ikuthu.s3.ap-northeast-1.amazonaws.com/uploaded/${goods.picture}" >
                     <p class="goods_view_title">${goods.name}</p>
                     <div class="goods_view_mainbox">
                         <div class="goods_view_main">

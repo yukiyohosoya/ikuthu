@@ -9,50 +9,56 @@
 <c:set var="commShow" value="${ForwardConst.CMD_SHOW.getValue()}" />
 <c:set var="commNew" value="${ForwardConst.CMD_NEW.getValue()}" />
 
-
+<%--    ${event.eventday} のeventは下で定義してるvar。 eventdayはEventviewの変数名。間違えないように！--%>
 <c:import url="/WEB-INF/views/layout/app.jsp">
     <c:param name="content">
+        <div class="in_main">
+
         <c:if test="${flush != null}">
             <div id="flush_success">
                 <c:out value="${flush}"></c:out>
             </div>
         </c:if>
-        <h2>イベント 一覧</h2>
-        <table id="event_list">
-            <tbody>
-                <tr>
-                    <th class="event_name">イベント日付</th>
-                    <th class="event_date">イベント名</th>
-                    <th class="event_date">詳細＆商品追加</th>
-                </tr>
-                 <%--    ${event.eventday} のeventは下で定義してるvar。 eventdayはEventviewの変数名。間違えないように！--%>
-                <c:forEach var="event" items="${events}" varStatus="status">
+        <h2 class="title2">イベント一覧</h2>
+
+            <div class="divTable redTable">
+                <div class="divTableHeading">
+                        <div class="divTableRow">
+                        <div class="divTableHead">イベント日付</div>
+                        <div class="divTableHead">イベント名</div>
+                        <div class="divTableHead">詳細</div>
+                    </div>
+                    </div>
+                    <div class="divTableBody">
+                    <c:forEach var="event" items="${events}" varStatus="status">
                     <fmt:parseDate value="${event.eventday}" pattern="yyyy-MM-dd" var="eventDay" type="date" />
-                    <tr class="row${status.count % 2}">
+                    <div class="divTableRow">
+                        <div class="divTableCell"><fmt:formatDate value="${eventDay}" pattern='yyyy/MM/dd' /></div>
+                        <div class="divTableCell">${event.name}</div>
+                        <div class="divTableCell"><a href="<c:url value='?action=${actEv}&command=${commShow}&ev_id=${event.id}' />">詳細</a></div>
+                    </div>
+                    </c:forEach>
+                </div>
+            </div>
+            <div class="redTable outerTableFooter">
+                <div class="tableFootStyle">
+                    <div class="links">
+                       （全 ${events_count} 件）　
+                        <c:forEach var="i" begin="1" end="${((events_count - 1) / maxRow) + 1}" step="1">
+                            <c:choose>
+                                <c:when test="${i == page}">
+                                    <c:out value="${i}" />&nbsp;
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="<c:url value='?action=${actEv}&command=${commIdx}&page=${i}' />"><c:out value="${i}" /></a>&nbsp;
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </div>
+                </div>
+            </div>
 
-                        <td class="event_date"> <fmt:formatDate value="${eventDay}" pattern='yyyy/MM/dd' /></td>
-                        <td class="event_title">${event.name}</td>
-                        <td class="event_title"><a href="<c:url value='?action=${actEv}&command=${commShow}&ev_id=${event.id}' />">詳細</a></td>
-
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
-
-        <div id="pagination">
-            （全 ${events_count} 件）<br />
-            <c:forEach var="i" begin="1" end="${((events_count - 1) / maxRow) + 1}" step="1">
-                <c:choose>
-                    <c:when test="${i == page}">
-                        <c:out value="${i}" />&nbsp;
-                    </c:when>
-                    <c:otherwise>
-                        <a href="<c:url value='?action=${actEv}&command=${commIdx}&page=${i}' />"><c:out value="${i}" /></a>&nbsp;
-                    </c:otherwise>
-                </c:choose>
-            </c:forEach>
-        </div>
         <p><a href="<c:url value='?action=${actEv}&command=${commNew}' />">新規イベントの登録</a></p>
-
+        </div>
     </c:param>
 </c:import>

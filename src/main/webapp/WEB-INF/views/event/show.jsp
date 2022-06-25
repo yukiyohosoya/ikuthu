@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="constants.ForwardConst" %>
+<%@ page import="constants.AttributeConst" %>
 
 <c:set var="actLeg" value="${ForwardConst.ACT_LMEVEGOODS.getValue()}" />
 <c:set var="actEv" value="${ForwardConst.ACT_EVENT.getValue()}" />
@@ -22,9 +23,9 @@
             </div>
         </c:if>
 
-        <h2><c:out value="${event.name}"/>　詳細</h2>
-        <fmt:parseDate value="${event.eventday}" pattern="yyyy-MM-dd" var="eventDay" type="date" />
+        <h2 class="title2"><c:out value="${event.name}"/>　詳細</h2>
 
+        <fmt:parseDate value="${event.eventday}" pattern="yyyy-MM-dd" var="eventDay" type="date" />
         <table>
             <tbody>
                 <tr>
@@ -57,6 +58,28 @@
             }
         </script>
 
+        <div id="goods_view_box">
+            <div id="goods_view-head">イベント</div>
+            <div id="goods_view_box_wrap">
+                <c:forEach var="lmevgoods" items="${lmevgoodss}" varStatus="status">
+                <div class="goods_view">
+                <!--  <img src="<c:url value='/uploaded/'/>${goods.picture}" >-->
+                    <img src="https://ikuthu.s3.ap-northeast-1.amazonaws.com/uploaded/${lmevgoods.goods.picture}" >
+                    <p class="goods_view_title">${lmevgoods.goods.name}</p>
+                    <div class="goods_view_mainbox">
+                        <div class="goods_view_main">
+                            <p class="content_title">${event.name}販売価格</p>
+                            <p class="content_con">${lmevgoods.lm_sellingprice}</p>
+                        </div>
+                        <div class="goods_view_main">
+                            <p class="content_title">販売数</p>
+                            <p class="content_con">${lmevgoods.soldgoods}</p>
+                        </div>
+                    </div>
+                </div>
+                </c:forEach>
+             </div>
+        </div>
 
         <div class="goods_shop_index">
             <c:forEach var="lmevgoods" items="${lmevgoodss}" varStatus="status">

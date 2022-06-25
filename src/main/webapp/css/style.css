@@ -1,6 +1,6 @@
 @CHARSET "UTF-8";
 @import url('https://fonts.googleapis.com/earlyaccess/nicomoji.css');
-@import url('http://mplus-fonts.sourceforge.jp/webfonts/general-j/mplus_webfonts.css');
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;500;700&display=swap');
 
 body {
     color: #333333;
@@ -84,20 +84,29 @@ a {
     text-align:  center;
 }
 
+.title3 {
+    text-align:  center;
+    width: 30%;
+    font-size: 24px;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    margin: 30px auto 30px;
+    background: linear-gradient(transparent 70%, #FFDC4A 70%);
+}
+
 .title2 {
     text-align:  center;
-    width: 100%;
+    width: 60%;
     font-size: 40px;
-    font-family: 'M+ Type-1 (general-j) Black';
-    margin-top: 30px;
-    margin-bottom: 30px;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    margin: 30px auto 30px;
+    background: linear-gradient(transparent 70%, #FFDC4A 70%);
 }
 
 .title1 {
     text-align:  center;
     width: 100%;
     font-size: 30px;
-    font-family: "Nico Moji";
+    font-family: 'M PLUS Rounded 1c', sans-serif;
     margin-top: 15px;
     margin-bottom: 30px;
 }
@@ -105,7 +114,7 @@ a {
     text-align:  center;
     width: 100%;
     font-size: 24px;
-    font-family: "Nico Moji";
+    font-family: 'M PLUS Rounded 1c', sans-serif;
     margin-top: 30px;
 }
 
@@ -252,7 +261,7 @@ a {
     font-size: 24px;
     margin-top: 10px;
     margin-bottom: 10px;
-    font-family: "Nico Moji";
+    font-family: 'M PLUS Rounded 1c', sans-serif;
 }
 
 .goods_view_mainbox {
@@ -488,12 +497,79 @@ div.listdesign2{
 
 .input_title{
     font-size: 18px;
-    margin-top: 15px;
-    margin-bottom: 15px;
+    margin: 15px 0 15px;
     font-family: 'Noto Sans JP'
 }
 
+/************************************
+**  divテーブル関係
+************************************/
 
+div.redTable {
+  border: 2px solid #FEACAE;
+  background-color: #FFFFFF;
+  width: 70%;
+  margin: 0 auto 0;
+  text-align: center;
+  border-collapse: collapse;
+}
+.divTable.redTable .divTableCell, .divTable.redTable .divTableHead {
+  border: 1px solid #FEACAE;
+  padding: 3px 2px;
+}
+.divTable.redTable .divTableBody .divTableCell {
+  font-size: 13px;
+}
+.divTable.redTable .divTableRow:nth-child(even) {
+  background: #FEE0E0;
+}
+.divTable.redTable .divTableHeading {
+  background: #FEACAE;
+}
+.divTable.redTable .divTableHeading .divTableHead {
+  font-size: 19px;
+  font-weight: bold;
+  color: #FFFFFF;
+  text-align: center;
+  border-left: 2px solid #FEACAE;
+}
+.divTable.redTable .divTableHeading .divTableHead:first-child {
+  border-left: none;
+}
+
+.redTable .tableFootStyle {
+  font-size: 13px;
+  font-weight: bold;
+  color: #FFFFFF;
+  background: #FEACAE;
+}
+.redTable .tableFootStyle {
+  font-size: 13px;
+}
+.redTable .tableFootStyle .links {
+     text-align: right;
+}
+.redTable .tableFootStyle .links a{
+  display: inline-block;
+  background: #FFFFFF;
+  color: #A40808;
+  padding: 2px 8px;
+  border-radius: 5px;
+}
+.redTable.outerTableFooter {
+  border-top: none;
+}
+.redTable.outerTableFooter .tableFootStyle {
+  padding: 3px 5px;
+}
+/* DivTable.com */
+.divTable{ display: table; }
+.divTableRow { display: table-row; }
+.divTableHeading { display: table-header-group;}
+.divTableCell, .divTableHead { display: table-cell;}
+.divTableHeading { display: table-header-group;}
+.divTableFoot { display: table-footer-group;}
+.divTableBody { display: table-row-group;}
 
 
 

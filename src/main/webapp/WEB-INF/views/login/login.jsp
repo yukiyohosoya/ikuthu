@@ -19,7 +19,6 @@
         </div>
 
 
-
         <c:if test="${loginError}">
             <div id="flush_error">
                 メールアドレスかパスワードが間違っています。

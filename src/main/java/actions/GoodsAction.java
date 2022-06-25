@@ -1,5 +1,6 @@
 package actions;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -7,6 +8,12 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 
 import javax.servlet.http.Part;
+
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 
 import actions.views.UserView;
 import actions.views.GoodsView;
@@ -170,7 +177,9 @@ public class GoodsAction extends ActionBase {
                 //登録中にエラーがなかった場合
                 //この段階で画像は書き込み。パートファイルが正常だったら。
                 if(!notsetfile) {
-                    part.write(context.getRealPath("/uploaded") + "/" + picture);
+                    String filePath = context.getRealPath("/uploaded") + "/" + picture;
+                    part.write(filePath);
+                    s3up(filePath,picture);
                 }
 
                 //セッションに登録完了のフラッシュメッセージを設定
@@ -262,6 +271,7 @@ public class GoodsAction extends ActionBase {
             //セットされてなかった場合のフラグをオンにしておき、元々の指定ファイルを入れておく。
             boolean notsetfile =true;
             String picture =gv.getPicture();
+            String oldpicture =gv.getPicture();
 
             System.out.println("ここまできてるよ～" + gv.getName());
             //取得したpartオブジェクトが空じゃなかった場合。
@@ -292,10 +302,14 @@ public class GoodsAction extends ActionBase {
                 forward(ForwardConst.FW_GS_EDIT);
 
             } else {
+
                 //登録中にエラーがなかった場合
                 //この段階で画像は書き込み。パートファイルが正常だったら。
                 if(!notsetfile) {
-                    part.write(context.getRealPath("/uploaded") + "/" + picture);
+                    String filePath = context.getRealPath("/uploaded") + "/" + picture;
+                    part.write(filePath);
+                    s3dl(oldpicture);
+                    s3up(filePath,picture);
                 }
 
                 //セッションに登録完了のフラッシュメッセージを設定
@@ -358,8 +372,6 @@ public class GoodsAction extends ActionBase {
         }
     }
 
-
-
     private String getFileName(Part part) {
     String name = null;
       for (String dispotion : part.getHeader("Content-Disposition").split(";")) {
@@ -371,6 +383,74 @@ public class GoodsAction extends ActionBase {
              }
               return name;
          }
+
+    private void s3up(String filePath,String picture) {
+        try {
+            /* S3 */
+            String region = (String) context.getAttribute("region");
+            String awsAccessKey = (String) context.getAttribute("awsAccessKey");
+            String awsSecretKey = (String) context.getAttribute("awsSecretKey");
+            String bucketName = (String) context.getAttribute("bucketName");
+            // 認証情報を用意
+            AWSCredentials credentials = new BasicAWSCredentials(
+                    // アクセスキー
+                    awsAccessKey,
+                    // シークレットキー
+                    awsSecretKey);
+            // クライアントを生成
+            AmazonS3 s3 = AmazonS3ClientBuilder.standard()
+                    // 認証情報を設定
+                    .withCredentials(new AWSStaticCredentialsProvider(credentials))
+                    // リージョンを AP_NORTHEAST_1(東京) に設定
+                    .withRegion(region).build();
+            // === ファイルから直接アップロードする場合 ===
+            // アップロードするファイル
+            File file = new File(filePath);
+            // ファイルをアップロード
+            s3.putObject(
+                    // アップロード先バケット名
+                    bucketName,
+                    // アップロード後のキー名
+                    "uploaded/" + picture,
+                    // ファイルの実体
+                    file);
+        } catch (Exception e) {
+            System.out.println("S3失敗");
+
+        }
+    }
+
+    private void s3dl(String picture) {
+        try {
+            /* S3 */
+            String region = (String) context.getAttribute("region");
+            String awsAccessKey = (String) context.getAttribute("awsAccessKey");
+            String awsSecretKey = (String) context.getAttribute("awsSecretKey");
+            String bucketName = (String) context.getAttribute("bucketName");
+            // 認証情報を用意
+            AWSCredentials credentials = new BasicAWSCredentials(
+                    // アクセスキー
+                    awsAccessKey,
+                    // シークレットキー
+                    awsSecretKey);
+            // クライアントを生成
+            AmazonS3 s3 = AmazonS3ClientBuilder.standard()
+                    // 認証情報を設定
+                    .withCredentials(new AWSStaticCredentialsProvider(credentials))
+                    // リージョンを AP_NORTHEAST_1(東京) に設定
+                    .withRegion(region).build();
+            // === ファイルから直接アップロードする場合 ===
+            // ファイルをアップロード
+            s3.deleteObject(
+                    // アップロード先バケット名
+                    bucketName,
+                    // アップロード後のキー名
+                    "uploaded/" + picture);
+        } catch (Exception e) {
+            System.out.println("デリート失敗");
+
+        }
+    }
 
 }
 

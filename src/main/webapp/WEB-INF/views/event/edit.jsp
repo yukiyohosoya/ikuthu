@@ -4,6 +4,7 @@
 
 <c:set var="action" value="${ForwardConst.ACT_EVENT.getValue()}" />
 <c:set var="commUpd" value="${ForwardConst.CMD_UPDATE.getValue()}" />
+<c:set var="commShow" value="${ForwardConst.CMD_SHOW.getValue()}" />
 
 <c:import url="/WEB-INF/views/layout/app.jsp">
     <c:param name="content">
@@ -12,8 +13,8 @@
         <form method="POST" action="<c:url value='?action=${action}&command=${commUpd}' />">
             <c:import url="_form.jsp" />
         </form>
+        <a href="<c:url value='?action=${action}&command=${commShow}&ev_id=${event.id}' />">戻る</a>
 
-        <p><a href="<c:url value='?action=Report&command=index' />">一覧に戻る</a></p>
 
     </c:param>
 </c:import>

@@ -182,6 +182,7 @@ public class EventAction extends ActionBase {
                 forward(ForwardConst.FW_ERR_UNKNOWN);
                 return;
                }else{
+            putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
             putRequestScope(AttributeConst.EVENT,ev);//取得したショップデータ
             putRequestScope(AttributeConst.LMEVGOODSS,lmevgoodss);//取得したショップデータ
             //詳細画面を表示
@@ -255,7 +256,7 @@ public class EventAction extends ActionBase {
                 putSessionScope(AttributeConst.FLUSH, MessageConst.I_UPDATED.getMessage());
 
                 //一覧画面にリダイレクト
-                redirect(ForwardConst.ACT_EVENT, ForwardConst.CMD_SHOW);
+                redirectSwho(ForwardConst.ACT_EVENT, ForwardConst.CMD_SHOW,"&ev_id="+getRequestParam(AttributeConst.EV_ID));
             }
         }
     }
@@ -271,8 +272,8 @@ public class EventAction extends ActionBase {
         if(checkToken()) {
 
             //idを条件にユーザーデータを論理削除する
-            event_service.destroy(toNumber(getRequestParam(AttributeConst.GS_ID)));
-            System.out.println(getRequestParam(AttributeConst.GS_ID));
+            event_service.destroy(toNumber(getRequestParam(AttributeConst.EV_ID)));
+            System.out.println(getRequestParam(AttributeConst.EV_ID));
 
             //セッションに削除完了のフラッシュメッセージ
             putSessionScope(AttributeConst.FLUSH, MessageConst.I_DELETED.getMessage());
@@ -284,8 +285,8 @@ public class EventAction extends ActionBase {
                 removeSessionScope(AttributeConst.FLUSH);
             }
 
-            //一覧画面を表示
-            forward(ForwardConst.FW_SH_INDEX);
+            //一覧画面にリダイレクト
+            redirect(ForwardConst.ACT_EVENT, ForwardConst.CMD_INDEX);
         }
     }
 
@@ -296,36 +297,14 @@ public class EventAction extends ActionBase {
      */
     public void select() throws ServletException, IOException {
 
-        //作成ユーザー以外がショップにログインしてはまずいので、承認を行う。
-        //リクエストスコープに入っているショップidを条件にショップデータを取得
-        //セッションからログイン中のユーザー情報を取得
-        //トップへリダイレクト
-
         UserView uv = (UserView)getSessionScope(AttributeConst.SELECT_SH);
         ShopView sv = shop_service.findOne(toNumber(getRequestParam(AttributeConst.SH_ID)));
 
-        //有効なユーザーか承認する
-      //  boolean isValidShop = shop_service.validateShop(uv, sv);
-     //   System.out.println(isValidShop);
-     //  if(isValidShop) {
-           //認証成功の場合
-
-           //CSRF対策 tokenのチェック
-       //    if (checkToken()) {
-               //セッションにログインしたユーザーを設定
+               //セッションに選択したショップを設定
                putSessionScope(AttributeConst.SELECT_SH,sv);
                //トップへリダイレクト
                redirect(ForwardConst.ACT_SHOP,ForwardConst.CMD_INDEX);
-    //       }
-    //   }else{
-           //認証失敗
-           //CRF対策用トークンを設定
-   //        putRequestScope(AttributeConst.TOKEN,getTokenId());
-           //承認失敗エラーメッセージ表示フラグを建てる
-  //         putRequestScope(AttributeConst.LOGIN_ERR,true);
-           //ログイン画面を表示
-  //        forward(ForwardConst.FW_TOP_INDEX);
-  //     }
+
     }
 
 

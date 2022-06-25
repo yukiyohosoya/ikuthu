@@ -13,8 +13,15 @@
 
 <c:import url="../layout/app.jsp">
     <c:param name="content">
-    <c:out value="${loginError}"/>
     <div class="in_main">
+
+       <c:if test="${flush != null}">
+            <div id="flush_success">
+                <c:out value="${flush}"></c:out>
+            </div>
+        </c:if>
+
+    <c:out value="${loginError}"/>
 
           <p class="title2">ショップ選択</p>
 

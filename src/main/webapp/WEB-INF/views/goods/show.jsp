@@ -22,7 +22,7 @@
                         <c:out value="${goods.name}"/>
                     </div>
                     <div class="goodinput_box_light_content">
-                        <img src="<c:url value='/uploaded/'/>${goods.picture}" >
+                    <img src="https://ikuthu.s3.ap-northeast-1.amazonaws.com/uploaded/${goods.picture}" >
                     </div>
                 </div>
                 <div class="goodinput_box_light">

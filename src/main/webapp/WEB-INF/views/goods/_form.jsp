@@ -20,7 +20,7 @@
           </div>
           <div class="goodinput_box_light_content">
                   <c:if test="${goods.picture != null}">
-                    <img src="<c:url value='/uploaded/'/>${goods.picture}" >
+                    <img src="https://ikuthu.s3.ap-northeast-1.amazonaws.com/uploaded/${goods.picture}" >
                   </c:if>
             <label class="input_title" for="${AttributeConst.GS_PICTURE.getValue()}" >商品画像ファイル</label><br />
             <input type="file" accept=".jpg,.jpeg,.png" name="${AttributeConst.GS_PICTURE.getValue()}" value="${goods.picture}" />
