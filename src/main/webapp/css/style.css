@@ -13,6 +13,13 @@ img {
     margin-top: 15px;
     margin-bottom: 15px;
 }
+/* imgのミニ版 */
+.mini{
+    width:100px; height:100px;
+    object-fit:contain;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
 
 li {
     margin-top: 10px;
@@ -82,6 +89,10 @@ a {
 }
 .in_main {
     text-align:  center;
+}
+
+.marginauto{
+    margin:auto;
 }
 
 .title3 {
@@ -174,8 +185,12 @@ a {
   border-bottom: 2px solid #000;
 }
 
-/* 007 */
-.button007 a {
+
+/************************************
+**  button類
+************************************/
+/* 種類1 */
+.button001 a {
     background: #FFE986;
     position: relative;
     display: flex;
@@ -188,7 +203,7 @@ a {
     transition: 0.3s ease-in-out;
     font-weight: 500;
 }
-.button007 a:before {
+.button001 a:before {
     content: '';
     position: absolute;
     top: calc(50% - 2px);
@@ -199,7 +214,7 @@ a {
     background-color: #333333;
     transition: 0.3s;
 }
-.button007 a:after {
+.button001 a:after {
     content: '';
     position: absolute;
     top: 50%;
@@ -210,18 +225,44 @@ a {
     background-color: #333333;
     transition: 0.3s;
 }
-.button007 a:hover:before, .button007 a:hover:after {
+.button001 a:hover:before, .button001 a:hover:after {
     right: -0.5em;
 }
-.button007 a:hover {
+.button001 a:hover {
     background: #FFEAE9;
     color: #333333;
 }
+
+/* 種類2 */
+.button002 a {
+    border-radius: 3px;
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    max-width: 100px;
+    padding: 5px 15px;
+    color: #FFF;
+    transition: 0.3s ease-in-out;
+    font-size: 12px;
+    font-weight: 600;
+    background: #FEACAE;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .2); /* 影 */
+}
+.button002 a:hover {
+    background: #FFF0E9;
+}
+
+
+
+
+
+
+
 .in_main  h2 {
     font-size: 36px;
     margin-bottom: 30px;
 }
-
 
 #index_shop_list_div {
      background-color: #FFEAE9;
@@ -231,7 +272,43 @@ a {
 
 }
 
+.box1 {
+    margin: 30px auto 30px;
+    background: #fef9ed;
+    border-radius:10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .2); /* 影 */
+    }
 
+.text2 {
+    height:30px;/* 縦幅 */
+    margin: 30px auto 30px;
+    background: #ffffff;
+    border-radius:10px;
+    width:50%;/* 横幅 */
+    padding: 10px;
+    }
+
+#goods_view_box {
+    margin: 30px auto 30px;
+    background: #FEC4C4;
+    border-radius:10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .2); /* 影 */
+    }
+
+#goods_view-head {
+    background: #FEACAE;
+    text-align: center;/* 中央寄せ */
+  color: #FFF; /* 文字色 */
+  font-weight: bold;/* 文字太さ */
+  padding:0em 1em;/* 余白 */
+  font-size:18px;/* 文字大きさ */
+  line-height:1.5;/* 行間 */
+  height:65px;/* 縦幅 */
+  display:table-cell;/* 形式 */
+  vertical-align:middle;/* 高さ中央寄せ */
+  width:1000px;/* 横幅 */
+    border-radius:10px 10px 0 0 ;
+    }
 
 #goods_view_box_wrap {
     display:-webkit-flex;
@@ -242,12 +319,8 @@ a {
     padding-top: 30px;
     padding-bottom: 30px;
     text-align:  center;
-    background: #FEACAE;
-    margin: 30px 0px;
-    border-radius:10px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, .2); /* 影 */
-}
 
+}
 
 .goods_view {
     width: 250px;
@@ -293,6 +366,75 @@ a {
     color: #FEACAE;
 }
 
+
+
+
+.event_text {
+    width: 50%;
+    text-align:  center;
+    margin: 5px auto 5px;
+    font-size: 18px;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    background: linear-gradient(transparent 70%, #FFDC4A 70%);
+}
+
+.event_view {
+    width: 80%;
+    padding: 10px 2%;
+    border-radius:10px;
+    margin: 50px auto 20px;
+    background: #FEF9ED;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .2); /* 影 */
+}
+
+.event_view_title{
+    width: 300px;
+    text-align:  center;
+    font-size: 24px;
+    padding: 10px 2%;
+    margin: 20px auto 20px;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    background: #ffffff;
+    border-radius:10px;/* 角丸 */
+}
+
+.event_view_mainbox {
+    display:-webkit-flex;
+    display: flex;
+    justify-content: space-around;
+}
+.event_view_main {
+    width: 40%;
+    padding: 10px 2%;
+    margin: 10px;
+}
+
+.event_view_content_title{
+    text-align:  center;
+    font-size: 14px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-family: "Yu Gothic medium";
+}
+.event_view_content_con{
+    text-align:  center;
+    font-size: 20px;
+    width: 40%;
+    padding: 10px 2%;
+    border-radius:10px;
+    margin: 10px auto 10px;
+    background: #ffffff;
+}
+#event_view_box a{
+    font-size: 8px;
+    text-decoration: none;
+    color: #FEACAE;
+}
+
+
+
+
+
 .button1 {
     width: 60%;
     text-align:  right;
@@ -308,7 +450,7 @@ a {
 }
 
 /************************************
-** メインのテーブル
+** テーブル1 点線黄色
 ************************************/
 /* 比較表全体 */
 .compare-box {
@@ -316,7 +458,7 @@ a {
   display:-ms-flexbox;/* 配置 */
   display:flex;/* 配置 */
   max-width:600px;/* 横幅 */
-  margin: 0 auto 2rem;/* 余白 */
+  margin: 50px auto 2rem;/* 余白 */
   border-radius:4px;/* 角丸 */
   box-shadow: 0 1px 3px rgba(0, 0, 0, .2); /* 影 */
   background: #fef9ed; /* 背景色 */
@@ -502,25 +644,36 @@ div.listdesign2{
 }
 
 /************************************
-**  divテーブル関係
+**  divテーブル2関係
 ************************************/
 
 div.redTable {
   border: 2px solid #FEACAE;
   background-color: #FFFFFF;
-  width: 70%;
+  width: 80%;
   margin: 0 auto 0;
   text-align: center;
   border-collapse: collapse;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .2); /* 影 */
 }
 .divTable.redTable .divTableCell, .divTable.redTable .divTableHead {
+
   border: 1px solid #FEACAE;
   padding: 3px 2px;
 }
+.divTableRow{
+    display: table; /*テーブル要素に変更*/
+}
+.divTableCell{
+ display: table-cell; /*テーブルセル要素に変更*/
+ vertical-align: middle; /*上下中央*/
+}
 .divTable.redTable .divTableBody .divTableCell {
   font-size: 13px;
+
 }
 .divTable.redTable .divTableRow:nth-child(even) {
+
   background: #FEE0E0;
 }
 .divTable.redTable .divTableHeading {
@@ -532,6 +685,7 @@ div.redTable {
   color: #FFFFFF;
   text-align: center;
   border-left: 2px solid #FEACAE;
+
 }
 .divTable.redTable .divTableHeading .divTableHead:first-child {
   border-left: none;
@@ -571,7 +725,76 @@ div.redTable {
 .divTableFoot { display: table-footer-group;}
 .divTableBody { display: table-row-group;}
 
+/************************************
+**  divテーブル3関係
+************************************/
 
+div.redTable2 {
+  border: 2px solid #FDC44F;
+  background-color: #FEF9ED;
+  width: 80%;
+  margin: 0 auto 0;
+  text-align: center;
+  border-collapse: collapse;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .2); /* 影 */
+}
+.divTable.redTable2 .divTableCell, .divTable.redTable2 .divTableHead {
+  border: 1px solid #AAAAAA;
+  padding: 3px 2px;
+}
+.divTable.redTable2 .divTableBody .divTableCell {
+  font-size: 13px;
+}
+.divTable.redTable2 .divTableRow:nth-child(even) {
+  background: #FFFFFF;
+}
+.divTable.redTable2 .divTableHeading {
+  background: #FDC44F;
+}
+.divTable.redTable2 .divTableHeading .divTableHead {
+  font-size: 19px;
+  font-weight: bold;
+  color: #FFFFFF;
+  text-align: center;
+  border-left: 2px solid #FDC44F;
+}
+.divTable.redTable2 .divTableHeading .divTableHead:first-child {
+  border-left: none;
+}
+
+.redTable2 .tableFootStyle {
+  font-size: 13px;
+  font-weight: bold;
+  color: #FFFFFF;
+  background: #FDC44F;
+}
+.redTable2 .tableFootStyle {
+  font-size: 13px;
+}
+.redTable2 .tableFootStyle .links {
+     text-align: right;
+}
+.redTable2 .tableFootStyle .links a{
+  display: inline-block;
+  background: #FFFFFF;
+  color: #FDC44F;
+  padding: 2px 8px;
+  border-radius: 5px;
+}
+.redTable2.outerTableFooter {
+  border-top: none;
+}
+.redTable2.outerTableFooter .tableFootStyle {
+  padding: 3px 5px;
+}
+/* DivTable.com */
+.divTable{ display: table; }
+.divTableRow { display: table-row; }
+.divTableHeading { display: table-header-group;}
+.divTableCell, .divTableHead { display: table-cell;}
+.divTableHeading { display: table-header-group;}
+.divTableFoot { display: table-footer-group;}
+.divTableBody { display: table-row-group;}
 
 
 

@@ -5,17 +5,32 @@
 <%@ page import="constants.AttributeConst" %>
 
 <c:set var="actLmev" value="${ForwardConst.ACT_LMEVEGOODS.getValue()}" />
+<c:set var="actGds" value="${ForwardConst.ACT_GOODS.getValue()}" />
+<c:set var="commNew" value="${ForwardConst.CMD_NEW.getValue()}" />
 <c:set var="commCrt" value="${ForwardConst.CMD_CREATE.getValue()}" />
 
  <%--    ${goods.goodsday} のgoodsは下で定義してるvar。 goodsdayはEventviewの変数名。間違えないように！--%>
 <c:import url="/WEB-INF/views/layout/app.jsp">
     <c:param name="content">
-        <h2>グッズ追加</h2>
 
-        <c:out value="${ev_id}"/>
+    <h2 class="title2">グッズ追加</h2>
+<c:choose>
+    <c:when test="${goodss_count == 0}">
 
-        <form method="POST" action="<c:url value='?action=${actLmev}&command=${commCrt}&ev_id=${ev_id}' />">
+        <div class="in_main">
+            <h3>登録できるグッズがありません</h3>
+            <div class="exp">
+                <p>グッズを登録してみてください</p>
+                <div class="button002">
+                    <a class="marginauto" href="<c:url value='?action=${actGds}&command=${commNew}' />">グッズ登録画面</a>
+                </div>
+            </div>
+        </div>
 
+    </c:when>
+    <c:otherwise>
+
+         <form method="POST" action="<c:url value='?action=${actLmev}&command=${commCrt}' />">
             <c:if test="${errors != null}">
             <div id="flush_error">
                 入力内容にエラーがあります。<br />
@@ -26,30 +41,40 @@
             </div>
             </c:if>
 
-        <table id="lmevgoods_list">
-            <tbody>
-                <tr>
-                    <th class="goods_name">追加</th>
-                    <th class="goods_name">グッズ名</th>
-                    <th class="goods_price">販売価格</th>
-                    <th class="goods_price">販売数</th>
-                </tr>
+            <div class="divTable redTable">
+                <div class="divTableHeading">
+                        <div class="divTableRow">
+                        <div class="divTableHead">追加</div>
+                        <div class="divTableHead">グッズ</div>
+                        <div class="divTableHead">販売価格</div>
+                        <div class="divTableHead">販売数</div>
+                    </div>
+                    </div>
+                    <div class="divTableBody">
+                        <c:forEach var="goods" items="${goodss}" varStatus="status">
+                        <fmt:parseDate value="" pattern="yyyy-MM-dd" var="eventDay" type="date" />
+                            <div class="divTableRow">
+                                <div class="divTableCell"><input type="checkbox" name="${AttributeConst.GS_ID.getValue()}" value="${goods.id}"  id="checkbox${goods.id}"/> </div>
+                                <div class="divTableCell">
+                                    <div class="divcon">${goods.name}</div>
+                                    <div class="divcon"><img class="mini" src="https://ikuthu.s3.ap-northeast-1.amazonaws.com/uploaded/${goods.picture}" ></div>
+                                </div>
+                                <div class="divTableCell"><input class="number1" type="number" name="${AttributeConst.LMEVGS_SELLINGPRICE.getValue()}" value="${goods.sellingprice}" id="price${goods.id}" /></div>
+                                <div class="divTableCell"><input class="number1" type="number" name="${AttributeConst.LMEVGS_SOLDGOODS.getValue()}" value="0" id="soldgoods${goods.id}" /></div>
+                            </div>
+                        </c:forEach>
+                </div>
+            </div>
+            <div class="redTable outerTableFooter">
+                <div class="tableFootStyle">
+                    <div class="links">
+                       （全 ${goodss_count} 件）　
 
-                <c:forEach var="goods" items="${goodss}" varStatus="status">
-                    <tr class="row${status.count % 2}">
-                        <td class="goods_name"><input type="checkbox" name="${AttributeConst.GS_ID.getValue()}" value="${goods.id}"  id="checkbox${goods.id}"/></td>
-                        <td class="goods_name">${goods.name}</td>
-                        <td class="goods_price"><input type="number" name="${AttributeConst.LMEVGS_SELLINGPRICE.getValue()}" value="${goods.sellingprice}" id="price${goods.id}" /></td>
-                        <td class="goods_price"><input type="number" name="${AttributeConst.LMEVGS_SOLDGOODS.getValue()}" value="0" id="soldgoods${goods.id}" /></td>
-
-
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
-
-        <c:out value="${_token}" />
-        <input type="hidden" name="${AttributeConst.TOKEN.getValue()}" value="${_token}" />
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="${AttributeConst.EV_ID.getValue()}" value="${ev_id}" />
+            <input type="hidden" name="${AttributeConst.TOKEN.getValue()}" value="${_token}" />
         <button type="submit">投稿</button>
         </form>
 
@@ -75,6 +100,12 @@
                 </c:forEach>
                 });
              </script>
+
+
+
+    </c:otherwise>
+</c:choose>
+
 
     </c:param>
 </c:import>

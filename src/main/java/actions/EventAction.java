@@ -167,15 +167,14 @@ public class EventAction extends ActionBase {
         //セッションからショップ情報を取得
         ShopView select_shop = (ShopView) getSessionScope(AttributeConst.SELECT_SH);
 
-        //イベント情報から削除してない限定ごとの商品を取得
+        //イベント情報から論理削除してない限定ごとの商品と商品数取得
         List<LimitedgoodsView> lmevgoodss = limitedgoods_service.getMine(ev);
-        List<GoodsView> test = goods_service.getNotLmevgoodsMine(select_shop,lmevgoodss);
+        long lmevgoodsscount = limitedgoods_service.countAllMine(ev);
+        //イベントごとの販売価格
+        long lmevgoodearnings = limitedgoods_service.lmevgoodearnings(ev);
 
         long myEventCount = goods_service.countNotLmevgoodsMine(select_shop,lmevgoodss);
         System.out.println(myEventCount);
-        for (GoodsView g : test) {
-            System.out.println(g.getName());
-        }
 
         if(ev==null) {
                 //該当のショップデータが存在しない場合はエラー画面を表示
@@ -184,7 +183,9 @@ public class EventAction extends ActionBase {
                }else{
             putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
             putRequestScope(AttributeConst.EVENT,ev);//取得したショップデータ
-            putRequestScope(AttributeConst.LMEVGOODSS,lmevgoodss);//取得したショップデータ
+            putRequestScope(AttributeConst.LMEVGOODSS,lmevgoodss);//取得したイベントごと商品情報
+            putRequestScope(AttributeConst.LMEVGS_COUNT,lmevgoodsscount);//取得したイベントごと商品数
+            putRequestScope(AttributeConst.LMEVGS_SELLINGPRICE,lmevgoodearnings);//取得したイベントごと商品総売り上げ
             //詳細画面を表示
             forward(ForwardConst.FW_EV_SHOW);
 

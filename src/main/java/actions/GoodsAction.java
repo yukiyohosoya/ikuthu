@@ -273,7 +273,6 @@ public class GoodsAction extends ActionBase {
             String picture =gv.getPicture();
             String oldpicture =gv.getPicture();
 
-            System.out.println("ここまできてるよ～" + gv.getName());
             //取得したpartオブジェクトが空じゃなかった場合。
             if(!(part.getSize()==0)) {
               //取得したファイルから名前を取得

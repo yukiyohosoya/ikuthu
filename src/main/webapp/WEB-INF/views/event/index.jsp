@@ -21,7 +21,8 @@
         </c:if>
         <h2 class="title2">イベント一覧</h2>
 
-            <div class="divTable redTable">
+
+            <div class="divTable redTable2">
                 <div class="divTableHeading">
                         <div class="divTableRow">
                         <div class="divTableHead">イベント日付</div>
@@ -40,7 +41,7 @@
                     </c:forEach>
                 </div>
             </div>
-            <div class="redTable outerTableFooter">
+            <div class="redTable2 outerTableFooter">
                 <div class="tableFootStyle">
                     <div class="links">
                        （全 ${events_count} 件）　

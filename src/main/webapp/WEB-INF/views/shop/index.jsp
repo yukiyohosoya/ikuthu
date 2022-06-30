@@ -19,9 +19,7 @@
             </div>
         </c:if>
 
-        <div class="exp">
-            <h2 class="title1"><c:out value="${sessionScope.select_shop.name}"/></h2>
-        </div>
+            <h2 class="title2"><c:out value="${sessionScope.select_shop.name}"/></h2>
 
         <div class="compare-box">
         <div class="compare-wrap">
@@ -40,11 +38,13 @@
         </div>
         </div>
 
-        <p class="button1"><a href="<c:url value='?action=${actEv}&command=${commIdx}' />">イベント一覧</a></p>
+<div class="button002">
+    <a href="<c:url value='?action=${actEv}&command=${commIdx}' />">イベント一覧</a>
+</div>
 
 
         <div id="goods_view_box">
-            <div id="goods_view-head">イベント</div>
+            <div id="goods_view-head">グッズ一覧</div>
             <div id="goods_view_box_wrap">
                 <c:forEach var="goods" items="${goodss}" varStatus="status">
                 <div class="goods_view">

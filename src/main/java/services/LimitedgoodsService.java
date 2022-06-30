@@ -33,6 +33,20 @@ public class LimitedgoodsService extends ServiceBase {
     }
 
     /**
+     * 指定したイベント限定価格のイベントごとの合計数
+     * @param event イベント
+     * @return イベントごとの合計売上
+     */
+    public long lmevgoodearnings(EventView event) {
+        long sum=0;
+        List<LimitedgoodsView>lmevgoods=getMine(event);
+        for (LimitedgoodsView str : lmevgoods) {
+            sum +=Long.parseLong(str.getLm_sellingprice())*Long.parseLong(str.getSoldgoods());
+        }
+        return sum;
+    }
+
+    /**
      * 指定したEventが作成したイベント限定グッズの件数を取得し、返却する
      * @param event
      * @return イベントデータの件数

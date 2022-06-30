@@ -73,15 +73,16 @@ public class LimitedgoodsAction extends ActionBase {
         //選択中イベントから既に作成したイベントごとgoods件数を取得
         long lmevGoodsCount = limievgoods_service.countAllMine(ev);
 
+        //イベントごとに作成したグッズ以外のグッズリストを取得。もし0なら作成済みグッズ全件数を返す。
         List<GoodsView> goodslist = goods_service.getNotLmevgoodsMine(select_shop,select_lmevgoods);
         if(lmevGoodsCount==0) {
             goodslist = goods_service.getMineAll(select_shop);
         }
-        System.out.println(lmevGoodsCount);
+
          putRequestScope(AttributeConst.EV_ID, ev.getId()); //イベントID
          putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
-         putRequestScope(AttributeConst.GOODSS,goodslist); //index用に取得したイベント
-         putRequestScope(AttributeConst.LMEVGS_COUNT,lmevGoodsCount); //Goods全件数
+         putRequestScope(AttributeConst.GOODSS,goodslist); //まだこのイベントで作成していないグッズ一覧
+         putRequestScope(AttributeConst.GS_COUNT,goodslist.size()); //まだこのイベントで作成していないグッズ全件数
 
           //セッションにフラッシュメッセージが設定されている場合はリクエストスコープに移し替え、セッションからは削除する
          String flush = getSessionScope(AttributeConst.FLUSH);
@@ -106,9 +107,10 @@ public class LimitedgoodsAction extends ActionBase {
 
             //セッションからショップ情報を取得
             ShopView select_shop = (ShopView) getSessionScope(AttributeConst.SELECT_SH);
+            System.out.println("shopおｋ");
             //クエリからidを条件イベントデータを取得
             EventView ev = event_service.findOne(toNumber(getRequestParam(AttributeConst.EV_ID)));
-
+            System.out.println("evおｋ"+ev.getId());
             //チェックボックスから配列を取得
             System.out.println(getRequestParam(AttributeConst.EV_ID));
             String[] gs_id = request.getParameterValues(AttributeConst.GS_ID.getValue());
@@ -167,29 +169,6 @@ public class LimitedgoodsAction extends ActionBase {
 
     }
 
-    /**
-     * 詳細画面を表示する
-     * @throws ServletException
-     * @throws IOException
-     */
-
-    public void show() throws ServletException, IOException {
-
-        //idを条件にショップデータを取得
-        ShopView sv = shop_service.findOne(toNumber(getRequestParam(AttributeConst.SH_ID)));
-
-        if(sv==null) {
-            //該当のショップデータが存在しない場合はエラー画面を表示
-            forward(ForwardConst.FW_ERR_UNKNOWN);
-            return;
-        }else{
-            putRequestScope(AttributeConst.SHOP,sv);//取得したショップデータ
-
-            //詳細画面を表示
-            forward(ForwardConst.FW_GS_SHOW);
-
-        }
-    }
 
     /**
      * 編集画面を表示する
@@ -198,24 +177,30 @@ public class LimitedgoodsAction extends ActionBase {
      */
     public void edit() throws ServletException, IOException {
 
-        //idを条件にショップデータを取得
-        ShopView sv = shop_service.findOne(toNumber(getRequestParam(AttributeConst.US_ID)));
+        //クエリからidを条件イベントデータを取得
+        EventView ev = event_service.findOne(toNumber(getRequestParam(AttributeConst.EV_ID)));
 
-        //セッションからログイン中のユーザー情報を取得
-        UserView uv = (UserView)getSessionScope(AttributeConst.LOGIN_US);
+        //作成済みのイベント限定グッズを取得
+        List<LimitedgoodsView> select_lmevgoods = limievgoods_service.getMine(ev);
+        //選択中イベントから既に作成したイベントごとgoods件数を取得
+        long lmevGoodsCount = limievgoods_service.countAllMine(ev);
 
-        if (sv == null || uv.getId() != sv.getUser().getId()) {
-            //該当のショップデータが存在しない、またはログインしているユーザーがショップの作者でない場合はエラー画面を表示
-            forward(ForwardConst.FW_ERR_UNKNOWN);
+         putRequestScope(AttributeConst.EV_ID, ev.getId()); //イベントID
+         putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
+         putRequestScope(AttributeConst.LMEVGOODSS,select_lmevgoods); //イベントごと商品リスト
+         putRequestScope(AttributeConst.LMEVGS_COUNT,lmevGoodsCount); //イベントごと商品リスト数
 
-        }else {
 
-            putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
-            putRequestScope(AttributeConst.SHOP, sv); //取得したショップ情報
+          //セッションにフラッシュメッセージが設定されている場合はリクエストスコープに移し替え、セッションからは削除する
+         String flush = getSessionScope(AttributeConst.FLUSH);
+          if (flush != null) {
+              putRequestScope(AttributeConst.FLUSH, flush);
+              removeSessionScope(AttributeConst.FLUSH);
+          }
 
             //編集画面を表示する
-            forward(ForwardConst.FW_GS_EDIT);
-        }
+         forward(ForwardConst.FW_LMGS_EDIT);
+
     }
 
     /**
@@ -228,34 +213,56 @@ public class LimitedgoodsAction extends ActionBase {
         //CSRF対策 tokenのチェック
         if(checkToken()) {
 
-            //idを条件にショップデータを取得
-            ShopView sv = shop_service.findOne(toNumber(getRequestParam(AttributeConst.SH_ID)));
+        //セッションからショップ情報を取得
+        ShopView select_shop = (ShopView) getSessionScope(AttributeConst.SELECT_SH);
+        //クエリからidを条件イベントデータを取得
+        EventView ev = event_service.findOne(toNumber(getRequestParam(AttributeConst.EV_ID)));
 
-            //入力されたショップ内容を設定する
-            sv.setName(getRequestParam(AttributeConst.SH_NAME));
+        //チェックボックスから配列を取得
+        System.out.println(getRequestParam(AttributeConst.EV_ID));
+        String[] lmgs_id = request.getParameterValues(AttributeConst.LMGS_ID.getValue());
+        String[] price = request.getParameterValues(AttributeConst.LMEVGS_SELLINGPRICE.getValue());
+        String[] soldgoods = request.getParameterValues(AttributeConst.LMEVGS_SOLDGOODS.getValue());
 
-            //ショップデータを更新
-            List<String> errors = shop_service.update(sv);
+        //インスタンスを作ってからバリデートを行いたいが情報が配列ななため、このActionだけ例外。
+        //配列を渡してエラーがないかチェック。
+        List<String>errors=LimitedgoodsValidator.Validate(lmgs_id,price,soldgoods);
+        if (errors.size() > 0) {
+            //登録中にエラーがあった場合
+            //選択中イベントから既に作成したイベントごとgoods件数を取得
+            long lmevGoodsCount = limievgoods_service.countAllMine(ev);
+            //作成済みのイベント限定グッズを取得
+            List<LimitedgoodsView> select_lmevgoods = limievgoods_service.getMine(ev);
 
-            if (errors.size() > 0) {
-                //更新中にエラーが発生した場合
+             putRequestScope(AttributeConst.EV_ID, ev.getId()); //イベントID
+             putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
+             putRequestScope(AttributeConst.LMEVGOODSS,select_lmevgoods); //イベントごと商品リスト
+             putRequestScope(AttributeConst.LMEVGS_COUNT,lmevGoodsCount); //イベントごと商品リスト数
+             putRequestScope(AttributeConst.ERR, errors); //エラーのリスト
 
-                putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
-                putRequestScope(AttributeConst.SHOP, sv); //入力されたショップ情報
-                putRequestScope(AttributeConst.ERR, errors); //エラーのリスト
+              System.out.println(errors);
+              //新規登録画面を再表示
+              forward(ForwardConst.FW_LMGS_SELECT);
 
-                //編集画面を再表示
-                forward(ForwardConst.FW_GS_EDIT);
-            } else {
-                //更新中にエラーがなかった場合
+          } else {
+              //登録中にエラーがなかった場合
+              //空になるまで配列をまわす。
+              for (int i = 0; i < lmgs_id.length; i++){
+                  //IDを条件にインスタンスを作成
+                  LimitedgoodsView lgv =limievgoods_service.findOne(toNumber(lmgs_id[i]));
+                  lgv.setLm_sellingprice(price[i]);
+                  lgv.setSoldgoods(soldgoods[i]);
+                  limievgoods_service.update(lgv);
+              }
 
-                //セッションに更新完了のフラッシュメッセージを設定
-                putSessionScope(AttributeConst.FLUSH, MessageConst.I_UPDATED.getMessage());
+              //セッションに登録完了のフラッシュメッセージを設定
+              putSessionScope(AttributeConst.FLUSH, MessageConst.I_REGISTERED.getMessage());
 
-                //一覧画面にリダイレクト
-                redirect(ForwardConst.ACT_SHOP, ForwardConst.CMD_INDEX);
-            }
-        }
+              //イベントのインデックスにリダイレクト
+              redirectSwho(ForwardConst.ACT_EVENT, ForwardConst.CMD_SHOW,"&ev_id="+ev.getId().toString());
+          }
+
+      }
     }
 
 

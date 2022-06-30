@@ -9,7 +9,6 @@
 <c:set var="commIdx" value="${ForwardConst.CMD_INDEX.getValue()}" />
 <c:set var="commShow" value="${ForwardConst.CMD_SHOW.getValue()}" />
 <c:set var="commSel" value="${ForwardConst.CMD_SELECT.getValue()}" />
-<c:set var="commNew" value="${ForwardConst.CMD_NEW.getValue()}" />
 <c:set var="commEdt" value="${ForwardConst.CMD_EDIT.getValue()}" />
 <c:set var="commDel" value="${ForwardConst.CMD_DESTROY.getValue()}" />
 
@@ -23,25 +22,26 @@
             </div>
         </c:if>
 
+        <fmt:parseDate value="${event.eventday}" pattern="yyyy-MM-dd" var="eventDay" type="date" />
         <h2 class="title2"><c:out value="${event.name}"/>　詳細</h2>
 
-        <fmt:parseDate value="${event.eventday}" pattern="yyyy-MM-dd" var="eventDay" type="date" />
-        <table>
-            <tbody>
-                <tr>
-                    <th>イベント日付</th>
-                    <td><fmt:formatDate value="${eventDay}" pattern='yyyy/MM/dd' /></td>
-                </tr>
-                <tr>
-                    <th>販売商品数</th>
-                    <td>00</td>
-                </tr>
-                <tr>
-                    <th>総売り上げ額</th>
-                    <td>00</td>
-                </tr>
-            </tbody>
-        </table>
+                <div class="event_view">
+                    <p class="event_text">イベント日付</p>
+                    <p class="event_view_title"><fmt:formatDate value="${eventDay}" pattern='yyyy/MM/dd' /></p>
+                    <div class="event_view_mainbox">
+                        <div class="event_view_main">
+                            <p class="event_view_content_title">販売商品数</p>
+                            <p class="event_view_content_con">${lmevgoodss_count}</p>
+                        </div>
+                        <div class="event_view_main">
+                            <p class="event_view_content_title"> 総売り上げ額</p>
+                            <p class="event_view_content_con">￥ ${lmevgoods_sellingprice}</p>
+                        </div>
+                    </div>
+                </div>
+
+
+
         <p><a href="<c:url value='?action=${actEv}&command=${commEdt}&ev_id=${event.id}' />">イベント情報変更</a></p>
         <p><a href="<c:url value='?action=${actLeg}&command=${commSel}&ev_id=${event.id}' />">販売商品登録</a></p>
 
@@ -59,7 +59,7 @@
         </script>
 
         <div id="goods_view_box">
-            <div id="goods_view-head">イベント</div>
+            <div id="goods_view-head"><c:out value="${event.name}"/>　登録グッズ一覧</div>
             <div id="goods_view_box_wrap">
                 <c:forEach var="lmevgoods" items="${lmevgoodss}" varStatus="status">
                 <div class="goods_view">
@@ -80,26 +80,9 @@
                 </c:forEach>
              </div>
         </div>
+        <p><a href="<c:url value='?action=${actLeg}&command=${commEdt}&ev_id=${event.id}' />">販売商品編集</a></p>
 
-        <div class="goods_shop_index">
-            <c:forEach var="lmevgoods" items="${lmevgoodss}" varStatus="status">
-            <div class="goods_index_view">
-                <p>画像</p>
-                <p>${lmevgoods.goods.name}</p>
-                <div class="goods_main_view">
-                    <div class="goods_main">
-                        <p></p>
-                        <p></p>
-                    </div>
-                    <div class="goods_main">
-                        <p></p>
-                        <p></p>
-                    </div>
-                </div>
-                <p>詳細</p>
-            </div>
-            </c:forEach>
-        </div>
+
 
     </c:param>
 </c:import>
