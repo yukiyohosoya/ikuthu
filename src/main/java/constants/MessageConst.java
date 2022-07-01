@@ -49,7 +49,7 @@ public enum MessageConst {
     U_GS_NOPICTURE("jpgファイルかpngファイルを選択してください。"),
 
     //イベントごとグッズバリデーション
-    U_LEGSNULL("ページを更新してチェックを入れなおしてください。"),
+    U_LEGSNULL("チェックが入っていないか、ページを更新してチェックを入れなおしてください。"),
     U_LEGSNOPRICE("販売価格または販売数が空欄です。"),
     U_LEGS_PRNOIN("販売価格または販売数は数字で入力してください。");
 

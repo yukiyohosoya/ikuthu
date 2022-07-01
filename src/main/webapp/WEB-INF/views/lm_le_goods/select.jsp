@@ -16,7 +16,6 @@
     <h2 class="title2">グッズ追加</h2>
 <c:choose>
     <c:when test="${goodss_count == 0}">
-
         <div class="in_main">
             <h3>登録できるグッズがありません</h3>
             <div class="exp">

@@ -23,11 +23,11 @@ public enum ForwardConst {
     CMD_LOGIN("login"),
     CMD_LOGOUT("logout"),
     CMD_SELECT("select"),
-    CMD_DESELECTION("deselection"),
     CMD_NEW("entryNew"),
     CMD_CREATE("create"),
     CMD_EDIT("edit"),
     CMD_UPDATE("update"),
+    CMD_DELETE("delete"),
     CMD_DESTROY("destroy"),
 
     //jsp
@@ -55,7 +55,6 @@ public enum ForwardConst {
     FW_GS_EDIT("goods/edit"),
 
     FW_LMGS_SELECT("lm_le_goods/select"),
-    FW_LMGS_SHOW("lm_le_goods/show"),
     FW_LMGS_NEW("lm_le_goods/new"),
     FW_LMGS_EDIT("lm_le_goods/edit");
 

@@ -32,6 +32,25 @@ public class LimitedgoodsValidator {
     }
 
     /**
+     * lmevリストのデリートバリデーションを行う
+     * @param gsid_list チェックボックスから拾ったグッズインスタンスのidリスト(String型)
+     * @return  エラーのリスト
+     */
+
+    public static List<String> deleteValidate(String[] gsid_list){
+        List<String> errors =new ArrayList<String>();
+
+        //配列自体のnullのチェック
+        String nullError = validategsidlistNull(gsid_list);
+        if(!nullError.equals("")) {
+            errors.add(nullError);
+        }
+
+        return errors;
+
+    }
+
+    /**
      * タイトルに入力値があるかをチェックし、入力値がなければエラーメッセージを返却。
      * さらに中の配列もチェックしてnullがないかチェック
      * @param gsid_list グッズID配列
@@ -57,6 +76,21 @@ public class LimitedgoodsValidator {
                 return MessageConst.U_LEGS_PRNOIN.getMessage();
             }
             System.out.println(sellingprice_list[i]);
+        }
+
+        //入力値がある場合は空文字を返却
+        return "";
+    }
+
+    /**
+     * タイトルに入力値があるかをチェックし、入力値がなければエラーメッセージを返却。
+     * さらに中の配列もチェックしてnullがないかチェック
+     * @param gsid_list グッズID配列
+     * @return エラーメッセージ
+     */
+    private static String validategsidlistNull(String[] gsid_list){
+        if(gsid_list==null) {
+            return MessageConst.U_LEGSNULL.getMessage();
         }
 
         //入力値がある場合は空文字を返却

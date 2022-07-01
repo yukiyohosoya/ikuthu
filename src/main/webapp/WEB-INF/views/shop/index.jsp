@@ -46,6 +46,17 @@
         <div id="goods_view_box">
             <div id="goods_view-head">グッズ一覧</div>
             <div id="goods_view_box_wrap">
+
+    <c:choose>
+    <c:when test="${goodss_count == 0}">
+        <div class="in_main">
+           <p class="event_view_title">グッズがありません</p>
+        </div>
+
+    </c:when>
+    <c:otherwise>
+
+
                 <c:forEach var="goods" items="${goodss}" varStatus="status">
                 <div class="goods_view">
                 <!--  <img src="<c:url value='/uploaded/'/>${goods.picture}" >-->
@@ -64,9 +75,14 @@
                     <p><a href="<c:url value='?action=${actGd}&command=${commShow}&gd_id=${goods.id}' />">詳細</a></p>
                 </div>
                 </c:forEach>
+
+    </c:otherwise>
+    </c:choose>
+
              </div>
         </div>
 
-        <p><a href="<c:url value='?action=${actGd}&command=${commNew}' />">新規グッズ登録</a></p>
+           <p><a href="<c:url value='?action=${actGd}&command=${commNew}' />">新規グッズ登録</a></p>
+
     </c:param>
 </c:import>

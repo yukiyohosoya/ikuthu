@@ -242,7 +242,7 @@ public class LimitedgoodsAction extends ActionBase {
 
               System.out.println(errors);
               //新規登録画面を再表示
-              forward(ForwardConst.FW_LMGS_SELECT);
+              forward(ForwardConst.FW_LMGS_EDIT);
 
           } else {
               //登録中にエラーがなかった場合
@@ -265,7 +265,6 @@ public class LimitedgoodsAction extends ActionBase {
       }
     }
 
-
     /**
      * 論理削除を行う
      * @throws ServletException
@@ -276,22 +275,50 @@ public class LimitedgoodsAction extends ActionBase {
         //CSRF対策 tokenのチェック
         if(checkToken()) {
 
-            //idを条件にユーザーデータを論理削除する
-            limievgoods_service.destroy(toNumber(getRequestParam(AttributeConst.GS_ID)));
-            System.out.println(getRequestParam(AttributeConst.GS_ID));
+            //セッションからショップ情報を取得
+            ShopView select_shop = (ShopView) getSessionScope(AttributeConst.SELECT_SH);
+            //クエリからidを条件イベントデータを取得
+            EventView ev = event_service.findOne(toNumber(getRequestParam(AttributeConst.EV_ID)));
 
-            //セッションに削除完了のフラッシュメッセージ
-            putSessionScope(AttributeConst.FLUSH, MessageConst.I_DELETED.getMessage());
+            //チェックボックスから配列を取得
+            System.out.println(getRequestParam(AttributeConst.EV_ID));
+            String[] lmgs_id = request.getParameterValues(AttributeConst.LMGS_ID.getValue());
 
-            //セッションにフラッシュメッセージが設定されている場合はリクエストスコープに移し替え、セッションからは削除する
-            String flush = getSessionScope(AttributeConst.FLUSH);
-            if (flush != null) {
-                putRequestScope(AttributeConst.FLUSH, flush);
-                removeSessionScope(AttributeConst.FLUSH);
-            }
+            //配列を渡してエラーがないかチェック。
+            List<String>errors=LimitedgoodsValidator.deleteValidate(lmgs_id);
 
-            //一覧画面を表示
-            forward(ForwardConst.FW_SH_INDEX);
+            if (errors.size() > 0) {
+                //エラーがあった場合
+                //選択中イベントから既に作成したイベントごとgoods件数を取得
+                long lmevGoodsCount = limievgoods_service.countAllMine(ev);
+                //作成済みのイベント限定グッズを取得
+                List<LimitedgoodsView> select_lmevgoods = limievgoods_service.getMine(ev);
+
+                 putRequestScope(AttributeConst.EV_ID, ev.getId()); //イベントID
+                 putRequestScope(AttributeConst.TOKEN, getTokenId()); //CSRF対策用トークン
+                 putRequestScope(AttributeConst.LMEVGOODSS,select_lmevgoods); //イベントごと商品リスト
+                 putRequestScope(AttributeConst.LMEVGS_COUNT,lmevGoodsCount); //イベントごと商品リスト数
+                 putRequestScope(AttributeConst.ERR, errors); //エラーのリスト
+
+                  System.out.println(errors);
+                  //画面を再表示
+                  forward(ForwardConst.FW_LMGS_EDIT);
+              } else {
+                  //エラーがなかった場合
+                  //空になるまで配列をまわす。
+                  for (int i = 0; i < lmgs_id.length; i++){
+                      //idを条件にユーザーデータを論理削除する
+                      limievgoods_service.destroy(toNumber(lmgs_id[i]));
+                  }
+
+                  //セッションに削除完了のフラッシュメッセージ
+                  putSessionScope(AttributeConst.FLUSH, MessageConst.I_DELETED.getMessage());
+
+                  //一覧画面を表示
+                  redirectSwho(ForwardConst.ACT_EVENT, ForwardConst.CMD_SHOW,"&ev_id="+ev.getId().toString());
+              }
+
+
         }
     }
 

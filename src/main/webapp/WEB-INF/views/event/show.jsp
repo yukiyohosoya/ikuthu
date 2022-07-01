@@ -10,9 +10,7 @@
 <c:set var="commShow" value="${ForwardConst.CMD_SHOW.getValue()}" />
 <c:set var="commSel" value="${ForwardConst.CMD_SELECT.getValue()}" />
 <c:set var="commEdt" value="${ForwardConst.CMD_EDIT.getValue()}" />
-<c:set var="commDel" value="${ForwardConst.CMD_DESTROY.getValue()}" />
-
-
+<c:set var="commDel" value="${ForwardConst.CMD_DELETE.getValue()}" />
 
 <c:import url="/WEB-INF/views/layout/app.jsp">
     <c:param name="content">
@@ -61,6 +59,16 @@
         <div id="goods_view_box">
             <div id="goods_view-head"><c:out value="${event.name}"/>　登録グッズ一覧</div>
             <div id="goods_view_box_wrap">
+
+    <c:choose>
+    <c:when test="${lmevgoodss_count == 0}">
+        <div class="in_main">
+           <p class="event_view_title">グッズがありません</p>
+        </div>
+
+    </c:when>
+    <c:otherwise>
+
                 <c:forEach var="lmevgoods" items="${lmevgoodss}" varStatus="status">
                 <div class="goods_view">
                 <!--  <img src="<c:url value='/uploaded/'/>${goods.picture}" >-->
@@ -68,21 +76,24 @@
                     <p class="goods_view_title">${lmevgoods.goods.name}</p>
                     <div class="goods_view_mainbox">
                         <div class="goods_view_main">
-                            <p class="content_title">${event.name}販売価格</p>
+                            <p class="content_title">${event.name}<br>販売価格</p>
                             <p class="content_con">${lmevgoods.lm_sellingprice}</p>
                         </div>
                         <div class="goods_view_main">
-                            <p class="content_title">販売数</p>
+                            <p class="content_title"><br>販売数</p>
                             <p class="content_con">${lmevgoods.soldgoods}</p>
                         </div>
                     </div>
                 </div>
                 </c:forEach>
+
+    </c:otherwise>
+    </c:choose>
              </div>
         </div>
-        <p><a href="<c:url value='?action=${actLeg}&command=${commEdt}&ev_id=${event.id}' />">販売商品編集</a></p>
-
-
+        <c:if test="${lmevgoodss_count != 0}">
+            <p><a href="<c:url value='?action=${actLeg}&command=${commEdt}&ev_id=${event.id}' />">販売商品編集</a></p>
+        </c:if>
 
     </c:param>
 </c:import>

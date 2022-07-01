@@ -6,6 +6,7 @@
 
 <c:set var="actLmev" value="${ForwardConst.ACT_LMEVEGOODS.getValue()}" />
 <c:set var="commUp" value="${ForwardConst.CMD_UPDATE.getValue()}" />
+<c:set var="commDel" value="${ForwardConst.CMD_DESTROY.getValue()}" />
 
  <%--    ${goods.goodsday} のgoodsは下で定義してるvar。 goodsdayはEventviewの変数名。間違えないように！--%>
 <c:import url="/WEB-INF/views/layout/app.jsp">
@@ -59,6 +60,7 @@
         <input type="hidden" name="${AttributeConst.EV_ID.getValue()}" value="${ev_id}" />
         <input type="hidden" name="${AttributeConst.TOKEN.getValue()}" value="${_token}" />
         <button type="submit">修正</button>
+        <input type="submit" formaction="<c:url value='?action=${actLmev}&command=${commDel}' />" value="削除" >
         </form>
 
             <script>
