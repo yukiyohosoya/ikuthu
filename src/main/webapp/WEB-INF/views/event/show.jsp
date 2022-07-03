@@ -10,12 +10,12 @@
 <c:set var="commShow" value="${ForwardConst.CMD_SHOW.getValue()}" />
 <c:set var="commSel" value="${ForwardConst.CMD_SELECT.getValue()}" />
 <c:set var="commEdt" value="${ForwardConst.CMD_EDIT.getValue()}" />
-<c:set var="commDel" value="${ForwardConst.CMD_DELETE.getValue()}" />
+<c:set var="commDel" value="${ForwardConst.CMD_DESTROY.getValue()}" />
 
 <c:import url="/WEB-INF/views/layout/app.jsp">
     <c:param name="content">
         <c:if test="${flush != null}">
-            <div id="flush_success">
+            <div class="in_main" id="flush_success">
                 <c:out value="${flush}"></c:out>
             </div>
         </c:if>

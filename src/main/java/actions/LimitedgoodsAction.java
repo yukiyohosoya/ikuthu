@@ -256,7 +256,7 @@ public class LimitedgoodsAction extends ActionBase {
               }
 
               //セッションに登録完了のフラッシュメッセージを設定
-              putSessionScope(AttributeConst.FLUSH, MessageConst.I_REGISTERED.getMessage());
+              putSessionScope(AttributeConst.FLUSH, MessageConst.I_UPDATED.getMessage());
 
               //イベントのインデックスにリダイレクト
               redirectSwho(ForwardConst.ACT_EVENT, ForwardConst.CMD_SHOW,"&ev_id="+ev.getId().toString());

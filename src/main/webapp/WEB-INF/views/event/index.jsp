@@ -31,6 +31,15 @@
                     </div>
                     </div>
                     <div class="divTableBody">
+
+                        <c:choose>
+                            <c:when test="${events_count == 0}">
+                                <div class="in_main">
+                                   <p>登録イベントがありません</p>
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+
                     <c:forEach var="event" items="${events}" varStatus="status">
                     <fmt:parseDate value="${event.eventday}" pattern="yyyy-MM-dd" var="eventDay" type="date" />
                     <div class="divTableRow">
@@ -39,6 +48,8 @@
                         <div class="divTableCell"><a href="<c:url value='?action=${actEv}&command=${commShow}&ev_id=${event.id}' />">詳細</a></div>
                     </div>
                     </c:forEach>
+                         </c:otherwise>
+                         </c:choose>
                 </div>
             </div>
             <div class="redTable2 outerTableFooter">

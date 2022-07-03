@@ -13,7 +13,7 @@
 
 <c:import url="../layout/app.jsp">
     <c:param name="content">
-    <div class="in_main">
+    <div  class="in_main">
 
        <c:if test="${flush != null}">
             <div id="flush_success">
